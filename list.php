@@ -25,4 +25,5 @@ foreach ($laureates as $laureate) {
 $container->appendChild($list);
 
 $dom->appendChild($container);
+
 echo $dom->saveHTML();

@@ -2,10 +2,12 @@
 
 require __DIR__ . '/../settings.php';
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/db.php';
 
+/* This class represents a laureate top list. */
 class Toplist {
     var $list_length;
-    var $endPoint = 'http://api.nobelprize.org/v1/laureate.json';
+    var $parameters;
 
     /* Constructor. Will parse the parameters. */
     function Toplist( $parameters ) {
@@ -14,12 +16,17 @@ class Toplist {
         $parameters = $gump->sanitize($parameters);
         $gump->validation_rules(array(
             'length'    => 'integer|min_numeric,3|max_numeric,50',
-            'debug'     => 'boolean'
+            'debug'     => 'boolean',
+            'award'     => 'alpha',
+            'gender'    => 'alpha'
         ));
         $gump->filter_rules(array(
             'length' => 'trim|sanitize_numbers',
-            'debug' => 'trim'
+            'debug'  => 'trim',
+            'award'  => 'trim|sanitize_string',
+            'gender' => 'trim|sanitize_string'
         ));
+
         $parameters = $gump->run($parameters);
 
         if($parameters === false) {
@@ -28,8 +35,10 @@ class Toplist {
         }
 
         $this->list_length = isset($parameters['length']) ? $parameters['length'] : NUM_ITEMS;
+        $this->parameters = $parameters;
 
     }
+
 
     /* Return a top-list of laureate id's matching the filter */
     function getList(){
@@ -42,27 +51,14 @@ class Toplist {
 
     }
 
+
     /* Get data for all laureates matching the filter */
     function getData() {
-        $list = $this->getList();
 
-        $laureates = array();
-        foreach ($list as $id) {
-            $url = $this->endPoint . '?id=' . $id;
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            $response = curl_exec($ch);
-            curl_close($ch);
+        $query = new Toplist\SPARQLQuery($this->parameters);
+        $list = $query->get();
+        return array_slice($list, 0, $this->list_length);
 
-            $laureate = json_decode($response, true)["laureates"][0];
-            $laureates[] = array(
-                    "name" => $laureate["firstname"] . " " . $laureate["surname"]
-                );
-
-        }
-
-        return $laureates;
     }
 
 }
