@@ -1,6 +1,7 @@
 {
     "require": {
         "wixel/gump": "dev-master",
-        "tedivm/jshrink": "~1.0"
+        "tedivm/jshrink": "~1.0",
+        "BorderCloud/SPARQL" : "*"
     }
 }
