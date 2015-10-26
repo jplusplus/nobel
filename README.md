@@ -7,8 +7,8 @@ Installation
 End points
 ==========
 
- * list.php
- * list-api.php
+ * list.php (for inclusion from other PHP scripts)
+ * list-api.php (for ajax communication)
 
 GET-parameters for endpoints:
 
