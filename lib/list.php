@@ -39,19 +39,6 @@ class Toplist {
 
     }
 
-
-    /* Return a top-list of laureate id's matching the filter */
-    function getList(){
-        $list = array();
-        for($i = 1; $i <= $this->list_length; $i++){
-          $list[] = $i;
-        }
-
-        return $list;
-
-    }
-
-
     /* Get data for all laureates matching the filter */
     function getData() {
 
