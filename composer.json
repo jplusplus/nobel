@@ -1,5 +1,6 @@
 {
     "require": {
-        "wixel/gump": "dev-master"
+        "wixel/gump": "dev-master",
+        "tedivm/jshrink": "~1.0"
     }
 }
