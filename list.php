@@ -8,11 +8,11 @@ $dom = new \DOMDocument('1.0', 'utf-8');
 
 /* Append script tag with main.js */
 $js = file_get_contents(__DIR__ . '/js/main.js');
-$script = $dom->createElement('script', JShrink\Minifier::minify($js));
-$script = 'var gToplistSettings = {
+$js = 'var gToplistSettings = {
 	"endpoint": "/localhost/nobel/index-api.php"
 };
-' . $script;
+' . $js;
+$script = $dom->createElement('script', JShrink\Minifier::minify($js));
 $dom->appendChild($script);
 
 /* Append div tag */
