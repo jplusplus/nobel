@@ -117,6 +117,8 @@ TopList = (function() {
     Valid filters are defined here.
 */
 var gFilters = new FilterSet(["gender", "award"], gToplistSettings.endpoint);
+
+// Get current filters from url params
 gFilters.urlSync();
 
 $(document).ready(function() {
