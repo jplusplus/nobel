@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* 
 =======================
 FilterSet:
@@ -7,9 +6,10 @@ Handles the current filter state
 */ 
 
 FilterSet = (function() {
-    function FilterSet(availableFilters) {
+    function FilterSet(availableFilters, endpoint) {
         var self = this;
         self.availableFilters = availableFilters;
+        self.endpoint = endpoint;
         self.reset();
     }
     function getQueryParams(qs) {
@@ -27,7 +27,7 @@ FilterSet = (function() {
 
     // Clear filters
     FilterSet.prototype.reset = function() {
-        var this = self;
+        var self = this;
         self.currentFilters = {};
         self.availableFilters.forEach(function(key) {
             self.currentFilters[key] = null;
@@ -51,22 +51,41 @@ FilterSet = (function() {
             }
         }
     }
+
+    FilterSet.prototype.asApiEndpoint = function() {
+        var self = this;
+        var url = self.endpoint + "?";
+        for (key in self.currentFilters) {
+            var value = self.currentFilters[key];
+            if (value !== null) {
+                url += key + "=" + value + "&";
+            }
+        }
+        return url;
+    }
     return FilterSet;
 })();
 
-function renderList() {
-    var endpoint = "list-api.php?";
-    var currentFilters = gFilters.currentFilters;
-    for (key in currentFilters) {
-        var value = currentFilters[key];
-        if (value !== null) {
-            endpoint += key + "=" + value + "&";
-        }
+TopList = (function() {
+    function TopList(selector, filterset) {
+        var self = this;
+        self.$container = $(selector);
+        self.$listElement = self.$container.find("li").first().clone(); 
+        self.filterset = filterset;
     }
-    $.getJSON(endpoint, function(data) {
-        console.log(data);
-    })
-}
+    TopList.prototype.update = function() {
+        var self = this;
+        var url = self.filterset.asApiEndpoint();
+
+        $.getJSON(url, function(data) {
+            data.forEach(function(row) {
+                console.log(row);
+            })
+        })
+    }
+    return TopList;
+})();
+
 
 
 /* 
@@ -78,8 +97,10 @@ function renderList() {
 /*  Store the current state of the list this global variable
     Valid filters are defined here.
 */
-var gFilters = new FilterSet(["gender", "award"]);
+var gFilters = new FilterSet(["gender", "award"], "list-api.php");
 gFilters.urlSync();
 
-renderList()
+var list = new TopList("ul", gFilters);
+
+list.update();
 
