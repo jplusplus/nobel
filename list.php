@@ -12,6 +12,11 @@ $gToplistSettings = array(
 	);
 $js = file_get_contents(__DIR__ . '/js/main.js');
 $js = 'var gToplistSettings = ' . json_encode($gToplistSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
+
+$jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
+
+$script = $dom->createElement('script', $jquery_js);
+$dom->appendChild($script);
 $script = $dom->createElement('script', JShrink\Minifier::minify($js));
 $dom->appendChild($script);
 
