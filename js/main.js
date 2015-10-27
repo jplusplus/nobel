@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* 
 =======================
 FilterSet:
@@ -81,5 +82,4 @@ var gFilters = new FilterSet(["gender", "award"]);
 gFilters.urlSync();
 
 renderList()
-
 

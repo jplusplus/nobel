@@ -12,5 +12,7 @@ End points
 
 GET-parameters for endpoints:
 
- * `length`: Number of laureates to display
-
+ * `length`: Number of laureates to display (3 < length < 50)
+ * `debug`: Print useful debugging messages
+ * `award`: 'Physics', 'Chemistry', 'Literature', 'Peace', 'Physiology_or_Medicine', 'Economic_Sciences'
+ * `gender`: 'male', 'female'
