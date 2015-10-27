@@ -66,11 +66,13 @@ Class SPARQLQuery extends Query{
                                       "\n",
                                       "PREFIX ");
         /* Add select statement to query */
-        $query .= "\nSELECT DISTINCT ?label ";
-        /* Add where clauses (filter) to query */
+        $query .= "\nSELECT DISTINCT ?label ?birthPlace ?sameAs";
+        /* Add where clauses to query */
         $wheres  = array(
             '?laur rdf:type nobel:Laureate',
-            '?laur rdfs:label ?label'
+            '?laur rdfs:label ?label',
+            '?laur dbpedia-owl:birthPlace ?birthPlace',
+            '?laur owl:sameAs ?sameAs'
         );
         if (isset($parameters['award'])){
             $award = $parameters['award'];
