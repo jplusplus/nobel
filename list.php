@@ -7,11 +7,11 @@ $laureates = $list->getData();
 $dom = new \DOMDocument('1.0', 'utf-8');
 
 /* Append script tag with main.js */
+$gToplistSettings = array(
+	'endpoint' => "/localhost/nobel/index-api.php",
+	);
 $js = file_get_contents(__DIR__ . '/js/main.js');
-$js = 'var gToplistSettings = {
-	"endpoint": "/localhost/nobel/index-api.php"
-};
-' . $js;
+$js = 'var gToplistSettings = ' . json_encode($gToplistSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
 $script = $dom->createElement('script', JShrink\Minifier::minify($js));
 $dom->appendChild($script);
 
@@ -29,5 +29,4 @@ foreach ($laureates as $laureate) {
 $container->appendChild($list);
 
 $dom->appendChild($container);
-
 echo $dom->saveHTML();
