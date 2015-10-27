@@ -57,9 +57,7 @@ FilterSet = (function() {
         var url = self.endpoint + "?";
         for (key in self.currentFilters) {
             var value = self.currentFilters[key];
-            if (value !== null) {
-                url += key + "=" + value + "&";
-            }
+            url += key + "=" + value + "&";
         }
         return url;
     }
@@ -70,18 +68,39 @@ TopList = (function() {
     function TopList(selector, filterset) {
         var self = this;
         self.$container = $(selector);
-        self.$listElement = self.$container.find("li").first().clone(); 
+        
+        //  Make a template out of the first element in the list
+        self.$listElementTemplate = self.$container.find("li").first().clone(); 
         self.filterset = filterset;
     }
+
+    /*  Takes data about a person and renders a list item based on the list item
+        template.
+    */
+    TopList.prototype.renderListItem = function(row) {
+        var self = this;
+        var $listItem = self.$listElementTemplate.clone();
+        $listItem.text(row.name);
+        return $listItem;
+    }
+
+    /*  Fetch data and update DOM
+    */
     TopList.prototype.update = function() {
         var self = this;
-        var url = self.filterset.asApiEndpoint();
+        self.clear();
 
+        var url = self.filterset.asApiEndpoint();
         $.getJSON(url, function(data) {
             data.forEach(function(row) {
-                console.log(row);
+                var $li = self.renderListItem(row);
+                self.$container.append($li);
             })
         })
+    }
+    TopList.prototype.clear = function() {
+        var self = this;
+        self.$container.empty();
     }
     return TopList;
 })();
@@ -100,7 +119,10 @@ TopList = (function() {
 var gFilters = new FilterSet(["gender", "award"], "list-api.php");
 gFilters.urlSync();
 
-var list = new TopList("ul", gFilters);
+$(document).ready(function() {
+    list = new TopList("ul", gFilters);
+    gFilters.update({ award: "Chemistry" });
+    list.update();    
+});
 
-list.update();
 
