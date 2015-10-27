@@ -1,3 +1,5 @@
+window.jQuery || document.write('<script src="https://code.jquery.com/jquery-2.1.4.min.js">\x3C/script>');
+
 /* 
 =======================
 FilterSet:
@@ -116,7 +118,7 @@ TopList = (function() {
 /*  Store the current state of the list this global variable
     Valid filters are defined here.
 */
-var gFilters = new FilterSet(["gender", "award"], "list-api.php");
+var gFilters = new FilterSet(["gender", "award"], gToplistSettings.endpoint);
 gFilters.urlSync();
 
 $(document).ready(function() {

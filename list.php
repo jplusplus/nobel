@@ -1,4 +1,3 @@
-<script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-2.1.4.min.js">\x3C/script>')</script>
 <?php
 require __DIR__ . '/lib/list.php';
 
@@ -9,7 +8,7 @@ $dom = new \DOMDocument('1.0', 'utf-8');
 
 /* Append script tag with main.js */
 $gToplistSettings = array(
-	'endpoint' => "/localhost/nobel/list-api.php",
+	'endpoint' => "/nobel/list-api.php",
 	);
 $js = file_get_contents(__DIR__ . '/js/main.js');
 $js = 'var gToplistSettings = ' . json_encode($gToplistSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
