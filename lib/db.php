@@ -69,11 +69,14 @@ Class SPARQLQuery extends Query{
         $query .= "\nSELECT DISTINCT ?label ?birthPlace ?sameAs";
         /* Add where clauses to query */
         $wheres  = array(
+            /* Filters */
             '?laur rdf:type nobel:Laureate',
+            /* Properties to retrive*/
             '?laur rdfs:label ?label',
             '?laur dbpedia-owl:birthPlace ?birthPlace',
-            '?laur owl:sameAs ?sameAs'
+            '?laur owl:sameAs ?sameAs',
         );
+        /* Additional filters and properties */
         if (isset($parameters['award'])){
             $award = $parameters['award'];
             if (in_array($award, $this->awards)) {
@@ -100,10 +103,29 @@ Class SPARQLQuery extends Query{
 
     function get(){
         $result = $this->_result;
-        array_walk($result, function(&$value, $key){
-                                $value["name"] = $value["label"];
-                                unset($value["label type"]);
-                            });
-        return $result;
+//        print_r($result);
+        $output = array();
+        foreach( $result as $k => $value ){
+            $key = $value["label"];
+            if (!isset($output[$key])){
+                $output[$key] = array(
+                    "country" => null,
+                    "city" => null,
+                    "dbPedia" => null,
+                    "id" => null,
+                );
+            }
+            $output[$key]["name"] = $value["label"];
+            if (isset($value["birthPlace"])){
+                $pathParts = explode('/', parse_url($value["birthPlace"])["path"]);
+                if ($pathParts[2] === 'country'){
+                    $output[$key]['country'] = $pathParts[3];
+                } elseif ($pathParts[2] === 'city'){
+                    $output[$key]['city'] = $pathParts[3];
+                }
+            }
+        }
+//        print_r($output);
+        return $output;
     }
 } 

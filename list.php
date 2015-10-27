@@ -27,7 +27,7 @@ $class->value = 'toplist';
 $container->appendChild($class);
 
 $list = $dom->createElement('ul');
-foreach ($laureates as $laureate) {
+foreach ($laureates as $label => $laureate) {
     $list_li = $dom->createElement('li', $laureate["name"]);
     $list->appendChild($list_li);
 }
