@@ -8,28 +8,45 @@ $dom = new \DOMDocument('1.0', 'utf-8');
 
 /* Append script tag with main.js */
 $gToplistSettings = array(
-	'endpoint' => "/nobel/list-api.php",
-	);
-$js = file_get_contents(__DIR__ . '/js/main.js');
-$js = 'var gToplistSettings = ' . json_encode($gToplistSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
+    'endpoint' => "/nobel/list-api.php",
+    );
 
 $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
-
 $script = $dom->createElement('script', $jquery_js);
 $dom->appendChild($script);
+
+$js = file_get_contents(__DIR__ . '/js/main.js');
+$js = 'var gToplistSettings = ' . json_encode($gToplistSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
 $script = $dom->createElement('script', JShrink\Minifier::minify($js));
 $dom->appendChild($script);
 
 /* Append div tag */
-$container = $dom->createElement('div');
-$class = $dom->createAttribute('class');
-$class->value = 'toplist';
-$container->appendChild($class);
+function createTag($dom, $tag, $content, $attributes = array()){
+    $element = $dom->createElement($tag, $content);
+    foreach ($attributes as $key => $val){
+        $attr = $dom->createAttribute($key);
+        $attr->value = $val;
+        $element->appendChild($attr);
+    }
+    return $element;
+}
 
-$list = $dom->createElement('ul');
+$container = createTag($dom, 'div', '', 'toplist');
+
+$list = createTag($dom, 'ul', '');
 foreach ($laureates as $label => $laureate) {
-    $list_li = $dom->createElement('li', $laureate["name"]);
-    $list->appendChild($list_li);
+    $li = createTag($dom, 'li', '');
+    $h3 = createTag($dom, 'h3', $laureate["name"], array("data-name" => $laureate["name"], "class" => "name"));
+
+    $li->appendChild($h3);
+/*
+    <li>
+    <h3 class="name"></h3>
+    <span class="gender"></span> | <span class="award"></span>
+    <div class="sparkline popularity"></div>
+</li>
+*/
+    $list->appendChild($li);
 }
 $container->appendChild($list);
 
