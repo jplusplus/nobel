@@ -77,6 +77,7 @@ Class SPARQLQuery extends Query{
             '?laur owl:sameAs ?sameAs',
             '?laur nobel:laureateAward ?award',
             '?laur nobel:nobelPrize ?prize',
+            '?laur foaf:gender ?gender'
         );
         /* Additional filters and properties */
         if (isset($parameters['award'])){
@@ -130,6 +131,11 @@ Class SPARQLQuery extends Query{
                 $pathParts = explode('/', parse_url($value['prize'])["path"]);
                 $output[$key]['award'] = $pathParts[3];
                 $output[$key]['award-year'] = $pathParts[4];
+            }
+
+            /* award, award-year */
+            if (isset($value['gender'])){
+                $output[$key]['gender'] = $value['gender'];
             }
 
             /* country, city */
