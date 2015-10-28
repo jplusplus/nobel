@@ -4,12 +4,6 @@
 namespace Toplist;
 require __DIR__ . '/../vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
 
-/* $parameters is an array, that may contain these keys:
-   'gender': "male", "female"
-   'region': "south-asia"
-   'award': "Physics"
-   'decade': "201"
-   */
 Class Query {
 
     var $awards = array('Physics',
@@ -19,7 +13,13 @@ Class Query {
                         'Physiology_or_Medicine',
                         'Economic_Sciences');
 
-    function __construct( $parameters ){
+    /* $parameters may contain these keys:
+   'gender': "male", "female"
+   'region': "south-asia"
+   'award': "Physics"
+   'decade': "201"
+   */
+    function __construct( $parameters = array() ){
     }
 }
 
@@ -66,7 +66,7 @@ Class SPARQLQuery extends Query{
                                       "\n",
                                       "PREFIX ");
         /* Add select statement to query */
-        $query .= "\nSELECT DISTINCT ?label ?birthPlace ?sameAs";
+        $query .= "\nSELECT DISTINCT *";
         /* Add where clauses to query */
         $wheres  = array(
             /* Filters */
@@ -75,12 +75,13 @@ Class SPARQLQuery extends Query{
             '?laur rdfs:label ?label',
             '?laur dbpedia-owl:birthPlace ?birthPlace',
             '?laur owl:sameAs ?sameAs',
+            '?laur nobel:laureateAward ?award',
+            '?laur nobel:nobelPrize ?prize',
         );
         /* Additional filters and properties */
         if (isset($parameters['award'])){
             $award = $parameters['award'];
             if (in_array($award, $this->awards)) {
-                $wheres[] = '?laur nobel:laureateAward ?award';
                 $wheres[] = "?award nobel:category <http://data.nobelprize.org/resource/category/$award>";
             }
         }
@@ -113,9 +114,25 @@ Class SPARQLQuery extends Query{
                     "city" => null,
                     "dbPedia" => null,
                     "id" => null,
+                    'award' => null,
+                    'award-year' => null,
+                    'gender' => null,
                 );
             }
+
+            // print_r($value);
+
+            /* name */
             $output[$key]["name"] = $value["label"];
+
+            /* award, award-year */
+            if (isset($value['prize'])){
+                $pathParts = explode('/', parse_url($value['prize'])["path"]);
+                $output[$key]['award'] = $pathParts[3];
+                $output[$key]['award-year'] = $pathParts[4];
+            }
+
+            /* country, city */
             if (isset($value["birthPlace"])){
                 $pathParts = explode('/', parse_url($value["birthPlace"])["path"]);
                 if ($pathParts[2] === 'country'){
