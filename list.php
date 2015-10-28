@@ -35,10 +35,14 @@ $container = createTag($dom, 'div', '', 'toplist');
 
 $list = createTag($dom, 'ul', '');
 foreach ($laureates as $label => $laureate) {
-    $li = createTag($dom, 'li', '');
-    $h3 = createTag($dom, 'h3', $laureate["name"], array("data-name" => $laureate["name"], "class" => "name"));
-
+    $li = createTag($dom, 'li', '', array("data-name" => $laureate["name"], "data-gender" => $laureate["gender"]));
+    
+    $h3 = createTag($dom, 'h3', $laureate["name"], array("class" => "name"));
     $li->appendChild($h3);
+
+    $genderspan = createTag($dom, 'span', $laureate["gender"], array("class" => "gender"));
+    $li->appendChild($genderspan);
+
 /*
     <li>
     <h3 class="name"></h3>
