@@ -31,7 +31,7 @@ function createTag($dom, $tag, $content, $attributes = array()){
     return $element;
 }
 
-$container = createTag($dom, 'div', '', 'toplist');
+$container = createTag($dom, 'div', '', array('class' => "toplist"));
 
 $list = createTag($dom, 'ul', '');
 foreach ($laureates as $label => $laureate) {
