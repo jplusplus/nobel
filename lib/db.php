@@ -115,8 +115,7 @@ Class SPARQLQuery extends Query{
                     "city" => null,
                     "dbPedia" => null,
                     "id" => null,
-                    'award' => null,
-                    'award-year' => null,
+                    'awards' => array(),
                     'gender' => null,
                 );
             }
@@ -129,8 +128,11 @@ Class SPARQLQuery extends Query{
             /* award, award-year */
             if (isset($value['prize'])){
                 $pathParts = explode('/', parse_url($value['prize'])["path"]);
-                $output[$key]['award'] = $pathParts[3];
-                $output[$key]['award-year'] = $pathParts[4];
+                $award = array('award' => $pathParts[3],
+                               'year'  => $pathParts[4]);
+                if (!in_array($award, $output[$key]['awards'])) {
+                    $output[$key]['awards'][] = $award;
+                }
             }
 
             /* award, award-year */

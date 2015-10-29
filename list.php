@@ -8,7 +8,7 @@ $dom = new \DOMDocument('1.0', 'utf-8');
 
 /* Append script tag with main.js */
 $gToplistSettings = array(
-    'endpoint' => "/nobel/list-api.php",
+    'endpoint' => '/nobel/list-api.php',
     );
 
 $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
@@ -31,14 +31,14 @@ function createTag($dom, $tag, $content, $attributes = array()){
     return $element;
 }
 
-$container = createTag($dom, 'div', '', array('class' => "toplist"));
+$container = createTag($dom, 'div', '', array('class' => 'toplist'));
 
 $list = createTag($dom, 'ul', '');
 foreach ($laureates as $label => $laureate) {
-    $li = createTag($dom, 'li', '', array("data-name" => $laureate["name"],
-                                          "data-gender" => $laureate["gender"],
-                                          "data-award" => $laureate["award"],
-                                          "data-award-year" => $laureate['award-year'],)
+    $li = createTag($dom, 'li', '', array('data-name' => $laureate['name'],
+                                          'data-gender' => $laureate['gender'],
+                                          'data-awards' => json_encode($laureate['awards']),
+                                    )
     );
     
     $h3 = createTag($dom, 'h3', $laureate["name"], array("class" => "name"));
@@ -47,7 +47,10 @@ foreach ($laureates as $label => $laureate) {
     $genderspan = createTag($dom, 'span', $laureate["gender"], array("class" => "gender"));
     $li->appendChild($genderspan);
 
-    $awardspan = createTag($dom, 'span', $laureate["award"] . ' (' . $laureate["award-year"] . ')' , array("class" => "award"));
+    $awardsString = implode(', ', array_map(function($el){
+                                                return $el['award'] . ' (' . $el['year'] . ')';
+                                            }, $laureate['awards']));
+    $awardspan = createTag($dom, 'span', $awardsString, array("class" => "awards"));
     $li->appendChild($awardspan);
 
     $sparklinediv = createTag($dom, 'div', '', array("class" => "sparkline popularity"));
