@@ -135,9 +135,16 @@ Class SPARQLQuery extends Query{
                 }
             }
 
-            /* award, award-year */
+            /* gender */
             if (isset($value['gender'])){
                 $output[$key]['gender'] = $value['gender'];
+            }
+            /* DBPedia */
+            if (isset($value['sameAs'])){
+                $host = parse_url($value["sameAs"])["host"];
+                if ("dbpedia.org" === $host){
+                    $output[$key]['dbPedia'] = $value['sameAs'];
+                }
             }
 
             /* country, city */
