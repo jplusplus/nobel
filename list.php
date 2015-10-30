@@ -1,3 +1,10 @@
+
+<style>
+    .filterable {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
 <?php
 require __DIR__ . '/lib/list.php';
 
@@ -8,7 +15,7 @@ $dom = new \DOMDocument('1.0', 'utf-8');
 
 /* Append script tag with main.js */
 $gToplistSettings = array(
-    'endpoint' => '/nobel/list-api.php',
+    'endpoint' => 'list-api.php',
     );
 
 $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
@@ -45,7 +52,11 @@ foreach ($laureates as $label => $laureate) {
     $h3 = createTag($dom, 'h3', $laureate["name"], array("class" => "name"));
     $li->appendChild($h3);
 
-    $genderspan = createTag($dom, 'span', $laureate["gender"], array("class" => "gender"));
+    $genderspan = createTag($dom, 'span', $laureate["gender"], array(
+                                                                    "class" => "gender filterable",
+                                                                    "data-filter-key" => "gender",
+                                                                    "data-filter-value" => $laureate["gender"]
+                                                                    ));
     $li->appendChild($genderspan);
 
     $awardsString = implode(', ', array_map(function($el){

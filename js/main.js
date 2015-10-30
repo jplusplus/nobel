@@ -31,34 +31,42 @@ FilterSet = (function() {
         self.currentFilters = {};
         self.availableFilters.forEach(function(key) {
             self.currentFilters[key] = null;
-        })
+        });
+        self.triggerUpdate();
     }
 
     // Get the params from current url and apply them as filters
     FilterSet.prototype.urlSync = function() {
         var self = this;
         var params = getQueryParams(document.location.search);
-        self.update(params);
+        self.changeFilter(params);
     }
 
     // Pass an object with filters to update the current 
-    // Example .update({ gender: "female" })
-    FilterSet.prototype.update = function(args) {
+    // Example .changeFilter({ gender: "female" })
+    FilterSet.prototype.changeFilter = function(args) {
         var self = this;
         for (key in args) {
             if (key in self.currentFilters) {
                 self.currentFilters[key] = args[key];
             }
         }
+        self.triggerUpdate();
+    }
+
+    // Send signal to list to update DOM
+    FilterSet.prototype.triggerUpdate = function() {
+        $("body").trigger("update-toplist");
     }
 
     FilterSet.prototype.asApiEndpoint = function() {
         var self = this;
-        var url = self.endpoint + "?";
-        for (key in self.currentFilters) {
-            var value = self.currentFilters[key];
-            url += key + "=" + value + "&";
-        }
+        var url = self.endpoint + "?"; 
+        $.each(self.currentFilters, function(key, value) {
+            if (key[0] !== "_") {
+                url += key + "=" + value + "&";
+            } 
+        })
         return url;
     }
     return FilterSet;
@@ -80,8 +88,23 @@ TopList = (function() {
     TopList.prototype.renderListItem = function(row) {
         var self = this;
         var $listItem = self.$listElementTemplate.clone();
-        $listItem.text(row.name);
+        $listItem.find(".name").text(row.name);
+        $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
+        $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + "("+ d.year +")" }));
         return $listItem;
+    }
+
+    TopList.prototype.initFilterLinks = function() {
+        var self = this;
+        self.$container.find(".filterable").click(function(){
+            console.log("click");
+            var $el = $(this);
+            var filter = {};
+            var key = $el.attr("data-filter-key");
+            var value = $el.attr("data-filter-value");
+            filter[key] = value;
+            gToplistSettings.state.changeFilter(filter);
+        });
     }
 
     /*  Fetch data and update DOM
@@ -89,14 +112,15 @@ TopList = (function() {
     TopList.prototype.update = function() {
         var self = this;
         self.clear();
-
         var url = self.filterset.asApiEndpoint();
         $.getJSON(url, function(data) {
             data.forEach(function(row) {
                 var $li = self.renderListItem(row);
                 self.$container.append($li);
             })
+            self.initFilterLinks();
         })
+        .error(function(err) { console.log(err); })
     }
     TopList.prototype.clear = function() {
         var self = this;
@@ -116,15 +140,18 @@ TopList = (function() {
 /*  Store the current state of the list this global variable
     Valid filters are defined here.
 */
-var gFilters = new FilterSet(["gender", "award"], gToplistSettings.endpoint);
+gToplistSettings.state = new FilterSet(["gender", "award"], gToplistSettings.endpoint);
 
 // Get current filters from url params
-gFilters.urlSync();
+gToplistSettings.state.urlSync();
 
 $(document).ready(function() {
-    list = new TopList("ul", gFilters);
-    gFilters.update({ award: "Chemistry" });
-    list.update();    
+    var topList = new TopList(".toplist ul", gToplistSettings.state);
+    topList.update();
+    $("body").on("update-toplist", function() {
+        topList.update();
+    })
+    gToplistSettings.state.changeFilter({"award": "Chemistry" })
 });
 
 
