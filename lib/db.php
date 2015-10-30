@@ -22,6 +22,10 @@ Class Query {
    */
     function __construct( $parameters = array() ){
     }
+
+    /* Return an indexed array of laureates */
+    function get(){
+    }
 }
 
 Class SPARQLQuery extends Query{
@@ -130,7 +134,6 @@ Class SPARQLQuery extends Query{
 
     function get(){
         $result = $this->_result;
-//        print_r($result);
         $output = array();
         foreach( $result as $k => $value ){
             $key = $value["label"];
