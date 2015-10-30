@@ -18,13 +18,15 @@ class Toplist {
             'length'    => 'integer|min_numeric,3|max_numeric,50',
             'debug'     => 'boolean',
             'award'     => 'alpha',
-            'gender'    => 'alpha'
+            'gender'    => 'alpha',
+            'region'    => 'alpha_dash',
         ));
         $gump->filter_rules(array(
             'length' => 'trim|sanitize_numbers',
             'debug'  => 'trim',
             'award'  => 'trim|sanitize_string',
-            'gender' => 'trim|sanitize_string'
+            'gender' => 'trim|sanitize_string',
+            'region' => 'trim',
         ));
 
         $parameters = $gump->run($parameters);

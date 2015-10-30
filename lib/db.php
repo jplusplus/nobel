@@ -13,6 +13,25 @@ Class Query {
                         'Physiology_or_Medicine',
                         'Economic_Sciences');
 
+    var $regions = array('europe' => 'Europe',
+                         'south-america' => 'South America',
+                         'north-america' => 'North America',
+                         'oceania' => 'Oceania',
+                         'south-asia' => 'South Asia',
+                         'east-asia' => 'East Asia',
+                         'middle-east' => 'Middle East',
+                         'southeast-asia' => 'Southeast Asia',
+                         'north-africa' => 'North Africa',
+                         'east-africa' => 'East Africa',
+                         'west-africa' => 'West Africa',
+                         'southern-africa' => 'Southern Africa',
+                         'america' => 'America',
+                         'asia' => 'Asia',
+                         'africa' => 'Africa',
+                         'america' => 'America',
+                         'caribbean' => 'Caribbean',
+                    );
+
     /* $parameters may contain these keys:
    'gender': "male", "female"
    'region': "south-asia"
@@ -66,10 +85,9 @@ Class SPARQLQuery extends Query{
                                       "\n",
                                       "PREFIX ");
         /* Add select statement to query */
-        $query .= "\nSELECT DISTINCT *";
+        $query .= "\nSELECT DISTINCT * ";
         /* Add where clauses to query */
         $wheres  = array(
-            /* Filters */
             '?laur rdf:type nobel:Laureate',
             /* Properties to retrive*/
             '?laur rdfs:label ?label',
@@ -79,13 +97,14 @@ Class SPARQLQuery extends Query{
             '?laur nobel:nobelPrize ?prize',
             '?laur foaf:gender ?gender'
         );
-        /* Additional filters and properties */
+        /* Select by award */
         if (isset($parameters['award'])){
             $award = $parameters['award'];
             if (in_array($award, $this->awards)) {
                 $wheres[] = "?award nobel:category <http://data.nobelprize.org/resource/category/$award>";
             }
         }
+        /* Select by gender */
         if (isset($parameters['gender'])){
             $gender = $parameters['gender'];
             if (in_array($gender, array('male', 'female'))){
@@ -95,7 +114,39 @@ Class SPARQLQuery extends Query{
         $whereString = $this->_joinAndAffix($wheres,
                                            "\n",
                                            "\t", ' .');
-        $query .= "WHERE {\n$whereString\n}";
+
+        /* Select by region */
+        if (isset($parameters['region'])){
+            $region = $this->regions[$parameters['region']];
+
+            // TODO: Cache this
+            $data = array_map('str_getcsv', file('data/regions.csv', FILE_SKIP_EMPTY_LINES));
+            $keys = array_shift($data);
+            $reverse_data = array();
+            foreach ($data as $row) {
+                $target = array_shift($row);
+                foreach ($row as $col){
+                    if ($col){
+                        if (!array_key_exists($col, $reverse_data)){
+                            $reverse_data[$col] = array();
+                        }
+                        if (!in_array($target, $reverse_data[$col])){
+                            $reverse_data[$col][] = urlencode(str_replace(' ', '_', $target));
+                        }
+                    }
+                }
+            }
+
+            $filters = array();
+            foreach ($reverse_data[$region] as $str){
+                $filters[] = "?birthPlace = <http://data.nobelprize.org/resource/country/$str>";
+            }
+            $filter = implode(' || ', $filters);
+            $whereString .= "\n\tFILTER( $filter )";
+        }
+
+
+        $query .= "WHERE {\n$whereString\n}\n";
 
         $this->_query = $query;
         $result = $endpoint->query($query);
