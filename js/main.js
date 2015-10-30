@@ -153,7 +153,6 @@ $(document).ready(function() {
 
     /* inject CSS */
     var css = document.createElement("style");
-    console.log("I run!");
     document.getElementsByTagName("head")[0].appendChild(css);
     var cssCode = "             \
 .filterable {                   \
