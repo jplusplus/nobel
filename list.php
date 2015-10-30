@@ -64,14 +64,7 @@ foreach ($laureates as $label => $laureate) {
                                                                     "data-filter-value" => $laureate["gender"]
                                                                     ));
     $li->appendChild($genderspan);
-
-    $countryspan = createTag($dom, 'span', $laureate["region"], array(
-                                                                    "class" => "region filterable",
-                                                                    "data-filter-key" => "region",
-                                                                    "data-filter-value" => $laureate["region"]
-                                                                    ));
-    $li->appendChild($countryspan);
-
+    
     $awardsString = implode(', ', array_map(function($el){
                                                 return $el['award'] . ' (' . $el['year'] . ')';
                                             }, $laureate['awards']));

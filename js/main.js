@@ -91,7 +91,6 @@ TopList = (function() {
         $listItem.find(".name").text(row.name);
         $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
         $listItem.find(".country").text(row.country);
-        $listItem.find(".region").text(row.region).attr("data-filter-value", row.region);
         $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + "("+ d.year +")" }));
         return $listItem;
     }
@@ -153,7 +152,6 @@ $(document).ready(function() {
     $("body").on("update-toplist", function() {
         topList.update();
     })
-    gToplistSettings.state.changeFilter({"award": "Chemistry" })
 });
 
 
