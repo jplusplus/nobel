@@ -3,6 +3,7 @@
 */ 
 namespace Toplist;
 require __DIR__ . '/../vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
+require __DIR__ . '/regions.php'; //class RegionFinder
 
 Class Query {
 
@@ -12,25 +13,6 @@ Class Query {
                         'Peace',
                         'Physiology_or_Medicine',
                         'Economic_Sciences');
-
-    var $regions = array('europe' => 'Europe',
-                         'south-america' => 'South America',
-                         'north-america' => 'North America',
-                         'oceania' => 'Oceania',
-                         'south-asia' => 'South Asia',
-                         'east-asia' => 'East Asia',
-                         'middle-east' => 'Middle East',
-                         'southeast-asia' => 'Southeast Asia',
-                         'north-africa' => 'North Africa',
-                         'east-africa' => 'East Africa',
-                         'west-africa' => 'West Africa',
-                         'southern-africa' => 'Southern Africa',
-                         'america' => 'America',
-                         'asia' => 'Asia',
-                         'africa' => 'Africa',
-                         'america' => 'America',
-                         'caribbean' => 'Caribbean',
-                    );
 
     /* $parameters may contain these keys:
    'gender': "male", "female"
@@ -116,33 +98,25 @@ Class SPARQLQuery extends Query{
                                            "\t", ' .');
 
         /* Select by region */
-        if (isset($parameters['region'])){
-            $region = $this->regions[$parameters['region']];
+        if ( isset($parameters['region']) ){
 
-            // TODO: Cache this
-            $data = array_map('str_getcsv', file('data/regions.csv', FILE_SKIP_EMPTY_LINES));
-            $keys = array_shift($data);
-            $reverse_data = array();
-            foreach ($data as $row) {
-                $target = array_shift($row);
-                foreach ($row as $col){
-                    if ($col){
-                        if (!array_key_exists($col, $reverse_data)){
-                            $reverse_data[$col] = array();
-                        }
-                        if (!in_array($target, $reverse_data[$col])){
-                            $reverse_data[$col][] = urlencode(str_replace(' ', '_', $target));
-                        }
-                    }
+            $regionFinder = new RegionFinder();
+
+            // assure that region is in list
+            $availableRegions = $regionFinder->getRegionList();
+            if (in_array( $parameters['region'], $availableRegions)){
+
+                $data = $regionFinder->getRegions($parameters['region']);
+
+                $filters = array();
+                foreach ($data as $str){
+                    $str = str_replace(" ", "_", $str);
+                    $filters[] = "?birthPlace = <http://data.nobelprize.org/resource/country/$str>";
                 }
-            }
+                $filter = implode(' || ', $filters);
+                $whereString .= "\n\tFILTER( $filter )";
 
-            $filters = array();
-            foreach ($reverse_data[$region] as $str){
-                $filters[] = "?birthPlace = <http://data.nobelprize.org/resource/country/$str>";
             }
-            $filter = implode(' || ', $filters);
-            $whereString .= "\n\tFILTER( $filter )";
         }
 
 
