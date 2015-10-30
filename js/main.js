@@ -146,7 +146,33 @@ gToplistSettings.state = new FilterSet(["gender", "award", "country"], gToplistS
 // Get current filters from url params
 gToplistSettings.state.urlSync();
 
+var pageInitialized = false; //Prevent ready block to fire twice;
 $(document).ready(function() {
+    if(pageInitialized) return;
+    pageInitialized = true;
+
+    /* inject CSS */
+    var css = document.createElement("style");
+    console.log("I run!");
+    document.getElementsByTagName("head")[0].appendChild(css);
+    var cssCode = "             \
+.filterable {                   \
+    text-decoration: underline; \
+    cursor: pointer;            \
+}                               \
+.list-item span {               \
+    display: inline-block;      \
+    padding: 0 4px;             \
+}                               \
+    ";
+    if (css.styleSheet) {
+        // IE
+        css.styleSheet.cssText += cssCode;
+    } else {
+        // Other browsers
+        css.innerHTML += cssCode;
+    }
+
     var topList = new TopList(".toplist ul", gToplistSettings.state);
     topList.update();
     $("body").on("update-toplist", function() {

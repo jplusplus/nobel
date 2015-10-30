@@ -1,15 +1,3 @@
-
-<style>
-
-    .filterable {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-    .list-item span {
-        display: inline-block;
-        padding: 0 4px;
-    }
-</style>
 <?php
 require __DIR__ . '/lib/list.php';
 
@@ -25,6 +13,12 @@ $gToplistSettings = array(
 
 $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
 $script = $dom->createElement('script', $jquery_js);
+$dom->appendChild($script);
+
+$js = file_get_contents(__DIR__ . '/js/main.js');
+$js = 'var gToplistSettings = ' . json_encode($gToplistSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
+$script = $dom->createElement('script', $js);
+//$script = $dom->createElement('script', JShrink\Minifier::minify($js));
 $dom->appendChild($script);
 
 $js = file_get_contents(__DIR__ . '/js/main.js');
