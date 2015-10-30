@@ -89,9 +89,22 @@ TopList = (function() {
         var self = this;
         var $listItem = self.$listElementTemplate.clone();
         $listItem.find(".name").text(row.name);
-        $listItem.find(".gender").text(row.gender);
+        $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
         $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + "("+ d.year +")" }));
         return $listItem;
+    }
+
+    TopList.prototype.initFilterLinks = function() {
+        var self = this;
+        self.$container.find(".filterable").click(function(){
+            console.log("click");
+            var $el = $(this);
+            var filter = {};
+            var key = $el.attr("data-filter-key");
+            var value = $el.attr("data-filter-value");
+            filter[key] = value;
+            gToplistSettings.state.changeFilter(filter);
+        });
     }
 
     /*  Fetch data and update DOM
@@ -99,15 +112,15 @@ TopList = (function() {
     TopList.prototype.update = function() {
         var self = this;
         self.clear();
-
         var url = self.filterset.asApiEndpoint();
         $.getJSON(url, function(data) {
             data.forEach(function(row) {
                 var $li = self.renderListItem(row);
                 self.$container.append($li);
             })
+            self.initFilterLinks();
         })
-        .error(function(e) { console.log(e); })
+        .error(function(err) { console.log(err); })
     }
     TopList.prototype.clear = function() {
         var self = this;
@@ -133,11 +146,12 @@ gToplistSettings.state = new FilterSet(["gender", "award"], gToplistSettings.end
 gToplistSettings.state.urlSync();
 
 $(document).ready(function() {
-    var topList = new TopList(".top-list ul", gToplistSettings.state);
-
+    var topList = new TopList(".toplist ul", gToplistSettings.state);
+    topList.update();
     $("body").on("update-toplist", function() {
         topList.update();
     })
+    gToplistSettings.state.changeFilter({"award": "Chemistry" })
 });
 
 
