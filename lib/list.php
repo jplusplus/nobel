@@ -44,7 +44,8 @@ class Toplist {
 
         $query = new Toplist\SPARQLQuery($this->parameters);
         $list = $query->get();
-        return array_slice($list, 0, $this->list_length);
+
+        return array_values (array_slice($list, 0, $this->list_length));
 
     }
 
