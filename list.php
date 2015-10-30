@@ -1,8 +1,13 @@
 
 <style>
+
     .filterable {
         text-decoration: underline;
         cursor: pointer;
+    }
+    .list-item span {
+        display: inline-block;
+        padding: 0 4px;
     }
 </style>
 <?php
@@ -43,7 +48,8 @@ $container = createTag($dom, 'div', '', array('class' => 'toplist'));
 
 $list = createTag($dom, 'ul', '');
 foreach ($laureates as $label => $laureate) {
-    $li = createTag($dom, 'li', '', array('data-name' => $laureate['name'],
+    $li = createTag($dom, 'li', '', array('class' => 'list-item',
+                                          'data-name' => $laureate['name'],
                                           'data-gender' => $laureate['gender'],
                                           'data-awards' => json_encode($laureate['awards']),
                                     )
@@ -58,6 +64,13 @@ foreach ($laureates as $label => $laureate) {
                                                                     "data-filter-value" => $laureate["gender"]
                                                                     ));
     $li->appendChild($genderspan);
+
+    $countryspan = createTag($dom, 'span', $laureate["region"], array(
+                                                                    "class" => "region filterable",
+                                                                    "data-filter-key" => "region",
+                                                                    "data-filter-value" => $laureate["region"]
+                                                                    ));
+    $li->appendChild($countryspan);
 
     $awardsString = implode(', ', array_map(function($el){
                                                 return $el['award'] . ' (' . $el['year'] . ')';

@@ -90,6 +90,8 @@ TopList = (function() {
         var $listItem = self.$listElementTemplate.clone();
         $listItem.find(".name").text(row.name);
         $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
+        $listItem.find(".country").text(row.country);
+        $listItem.find(".region").text(row.region).attr("data-filter-value", row.region);
         $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + "("+ d.year +")" }));
         return $listItem;
     }
@@ -97,7 +99,6 @@ TopList = (function() {
     TopList.prototype.initFilterLinks = function() {
         var self = this;
         self.$container.find(".filterable").click(function(){
-            console.log("click");
             var $el = $(this);
             var filter = {};
             var key = $el.attr("data-filter-key");
@@ -113,6 +114,7 @@ TopList = (function() {
         var self = this;
         self.clear();
         var url = self.filterset.asApiEndpoint();
+        console.log(url);
         $.getJSON(url, function(data) {
             data.forEach(function(row) {
                 var $li = self.renderListItem(row);
@@ -140,7 +142,7 @@ TopList = (function() {
 /*  Store the current state of the list this global variable
     Valid filters are defined here.
 */
-gToplistSettings.state = new FilterSet(["gender", "award"], gToplistSettings.endpoint);
+gToplistSettings.state = new FilterSet(["gender", "award", "country"], gToplistSettings.endpoint);
 
 // Get current filters from url params
 gToplistSettings.state.urlSync();
