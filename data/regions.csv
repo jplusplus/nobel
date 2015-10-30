@@ -1,151 +1,151 @@
-nation,Current-nation,subregion,region
-"Alsace (then Germany, now France)",France,Europe,Europe
-Argentina,Argentina,South America,America
-Australia,Australia,Oceania,Oceania
-Austria,Austria,Europe,Europe
-Austria-Hungary (now Austria),Austria,Europe,Europe
-Austria-Hungary (now Bosnia and Herzegovina),Bosnia and Herzegovina,Europe,Europe
-Austria-Hungary (now Croatia),Croatia,Europe,Europe
-Austria-Hungary (now Czech Republic),Czech Republic,Europe,Europe
-Austria-Hungary (now Hungary),Hungary,Europe,Europe
-Austria-Hungary (now Poland),Poland,Europe,Europe
-Austria-Hungary (now Slovenia),Slovenia,Europe,Europe
-Austria-Hungary (now Ukraine),Ukraine,Europe,Europe
-Austrian Empire (now Austria),Austria,Europe,Europe
-Austrian Empire (now Czech Republic),Czech Republic,Europe,Europe
-Austrian Empire (now Italy),Italy,Europe,Europe
-Bangladesh,Bangladesh,South Asia,Asia
-Barbados,Barbados,North America,America
-Bavaria (now Germany),Germany,Europe,Europe
-Belgium,Belgium,Europe,Europe
-Bosnia (now Bosnia and Herzegovina),Bosnia and Herzegovina,Europe,Europe
-Brazil,Brazil,South America,America
-British India (now Bangladesh),Bangladesh,South Asia,Asia
-British India (now India),India,South Asia,Asia
-British Mandate of Palestine (now Israel),Israel,Middle East,Asia
-British Protectorate of Palestine (now Israel),Israel,Middle East,Asia
-British West Indies (now Saint Lucia),Saint Lucia,North America,America
-Bulgaria,Bulgaria,Europe,Europe
-Burma,Burma,Southeast Asia,Asia
-Burma (now Myanmar),Myanmar,Southeast Asia,Asia
-Canada,Canada,North America,America
-Chile,Chile,South America,America
-China,China,East Asia,Asia
-Colombia,Colombia,South America,America
-Costa Rica,Costa Rica,South America,America
-Crete (now Greece),Greece,Europe,Europe
-Cyprus,Cyprus,Europe,Europe
-Czechoslovakia,Czechoslovakia,Europe,Europe
-Czechoslovakia (now Czech Republic),Czech Republic,Europe,Europe
-Democratic Republic of Vietnam,Democratic Republic of Vietnam,Southeast Asia,Asia
-Denmark,Denmark,Europe,Europe
-East Friesland (now Germany),Germany,Europe,Europe
-East Germany,East Germany,Europe,Europe
-East Timor,East Timor,Southeast Asia,Asia
-Egypt,Egypt,North Africa,Africa
-Faroe Islands (Denmark),Faroe Islands (Denmark),Europe,Europe
-Federal Republic of Germany,Federal Republic of Germany,Europe,Europe
-Finland,Finland,Europe,Europe
-Finland (now Russia),Russia,Europe,Europe
-France,France,Europe,Europe
-Free City of Danzig (now Poland),Poland,Europe,Europe
-French Algeria (now Algeria),Algeria,North Africa,Africa
-Gabon,Gabon,West Africa,Africa
-German-occupied Poland (now Poland),Poland,Europe,Europe
-Germany,Germany,Europe,Europe
-Germany (now France),France,Europe,Europe
-Germany (now Poland),Poland,Europe,Europe
-Germany (now Russia),Russia,Europe,Europe
-Ghana,Ghana,West Africa,Africa
-Gold Coast (now Ghana),Ghana,West Africa,Africa
-Greece,Greece,Europe,Europe
-Guadeloupe Island,Guadeloupe Island,North Africa,Africa
-Guatemala,Guatemala,South America,America
-Hesse-Kassel (now Germany),Germany,Europe,Europe
-Hungarian Empire (now Czech Republic),Czech Republic,Europe,Europe
-Hungary,Hungary,Europe,Europe
-Hungary (now Slovakia),Slovakia,Europe,Europe
-Iceland,Iceland,Europe,Europe
-India,India,South Asia,Asia
-India (now Pakistan),Pakistan,South Asia,Asia
-Iran,Iran,Middle East,Asia
-Ireland,Ireland,Europe,Europe
-Israel,Israel,Middle East,Asia
-Italy,Italy,Europe,Europe
-Jamaica,Jamaica,North America,America
-Japan,Japan,East Asia,Asia
-"Java, Dutch East Indies (now Indonesia)",Indonesia,Southeast Asia,Asia
-Kenya,Kenya,East Africa,Africa
-Korea,Korea,East Asia,Asia
-Korea (now South Korea),South Korea,East Asia,Asia
-Liberia,Liberia,West Africa,Africa
-Lithuania,Lithuania,Europe,Europe
-Luxembourg,Luxembourg,Europe,Europe
-Madagascar,Madagascar,Southern Africa,Africa
-Mauritius,Mauritius,Southern Africa,Africa
-Mecklenburg (now Germany),Germany,Europe,Europe
-Mexico,Mexico,North America,America
-Morocco,Morocco,North Africa,Africa
-New Zealand,New Zealand,Oceania,Oceania
-Nigeria,Nigeria,West Africa,Africa
-Northern Ireland,Northern Ireland,Europe,Europe
-Northern Rhodesia (now Zambia),Zambia,Southern Africa,Africa
-Norway,Norway,Europe,Europe
-Ottoman Empire (now Republic of Macedonia),Republic of Macedonia,Europe,Europe
-Ottoman Empire (now Turkey),Turkey,Middle East,Asia
-Pakistan,Pakistan,South Asia,Asia
-Palestine,Palestine,Middle East,Asia
-Persia,Persia,Middle East,Asia
-Persia (now Iran),Iran,Middle East,Asia
-Peru,Peru,South America,America
-Poland,Poland,Europe,Europe
-"Poland, Russian Empire",,Europe,Europe
-Poland (now Belarus),Belarus,Europe,Europe
-Poland (now Lithuania),Lithuania,Europe,Europe
-Poland (now Ukraine),Ukraine,Europe,Europe
-Portugal,Portugal,Europe,Europe
-Prussia (now Germany),Germany,Europe,Europe
-Prussia (now Poland),Poland,Europe,Europe
-Prussia (now Russia),Russia,Europe,Europe
-Puerto Rico,Puerto Rico,North America,America
-Romania,Romania,Europe,Europe
-Russia,Russia,Europe,Europe
-"Russia, Soviet Union",Russia,Europe,Europe
-Russian Empire (now Azerbaijan),Azerbaijan,Europe,Europe
-Russian Empire (now Belarus),Belarus,Europe,Europe
-Russian Empire (now Finland),Finland,Europe,Europe
-Russian Empire (now Latvia),Latvia,Europe,Europe
-Russian Empire (now Lithuania),Lithuania,Europe,Europe
-Russian Empire (now Poland),Poland,Europe,Europe
-Russian Empire (now Russia),Russia,Europe,Europe
-Russian Empire (now Ukraine),Ukraine,Europe,Europe
-Saint Lucia,Saint Lucia,North America,America
-Schleswig (now Germany),Germany,Europe,Europe
-Scotland,Scotland,Europe,Europe
-South Africa,South Africa,Southern Africa,Africa
-South Korea,South Korea,East Asia,Asia
-Southern Rhodesia,Zimbabwe,Southern Africa,Africa
-Southern Rhodesia (now Zimbabwe),Zimbabwe,Southern Africa,Africa
-Spain,Spain,Europe,Europe
-Sweden,Sweden,Europe,Europe
-Switzerland,Switzerland,Europe,Europe
-Taiwan,Taiwan,East Asia,Asia
-Tibet (now People's Republic of China),People's Republic of China,East Asia,Asia
-Trinidad,Trinidad,North America,America
-Tunisia,Tunisia,North Africa,Africa
-Turkey,Turkey,Middle East,Asia
-Tuscany (now Italy),Italy,Europe,Europe
-USA,USA,North America,America
-USSR,USSR,Europe,Europe
-USSR (now Belarus),Belarus,Europe,Europe
-USSR (now Russia),Russia,Europe,Europe
-Union of South Africa,Union of South Africa,Southern Africa,Africa
-United Kingdom,United Kingdom,Europe,Europe
-Venezuela,Venezuela,South America,America
-Vietnam,Vietnam,Southeast Asia,Asia
-Württemberg,Germany,Europe,Europe
-West Germany (now Germany),Germany,Europe,Europe
-Yemen,Yemen,Middle East,Asia
-Yugoslavia,,Europe,Europe
-Yugoslavia (now Serbia),Serbia,Europe,Europe
-the Netherlands,the Netherlands,Europe,Europe
+id,nation1,nation2,nation3,region1,region2,region3
+"Alsace (then Germany, now France)",France,Germany,Alsace,Europe,,Europe
+Argentina,Argentina,,,South America,,America
+Australia,Australia,,,Oceania,,Oceania
+Austria,Austria,,,Europe,,Europe
+Austria-Hungary (now Austria),Austria,Austria-Hungary,,Europe,,Europe
+Austria-Hungary (now Bosnia and Herzegovina),Bosnia and Herzegovina,Austria-Hungary,,Europe,,Europe
+Austria-Hungary (now Croatia),Croatia,Austria-Hungary,,Europe,,Europe
+Austria-Hungary (now Czech Republic),Czech Republic,Austria-Hungary,,Europe,,Europe
+Austria-Hungary (now Hungary),Hungary,Austria-Hungary,,Europe,,Europe
+Austria-Hungary (now Poland),Poland,Austria-Hungary,,Europe,,Europe
+Austria-Hungary (now Slovenia),Slovenia,Austria-Hungary,,Europe,,Europe
+Austria-Hungary (now Ukraine),Ukraine,Austria-Hungary,,Europe,,Europe
+Austrian Empire (now Austria),Austria,Austria-Hungary,,Europe,,Europe
+Austrian Empire (now Czech Republic),Czech Republic,Austria-Hungary,,Europe,,Europe
+Austrian Empire (now Italy),Italy,Austria-Hungary,,Europe,,Europe
+Bangladesh,Bangladesh,,,South Asia,,Asia
+Barbados,Barbados,,,North America,Carribean,America
+Bavaria (now Germany),Germany,Bavaria,,Europe,,Europe
+Belgium,Belgium,,,Europe,,Europe
+Bosnia (now Bosnia and Herzegovina),Bosnia and Herzegovina,Bosnia,,Europe,,Europe
+Brazil,Brazil,,,South America,,America
+British India (now Bangladesh),Bangladesh,British India,,South Asia,,Asia
+British India (now India),India,British India,,South Asia,,Asia
+British Mandate of Palestine (now Israel),Israel,British Mandate of Palestine,Palestine,Middle East,,Asia
+British Protectorate of Palestine (now Israel),Israel,British Protectorate of Palestine,Palestine,Middle East,,Asia
+British West Indies (now Saint Lucia),Saint Lucia,British West Indies,,North America,Carribean,America
+Bulgaria,Bulgaria,,,Europe,,Europe
+Burma,Burma,Myanmar,,Southeast Asia,,Asia
+Burma (now Myanmar),Myanmar,Burma,,Southeast Asia,,Asia
+Canada,Canada,,,North America,,America
+Chile,Chile,,,South America,,America
+China,China,,,East Asia,,Asia
+Colombia,Colombia,,,South America,,America
+Costa Rica,Costa Rica,,,South America,,America
+Crete (now Greece),Greece,,,Europe,,Europe
+Cyprus,Cyprus,,,Europe,,Europe
+Czechoslovakia,Czechoslovakia,,,Europe,,Europe
+Czechoslovakia (now Czech Republic),Czech Republic,,,Europe,,Europe
+Democratic Republic of Vietnam,Democratic Republic of Vietnam,,,Southeast Asia,,Asia
+Denmark,Denmark,,,Europe,,Europe
+East Friesland (now Germany),Germany,East Friesland,,Europe,,Europe
+East Germany,East Germany,Germany,,Europe,,Europe
+East Timor,East Timor,,,Southeast Asia,,Asia
+Egypt,Egypt,,,North Africa,,Africa
+Faroe Islands (Denmark),Faroe Islands (Denmark),Denmark,Faroe Islands,Europe,,Europe
+Federal Republic of Germany,Federal Republic of Germany,,,Europe,,Europe
+Finland,Finland,,,Europe,,Europe
+Finland (now Russia),Russia,Finland,,Europe,,Europe
+France,France,,,Europe,,Europe
+Free City of Danzig (now Poland),Poland,,,Europe,,Europe
+French Algeria (now Algeria),Algeria,,,North Africa,,Africa
+Gabon,Gabon,,,West Africa,,Africa
+German-occupied Poland (now Poland),Poland,,,Europe,,Europe
+Germany,Germany,,,Europe,,Europe
+Germany (now France),France,Germany,,Europe,,Europe
+Germany (now Poland),Poland,Germany,,Europe,,Europe
+Germany (now Russia),Russia,Germany,,Europe,,Europe
+Ghana,Ghana,,,West Africa,,Africa
+Gold Coast (now Ghana),Ghana,Gold Coast,,West Africa,,Africa
+Greece,Greece,,,Europe,,Europe
+Guadeloupe Island,Guadeloupe Island,,,North Africa,,Africa
+Guatemala,Guatemala,,,South America,,America
+Hesse-Kassel (now Germany),Germany,Hesse-Kassel,,Europe,,Europe
+Hungarian Empire (now Czech Republic),Czech Republic,Hungarian Empire,,Europe,,Europe
+Hungary,Hungary,,,Europe,,Europe
+Hungary (now Slovakia),Slovakia,,,Europe,,Europe
+Iceland,Iceland,,,Europe,,Europe
+India,India,,,South Asia,,Asia
+India (now Pakistan),Pakistan,India,,South Asia,,Asia
+Iran,Iran,,,Middle East,,Asia
+Ireland,Ireland,,,Europe,,Europe
+Israel,Israel,,,Middle East,,Asia
+Italy,Italy,,,Europe,,Europe
+Jamaica,Jamaica,,,North America,Carribean,America
+Japan,Japan,,,East Asia,,Asia
+"Java, Dutch East Indies (now Indonesia)",Indonesia,Dutch East Indies,Java,Southeast Asia,,Asia
+Kenya,Kenya,,,East Africa,,Africa
+Korea,Korea,,,East Asia,,Asia
+Korea (now South Korea),South Korea,Korea,,East Asia,,Asia
+Liberia,Liberia,,,West Africa,,Africa
+Lithuania,Lithuania,,,Europe,,Europe
+Luxembourg,Luxembourg,,,Europe,,Europe
+Madagascar,Madagascar,,,Southern Africa,,Africa
+Mauritius,Mauritius,,,Southern Africa,,Africa
+Mecklenburg (now Germany),Germany,Mecklenburg,,Europe,,Europe
+Mexico,Mexico,,,North America,,America
+Morocco,Morocco,,,North Africa,,Africa
+New Zealand,New Zealand,,,Oceania,,Oceania
+Nigeria,Nigeria,,,West Africa,,Africa
+Northern Ireland,Northern Ireland,,,Europe,,Europe
+Northern Rhodesia (now Zambia),Zambia,Northern Rhodesia,,Southern Africa,,Africa
+Norway,Norway,,,Europe,,Europe
+Ottoman Empire (now Republic of Macedonia),Republic of Macedonia,Ottoman Empire,,Europe,,Europe
+Ottoman Empire (now Turkey),Turkey,Ottoman Empire,,Middle East,Europe,Asia
+Pakistan,Pakistan,,,South Asia,,Asia
+Palestine,Palestine,,,Middle East,,Asia
+Persia,Persia,,,Middle East,,Asia
+Persia (now Iran),Iran,,,Middle East,,Asia
+Peru,Peru,,,South America,,America
+Poland,Poland,,,Europe,,Europe
+"Poland, Russian Empire",,,,Europe,Poland,Europe
+Poland (now Belarus),Belarus,Poland,,Europe,,Europe
+Poland (now Lithuania),Lithuania,Poland,,Europe,,Europe
+Poland (now Ukraine),Ukraine,Poland,,Europe,,Europe
+Portugal,Portugal,,,Europe,,Europe
+Prussia (now Germany),Germany,Prussia,,Europe,,Europe
+Prussia (now Poland),Poland,Prussia,,Europe,,Europe
+Prussia (now Russia),Russia,Prussia,,Europe,,Europe
+Puerto Rico,Puerto Rico,,,North America,,America
+Romania,Romania,,,Europe,,Europe
+Russia,Russia,,,Europe,,Europe
+"Russia, Soviet Union",Russia,,,Europe,,Europe
+Russian Empire (now Azerbaijan),Azerbaijan,Russian Empire,,Europe,,Europe
+Russian Empire (now Belarus),Belarus,Russian Empire,,Europe,,Europe
+Russian Empire (now Finland),Finland,Russian Empire,,Europe,,Europe
+Russian Empire (now Latvia),Latvia,Russian Empire,,Europe,,Europe
+Russian Empire (now Lithuania),Lithuania,Russian Empire,,Europe,,Europe
+Russian Empire (now Poland),Poland,Russian Empire,,Europe,,Europe
+Russian Empire (now Russia),Russia,Russian Empire,,Europe,,Europe
+Russian Empire (now Ukraine),Ukraine,Russian Empire,,Europe,,Europe
+Saint Lucia,Saint Lucia,,,North America,,America
+Schleswig (now Germany),Germany,Schleswig,,Europe,,Europe
+Scotland,Scotland,,,Europe,,Europe
+South Africa,South Africa,,,Southern Africa,,Africa
+South Korea,South Korea,,,East Asia,,Asia
+Southern Rhodesia,Zimbabwe,Southern Rhodesia,,Southern Africa,,Africa
+Southern Rhodesia (now Zimbabwe),Zimbabwe,Southern Rhodesia,,Southern Africa,,Africa
+Spain,Spain,,,Europe,,Europe
+Sweden,Sweden,,,Europe,,Europe
+Switzerland,Switzerland,,,Europe,,Europe
+Taiwan,Taiwan,,,East Asia,,Asia
+Tibet (now People's Republic of China),People's Republic of China,Tibet,,East Asia,,Asia
+Trinidad,Trinidad,,,North America,,America
+Tunisia,Tunisia,,,North Africa,,Africa
+Turkey,Turkey,,,Middle East,Europe,Asia
+Tuscany (now Italy),Italy,Tuscany,,Europe,,Europe
+USA,USA,,,North America,,America
+USSR,USSR,,,Europe,,Europe
+USSR (now Belarus),Belarus,USSR,,Europe,,Europe
+USSR (now Russia),Russia,USSR,,Europe,,Europe
+Union of South Africa,Union of South Africa,,,Southern Africa,,Africa
+United Kingdom,United Kingdom,,,Europe,,Europe
+Venezuela,Venezuela,,,South America,,America
+Vietnam,Vietnam,,,Southeast Asia,,Asia
+Württemberg,Germany,,,Europe,,Europe
+West Germany (now Germany),Germany,West Germany,,Europe,,Europe
+Yemen,Yemen,,,Middle East,,Asia
+Yugoslavia,Yugoslavia,,,Europe,,Europe
+Yugoslavia (now Serbia),Serbia,Yugoslavia,,Europe,,Europe
+the Netherlands,the Netherlands,,,Europe,,Europe
