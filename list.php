@@ -1,6 +1,7 @@
 <?php
 namespace Toplist;
-require __DIR__ . '/lib/list.php';
+require __DIR__ . '/settings.php';
+require $baseDir . 'lib/list.php';
 
 $list = new TList($_GET);
 $laureates = $list->getData();
@@ -16,8 +17,8 @@ $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery
 $script = $dom->createElement('script', $jquery_js);
 $dom->appendChild($script);
 
-$js = file_get_contents(__DIR__ . '/js/main.js');
-$css = file_get_contents(__DIR__ . '/css/main.css');
+$js = file_get_contents($baseDir . 'js/main.js');
+$css = file_get_contents($baseDir . 'css/main.css');
 $css = str_replace("\n", "", $css);
 $js = 'var gToplistSettings = ' . json_encode($gToplistSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
 $js = str_replace('¤CSS', $css, $js);

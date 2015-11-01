@@ -1,7 +1,6 @@
 <?php
 /* This is the entry point for all PHP scripts */
 namespace Toplist;
-require __DIR__ . '/../settings.php';
 
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/db.php';
