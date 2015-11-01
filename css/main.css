@@ -1,0 +1,8 @@
+.filterable {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.list-item span {
+    display: inline-block;
+    padding: 0 4px;
+}

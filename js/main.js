@@ -154,16 +154,7 @@ $(document).ready(function() {
     /* inject CSS */
     var css = document.createElement("style");
     document.getElementsByTagName("head")[0].appendChild(css);
-    var cssCode = "             \
-.filterable {                   \
-    text-decoration: underline; \
-    cursor: pointer;            \
-}                               \
-.list-item span {               \
-    display: inline-block;      \
-    padding: 0 4px;             \
-}                               \
-    ";
+    var cssCode = "¤CSS";
     if (css.styleSheet) {
         // IE
         css.styleSheet.cssText += cssCode;
