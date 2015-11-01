@@ -139,10 +139,12 @@ Class SPARQLQuery extends Query{
             $key = $value["label"];
             if (!isset($output[$key])){
                 $output[$key] = array(
-                    "country" => null,
-                    "city" => null,
-                    "dbPedia" => null,
-                    "id" => null,
+                    'id' => null,
+                    'name' => null,
+                    'laureates_url' => null,
+                    'country' => null,
+                    'city' => null,
+                    'dbPedia' => null,
                     'awards' => array(),
                     'gender' => null,
                 );
@@ -151,7 +153,14 @@ Class SPARQLQuery extends Query{
             // print_r($value);
 
             /* name */
-            $output[$key]["name"] = $value["label"];
+            $output[$key]['name'] = $value["label"];
+
+            /* id */
+            $pathParts = explode('/', parse_url($value['laur'])["path"]);
+            $output[$key]['id'] = array_pop($pathParts);
+
+            /* url */
+            $output[$key]['laureates_url'] = '//www.nobelprize.org/nobel_prizes/laureates/index.php?id=' . $output[$key]["id"];
 
             /* award, award-year */
             if (isset($value['prize'])){
@@ -169,8 +178,8 @@ Class SPARQLQuery extends Query{
             }
             /* DBPedia */
             if (isset($value['sameAs'])){
-                $host = parse_url($value["sameAs"])["host"];
-                if ("dbpedia.org" === $host){
+                $host = parse_url($value['sameAs'])['host'];
+                if ('dbpedia.org' === $host){
                     $output[$key]['dbPedia'] = $value['sameAs'];
                 }
             }
