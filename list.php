@@ -21,12 +21,6 @@ $script = $dom->createElement('script', $js);
 //$script = $dom->createElement('script', JShrink\Minifier::minify($js));
 $dom->appendChild($script);
 
-$js = file_get_contents(__DIR__ . '/js/main.js');
-$js = 'var gToplistSettings = ' . json_encode($gToplistSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
-$script = $dom->createElement('script', $js);
-//$script = $dom->createElement('script', JShrink\Minifier::minify($js));
-$dom->appendChild($script);
-
 /* Append div tag */
 function createTag($dom, $tag, $content, $attributes = array()){
     $element = $dom->createElement($tag, $content);
