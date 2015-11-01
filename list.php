@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/lib/list.php';
 
-$list = new Toplist($_GET);
+$list = new Toplist\TList($_GET);
 $laureates = $list->getData();
 
 $dom = new \DOMDocument('1.0', 'utf-8');

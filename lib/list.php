@@ -1,17 +1,18 @@
 <?php
+namespace Toplist;
 
 require __DIR__ . '/../settings.php';
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/db.php';
 
 /* This class represents a laureate top list. */
-class Toplist {
+class TList {
     var $list_length;
     var $parameters;
     var $profileDataFile = __DIR__ . '/../data/profile-pages.csv';
 
     /* Constructor. Will parse the parameters. */
-    function Toplist( $parameters ) {
+    function __construct( $parameters ) {
         /* Validate parameters. No not accept any invalid value */
         $gump = new \GUMP();
         $parameters = $gump->sanitize($parameters);
@@ -45,7 +46,7 @@ class Toplist {
     /* Get data for all laureates matching the filter */
     function getData() {
 
-        $query = new Toplist\SPARQLQuery($this->parameters);
+        $query = new SPARQLQuery($this->parameters);
         $list = $query->get();
 
         // Import profile pages for poularity statistic
@@ -60,7 +61,6 @@ class Toplist {
                 $list[$row[1]]['stats_url'] = $row[0];
             }
         }
-
         return array_values (array_slice($list, 0, $this->list_length));
 
     }
