@@ -17,6 +17,7 @@ Class RegionFinder {
 
     function __construct(){
 
+            global $baseDir;
             $this->dataFile = $baseDir . 'data/regions.csv';
 
             $data = array_map('str_getcsv', file($this->dataFile, FILE_SKIP_EMPTY_LINES));

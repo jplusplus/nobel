@@ -6,61 +6,65 @@ namespace Toplist;
 class TListWidget {
 
     var $laureates;
+    var $dom;
     var $jsSettings = array(
                             'endpoint' => 'list-api.php',
                             );
+
 
     function __construct( TList $list, $debugMode=PRODUCTION ) {
         $this->laureates = $list->getData();
     }
 
+
+    private function _createTag($tag, $content = '', $attributes = array()){
+        $element = $this->dom->createElement($tag, $content);
+        foreach ($attributes as $key => $val){
+            $attr = $this->dom->createAttribute($key);
+            $attr->value = $val;
+            $element->appendChild($attr);
+        }
+        return $element;
+    }
+
+
     function getHTML(){
-        $dom = new \DOMDocument('1.0', 'utf-8');
+        $this->dom = new \DOMDocument('1.0', 'utf-8');
 
         /* Append script tag with jQuery */
         $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
-        $script = $dom->createElement('script', $jquery_js);
-        $dom->appendChild($script);
+        $script = $this->dom->createElement('script', $jquery_js);
+        $this->dom->appendChild($script);
 
         /* Append script tag with main.js */
+        global $baseDir;
         $js = file_get_contents($baseDir . 'js/main.js');
         $css = file_get_contents($baseDir . 'css/main.css');
         $css = str_replace("\n", "", $css);
         $js = 'var gToplistSettings = ' . json_encode($this->jsSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
         $js = str_replace('¤CSS', $css, $js);
-        $script = $dom->createElement('script', $js);
+        $script = $this->dom->createElement('script', $js);
         //$script = $dom->createElement('script', JShrink\Minifier::minify($js));
-        $dom->appendChild($script);
+        $this->dom->appendChild($script);
 
-        /* Append div tag */
-        function createTag($dom, $tag, $content, $attributes = array()){
-            $element = $dom->createElement($tag, $content);
-            foreach ($attributes as $key => $val){
-                $attr = $dom->createAttribute($key);
-                $attr->value = $val;
-                $element->appendChild($attr);
-            }
-            return $element;
-        }
+        $container = $this->_createTag( 'div', '', array('class' => 'toplist'));
 
-        $container = createTag($dom, 'div', '', array('class' => 'toplist'));
-
-        $list = createTag($dom, 'ul', '');
+        $list = $this->_createTag( 'ul' );
         foreach ($this->laureates as $label => $laureate) {
-            $li = createTag($dom, 'li', '', array('class' => 'list-item',
-                                                  'data-id' => $laureate['id'],
-                                                  'data-name' => $laureate['name'],
-                                                  'data-gender' => $laureate['gender'],
-                                                  'data-awards' => json_encode($laureate['awards']),
-                                            )
-            );
+            $li = $this->_createTag( 'li', '', array('class' => 'list-item',
+                                                     'data-id' => $laureate['id'],
+                                                     'data-name' => $laureate['name'],
+                                                     'data-gender' => $laureate['gender'],
+                                                     'data-awards' => json_encode($laureate['awards']),
+                                                     )
+                                    );
             
-            $h3 = createTag($dom, 'h3', '', array("class" => "name"));
-            $a = createTag($dom, 'a', $laureate["name"], array("href" => $laureate['laureates_url']));
+            $h3 = $this->_createTag( 'h3', '', array("class" => "name"));
+            $a = $this->_createTag('a', $laureate["name"], array("href" => $laureate['laureates_url']));
             $h3->appendChild($a);
             $li->appendChild($h3);
 
-            $genderspan = createTag($dom, 'span', $laureate["gender"], array(
+            $genderspan = $this->_createTag( 'span', $laureate["gender"], array(
                                                                             "class" => "gender filterable",
                                                                             "data-filter-key" => "gender",
                                                                             "data-filter-value" => $laureate["gender"]
@@ -70,19 +74,19 @@ class TListWidget {
             $awardsString = implode(', ', array_map(function($el){
                                                         return $el['award'] . ' (' . $el['year'] . ')';
                                                     }, $laureate['awards']));
-            $awardspan = createTag($dom, 'span', $awardsString, array("class" => "awards"));
+            $awardspan = $this->_createTag( 'span', $awardsString, array("class" => "awards"));
             $li->appendChild($awardspan);
 
-            $sparklinediv = createTag($dom, 'div', '', array("class" => "sparkline popularity"));
+            $sparklinediv = $this->_createTag( 'div', '', array("class" => "sparkline popularity"));
             $li->appendChild($sparklinediv);
 
             $list->appendChild($li);
         }
         $container->appendChild($list);
 
-        $dom->appendChild($container);
+        $this->dom->appendChild($container);
 
-        return $dom->saveHTML();
+        return $this->dom->saveHTML();
 
     }
 
