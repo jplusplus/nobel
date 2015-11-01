@@ -8,6 +8,7 @@ require __DIR__ . '/db.php';
 class Toplist {
     var $list_length;
     var $parameters;
+    var $profileDataFile = __DIR__ . '/../data/profile-pages.csv';
 
     /* Constructor. Will parse the parameters. */
     function Toplist( $parameters ) {
@@ -46,6 +47,19 @@ class Toplist {
 
         $query = new Toplist\SPARQLQuery($this->parameters);
         $list = $query->get();
+
+        // Import profile pages for poularity statistic
+        $data = array_map( 'str_getcsv',
+                           file( $this->profileDataFile,
+                                 FILE_SKIP_EMPTY_LINES
+                                )
+                          );
+        $headers = array_shift($data);
+        foreach ($data as $row) {
+            if ( array_key_exists($row[1], $list) ){
+                $list[$row[1]]['stats_url'] = $row[0];
+            }
+        }
 
         return array_values (array_slice($list, 0, $this->list_length));
 
