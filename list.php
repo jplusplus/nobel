@@ -43,13 +43,16 @@ $container = createTag($dom, 'div', '', array('class' => 'toplist'));
 $list = createTag($dom, 'ul', '');
 foreach ($laureates as $label => $laureate) {
     $li = createTag($dom, 'li', '', array('class' => 'list-item',
+                                          'data-id' => $laureate['id'],
                                           'data-name' => $laureate['name'],
                                           'data-gender' => $laureate['gender'],
                                           'data-awards' => json_encode($laureate['awards']),
                                     )
     );
     
-    $h3 = createTag($dom, 'h3', $laureate["name"], array("class" => "name"));
+    $h3 = createTag($dom, 'h3', '', array("class" => "name"));
+    $a = createTag($dom, 'a', $laureate["name"], array("href" => $laureate['laureates_url']));
+    $h3->appendChild($a);
     $li->appendChild($h3);
 
     $genderspan = createTag($dom, 'span', $laureate["gender"], array(
