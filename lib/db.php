@@ -2,8 +2,9 @@
 /* Contains a class for querying the Nobel laureates database.
 */ 
 namespace Toplist;
-require __DIR__ . '/../vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
-require __DIR__ . '/regions.php'; //class RegionFinder
+
+require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
+require $baseDir . 'lib/regions.php'; //class RegionFinder
 
 Class Query {
 

@@ -1,18 +1,22 @@
 <?php
+/* This is the entry point for all PHP scripts */
 namespace Toplist;
-
 require __DIR__ . '/../settings.php';
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/db.php';
+
+require $baseDir . 'vendor/autoload.php';
+require $baseDir . 'lib/db.php';
 
 /* This class represents a laureate top list. */
 class TList {
     var $list_length;
     var $parameters;
-    var $profileDataFile = __DIR__ . '/../data/profile-pages.csv';
+    var $profileDataFile;
 
     /* Constructor. Will parse the parameters. */
     function __construct( $parameters ) {
+        global $baseDir;
+        $this->profileDataFile = $baseDir . 'data/profile-pages.csv';
+
         /* Validate parameters. No not accept any invalid value */
         $gump = new \GUMP();
         $parameters = $gump->sanitize($parameters);

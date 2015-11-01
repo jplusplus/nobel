@@ -11,11 +11,13 @@ namespace Toplist;
 */
 Class RegionFinder {
 
-    var $dataFile = __DIR__ . '/../data/regions.csv';
+    var $dataFile;
     var $data;
     var $allRegions = array();
 
     function __construct(){
+
+            $dataFile = $baseDir . 'data/regions.csv';
 
             $data = array_map('str_getcsv', file($this->dataFile, FILE_SKIP_EMPTY_LINES));
             $headers = array_shift($data);
@@ -59,4 +61,3 @@ Class RegionFinder {
     }
 
 }
-
