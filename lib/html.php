@@ -81,7 +81,7 @@ class TListWidget {
             $li->appendChild($genderspan);
             
             $awardsString = implode(', ', array_map(function($el){
-                                                        return $el['award'] . ' (' . $el['year'] . ')';
+                                                        return str_replace( '_', ' ', $el['award'] ) . ' (' . $el['year'] . ')';
                                                     }, $laureate['awards']));
             $awardspan = $this->_createTag( 'span', $awardsString, array("class" => "awards"));
             $li->appendChild($awardspan);
