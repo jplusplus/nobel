@@ -10,6 +10,20 @@ class TList {
     var $list_length;
     var $parameters;
     var $profileDataFile;
+    static $validationRules = array (
+            'length'    => 'integer|min_numeric,3|max_numeric,50',
+            'debug'     => 'boolean',
+            'award'     => 'alpha',
+            'gender'    => 'alpha',
+            'region'    => 'alpha_dash',
+        );
+    static $filterRules = array(
+            'length' => 'trim|sanitize_numbers',
+            'debug'  => 'trim',
+            'award'  => 'trim|sanitize_string',
+            'gender' => 'trim|sanitize_string',
+            'region' => 'trim',
+        );
 
     /* Constructor. Will parse the parameters. */
     function __construct( $parameters ) {
@@ -19,20 +33,8 @@ class TList {
         /* Validate parameters. No not accept any invalid value */
         $gump = new \GUMP();
         $parameters = $gump->sanitize($parameters);
-        $gump->validation_rules(array(
-            'length'    => 'integer|min_numeric,3|max_numeric,50',
-            'debug'     => 'boolean',
-            'award'     => 'alpha',
-            'gender'    => 'alpha',
-            'region'    => 'alpha_dash',
-        ));
-        $gump->filter_rules(array(
-            'length' => 'trim|sanitize_numbers',
-            'debug'  => 'trim',
-            'award'  => 'trim|sanitize_string',
-            'gender' => 'trim|sanitize_string',
-            'region' => 'trim',
-        ));
+        $gump->validation_rules( self::$validationRules );
+        $gump->filter_rules( self::$filterRules );
 
         $parameters = $gump->run($parameters);
 
@@ -44,6 +46,11 @@ class TList {
         $this->list_length = isset($parameters['length']) ? $parameters['length'] : NUM_ITEMS;
         $this->parameters = $parameters;
 
+    }
+
+    /* Get all allowed parameters */
+    function getParameters(){
+        return array_keys(self::$validationRules);
     }
 
     /* Get data for all laureates matching the filter */

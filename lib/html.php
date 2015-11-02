@@ -7,13 +7,16 @@ class TListWidget {
 
     var $laureates;
     var $dom;
+    var $id;
     var $jsSettings = array(
                             'endpoint' => 'list-api.php',
                             );
 
 
-    function __construct( TList $list, $debugMode=PRODUCTION ) {
+    function __construct( TList $list, $debugMode=PRODUCTION, $id=0 ) {
         $this->laureates = $list->getData();
+        $this->id = $id;
+        $this->debugMode = $debugMode;
     }
 
 
@@ -31,23 +34,29 @@ class TListWidget {
     function getHTML(){
         $this->dom = new \DOMDocument('1.0', 'utf-8');
 
-        /* Append script tag with jQuery */
-        $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
-        $script = $this->dom->createElement('script', $jquery_js);
-        $this->dom->appendChild($script);
+        $id = $this->id;
+        if ($id === 1){
+            /* Append script tag with jQuery */
+            $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
+            $script = $this->dom->createElement('script', $jquery_js);
+            $this->dom->appendChild($script);
 
-        /* Append script tag with main.js */
-        global $baseDir;
-        $js = file_get_contents($baseDir . 'js/main.js');
-        $css = file_get_contents($baseDir . 'css/main.css');
-        $css = str_replace("\n", "", $css);
-        $js = 'var gToplistSettings = ' . json_encode($this->jsSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
-        $js = str_replace('¤CSS', $css, $js);
-        $script = $this->dom->createElement('script', $js);
-        //$script = $dom->createElement('script', JShrink\Minifier::minify($js));
-        $this->dom->appendChild($script);
+            /* Append script tag with main.js */
+            global $baseDir;
+            $js = file_get_contents($baseDir . 'js/main.js');
+            $css = file_get_contents($baseDir . 'css/main.css');
+            $css = str_replace("\n", "", $css);
+            $js = 'var gToplistSettings = ' . json_encode($this->jsSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
+            $js = str_replace('¤CSS', $css, $js);
+            if ($this->debugMode === DEBUG){
+                $script = $this->dom->createElement('script', $js);
+            } else {
+                $script = $dom->createElement('script', JShrink\Minifier::minify($js));
+            }
+            $this->dom->appendChild($script);
+        }
 
-        $container = $this->_createTag( 'div', '', array('class' => 'toplist'));
+        $container = $this->_createTag( 'div', '', array('class' => "toplist id_$id"));
 
         $list = $this->_createTag( 'ul' );
         foreach ($this->laureates as $label => $laureate) {

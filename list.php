@@ -8,6 +8,32 @@ require __DIR__ . '/settings.php';
 require $baseDir . 'lib/list.php';
 require $baseDir . 'lib/html.php';
 
+
+/* Counter singleton for unique id's */
+class Counter {
+
+    private $CurrentValue = 0;
+
+    private static $m_pInstance; 
+
+    private function __construct() {}
+
+    public static function getInstance() {
+        if (!self::$m_pInstance) {
+            self::$m_pInstance = new Counter();
+        }
+        return self::$m_pInstance;
+    }
+
+    public function getNext() {
+        $this->CurrentValue += 1;
+        return $this->CurrentValue;
+    }
+
+}
+
+
+/* List widget*/
 class Widget {
 
     var $list;
@@ -26,6 +52,9 @@ class Widget {
     }
 
     private function _run(){
+
+        $widgetCounter = Counter::getInstance()->getNext();
+
         /* update parameters in case of any changes */
         foreach ($this->parameters as $k => $v) {
             if ( isset( $this->$k ) ){
@@ -33,7 +62,7 @@ class Widget {
             }
         }
         $this->list = new TList( $this->parameters );
-        $this->widget = new TListWidget($this->list, DEBUG);
+        $this->widget = new TListWidget($this->list, DEBUG, $widgetCounter);
     }
 
     function printHTML(){
