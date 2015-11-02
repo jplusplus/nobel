@@ -1,5 +1,8 @@
 <?php
 namespace Toplist;
+if(!defined('TopList')) {
+   die('Not permitted');
+}
 
 /* -------------- GLOBAL SETTINGS --------------- */
 
@@ -19,16 +22,8 @@ $baseUrl = '/nobel';
 const NUM_ITEMS = 10;
 
 
-
-
-
-
-
-/* -------------- GLOBAL CONSTANTS -------------- */
-/* Do not touch these, unless you know what       */
-/* you are doing.                                 */
-/* ---------------------------------------------- */
-
 /* Debug modes */
 const PRODUCTION = 0;
 const DEBUG = 2;
+/* Debug level. Use PRODUCTION for, well, production */
+$debugLevel = DEBUG;

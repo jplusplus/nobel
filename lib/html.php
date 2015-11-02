@@ -14,13 +14,12 @@ class TListWidget {
     var $jsSettings;
 
 
-    function __construct( TList $list, $debugMode=PRODUCTION, $id=0 ) {
+    function __construct( TList $list, $id=0 ) {
         global $baseUrl;
         $this->jsSettings = array( 'endpoint' => "$baseUrl/list-api.php",
                                   );
         $this->laureates = $list->getData();
         $this->id = $id;
-        $this->debugMode = $debugMode;
     }
 
 
@@ -52,7 +51,8 @@ class TListWidget {
             $css = str_replace("\n", "", $css);
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
             $js = str_replace('¤CSS', $css, $js);
-            if ($this->debugMode === DEBUG){
+            global $debugLevel;
+            if ($debugLevel === DEBUG){
                 $script = $this->dom->createElement('script', $js);
             } else {
                 $script = $dom->createElement('script', JShrink\Minifier::minify($js));
