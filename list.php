@@ -66,7 +66,7 @@ class Widget {
             }
         }
         $this->list = new TList( $this->parameters );
-        $this->widget = new TListWidget($this->list, DEBUG, $widgetCounter);
+        $this->widget = new TListWidget($this->list, $widgetCounter);
     }
 
     function printHTML(){
