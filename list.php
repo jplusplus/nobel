@@ -12,15 +12,28 @@ class Widget {
     var $widget;
 
     function __construct( $parameters = array() ){
-        $this->list = new TList( $parameters );
+        foreach ($parameters as $k => $v){
+            $this->$k = $v;
+        }
+    }
+
+    private function _run(){
+        $this->list = new TList( array(
+                                        'gender' => $this->gender || null,
+                                        'length' => $this->length || null,
+                                        'region' => $this->region || null,
+                                        'award' => $this->award || null,
+                                       ) );
         $this->widget = new TListWidget($this->list, DEBUG);
     }
 
     function printHTML(){
+        $this->_run();
         $this->widget->printHTML();
     }
 
     function getHTML(){
+        $this->_run();
         return $this->widget->getHTML();
     }
 
