@@ -13,13 +13,13 @@ if(!defined('TopList')) {
 $baseDir = __DIR__ . '/';
 
 /* The public url to the directory containing this */
-/* PHP app. This url is used by the frontend app   */
+/* PHP app. This url is used by the frontend app,  */
 /* and $baseUrl/list-api.php must be publically    */
 /* accessible.                                     */
 $baseUrl = '/nobel';
 
 /* Default number of list items, if not specified */
-define('NUM_ITEMS', 10);
+$maxListItems = 10;
 
 
 /* Debug modes */

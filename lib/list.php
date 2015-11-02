@@ -46,7 +46,8 @@ class TList {
             $parameters = array();
         }
 
-        $this->list_length = isset($parameters['length']) ? $parameters['length'] : NUM_ITEMS;
+        global $maxListItems;
+        $this->list_length = isset($parameters['length']) ? $parameters['length'] : $maxListItems;
         $this->parameters = $parameters;
 
     }
