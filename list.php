@@ -30,3 +30,8 @@ function printWidget( $parameters = array() ){
     $obj = new Widget( $parameters );
     $obj->printHTML();
 }
+
+function printUI( ){
+    $obj = new Widget( $_GET );
+    $obj->printHTML();
+}
