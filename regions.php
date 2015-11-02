@@ -1,4 +1,5 @@
 <?php
+define('TopList', TRUE);
 require __DIR__ . '/lib/regions.php';
 
 header('Content-Type: application/json; charset=utf-8');
