@@ -13,7 +13,9 @@ include "list.php";
         <h1>List widget demo</h1>
     </header>
 
-    <h2>Procedure style</h2>
+    <h2>Procedural style</h2>
+
+    <h3>One-liner</h3>
     <pre><code class="php5">
         TopList\printWidget();
     </code></pre>
@@ -22,19 +24,19 @@ include "list.php";
     TopList\printWidget();
 
 ?>
-    <h2>Procedure style, with config</h2>
+    <h3>With config</h3>
     <pre><code class="php5">
         $listFilter = array('gender' => 'female', 'region' => 'asia');
         TopList\printWidget( $listFilter );
     </code></pre>
 <?php
 
-    $listFilter = array('gender' => 'female', 'region' => 'asia');
+    $listFilter = array('gender' => 'female', 'region' => 'asia', 'length' => 3);
     TopList\printWidget( $listFilter );
 
 
 ?>
-    <h2>User url parameters</h2>
+    <h3>Using url parameters</h3>
     <pre><code class="php5">
         TopList\printWidget( $_GET );
     </code></pre>
@@ -43,7 +45,9 @@ include "list.php";
     TopList\printWidget( $_GET );
 
 ?>
-    <h2>Object oriented style, 1</h2>
+    <h2>Object oriented style</h2>
+
+    <h3>Setting options one by one</h3>
     <pre><code class="php5">
         $widget = new TopList\Widget();
         $widget->gender = 'female';
@@ -58,18 +62,20 @@ include "list.php";
     $widget->printHTML();
 
 ?>
-    <h2>Object oriented style, 2</h2>
+    <h3>Setting options on initiation</h3>
     <pre><code class="php5">
+        $listFilter = array('gender' => 'female', 'region' => 'asia', 'length' => 3);
         $widget = new TopList\Widget( $listFilter );
         $widget->printHTML();
     </code></pre>
 <?php
 
+    $listFilter = array('gender' => 'female', 'region' => 'asia', 'length' => 3);
     $widget = new TopList\Widget( $listFilter );
     $widget->printHTML();
 
 ?>
-    <h2>Object oriented style, 3</h2>
+    <h3>Custom parsing of output</h3>
     <pre><code class="php5">
         $widget = new TopList\Widget( );
         $html = $widget->getHTML();
