@@ -10,6 +10,10 @@ include "list.php";
         <h1>List widget demo</h1>
     </header>
 
+    <p class="lead intro">Include list.php at the top of your code, and you are good to go:</p>
+    <pre><code class="php5">require_once('list.php');</code></pre>
+    <p>All PHP code is wrapped in a namespace called <code>TopList</code>. All Javascript code is wrapped in an object called <code>TopList</code>. There is also one variable in the global scope, called <code>gToplistSettings</code>. Except for these three objects, the code should be self contained, and not interfering with anything else.</p>
+
     <hr>
     <h2>Procedural style</h2>
 
