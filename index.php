@@ -2,13 +2,10 @@
 
 include "list.php";
 
-?><html>
-<head>
-<title>Test page</title>
+?><html><head><title>List widget demo</title>
 <link rel="stylesheet" href="http://leowallentin.se/css/main.min.css" />
 <link rel="stylesheet" href="//highlightjs.org/static/styles/github.css" />
-</head>
-<body><article>
+</head><body><article>
     <header>
         <h1>List widget demo</h1>
     </header>

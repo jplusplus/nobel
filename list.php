@@ -1,8 +1,6 @@
 <?php
 /* Entry point for PHP scripts. See index.php for usage examples.
 
-   Todo: Use TList for all parameter handling.
-
 */
 
 namespace Toplist;
@@ -14,23 +12,27 @@ class Widget {
 
     var $list;
     var $widget;
-    var $gender;
-    var $region;
-    var $award;
+    var $parameters;
 
     function __construct( $parameters = array() ){
-        foreach ($parameters as $k => $v){
-            $this->$k = $v;
+        foreach (TList::getParameters() as $parameter) {
+            if ( array_key_exists( $parameter, $parameters ) ){
+                $this->$parameter = $parameters[$parameter];
+            } else {
+                $this->$parameter = null;
+            }
         }
+        $this->parameters = $parameters;
     }
 
     private function _run(){
-        $this->list = new TList( array(
-                                        'gender' => $this->gender,
-                                        'length' => $this->length,
-                                        'region' => $this->region,
-                                        'award' => $this->award,
-                                       ) );
+        /* update parameters in case of any changes */
+        foreach ($this->parameters as $k => $v) {
+            if ( isset( $this->$k ) ){
+                $this->parameters[$k] = $v;
+            }
+        }
+        $this->list = new TList( $this->parameters );
         $this->widget = new TListWidget($this->list, DEBUG);
     }
 
