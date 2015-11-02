@@ -2,8 +2,9 @@
 /* Entry point for PHP scripts. See index.php for usage examples.
 
 */
-
 namespace Toplist;
+define('TopList', TRUE);
+
 require __DIR__ . '/settings.php';
 require $baseDir . 'lib/list.php';
 require $baseDir . 'lib/html.php';
@@ -13,7 +14,6 @@ require $baseDir . 'lib/html.php';
 class Counter {
 
     private $CurrentValue = 0;
-
     private static $m_pInstance; 
 
     private function __construct() {}
@@ -42,7 +42,10 @@ class Widget {
     var $validParameters;
 
     function __construct( $parameters = array() ){
+
+        $this->parameters = $parameters;
         $this->validParameters = TList::getParameters();
+        /* copy parameters to class params */
         foreach ($this->validParameters as $parameter) {
             if ( array_key_exists( $parameter, $parameters ) ){
                 $this->$parameter = $parameters[$parameter];
@@ -50,7 +53,6 @@ class Widget {
                 $this->$parameter = null;
             }
         }
-        $this->parameters = $parameters;
     }
 
     private function _run(){

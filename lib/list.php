@@ -1,6 +1,9 @@
 <?php
 /* This is the entry point for all PHP scripts */
 namespace Toplist;
+if(!defined('TopList')) {
+   die('Not permitted');
+}
 
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/db.php';

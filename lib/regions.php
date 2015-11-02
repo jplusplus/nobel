@@ -6,6 +6,9 @@
    TODO: caching
 */ 
 namespace Toplist;
+if(!defined('TopList')) {
+   die('Not permitted');
+}
 
 /* Handles all mapping of regions <-> nation/country
 */

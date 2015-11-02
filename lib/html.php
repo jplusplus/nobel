@@ -1,6 +1,9 @@
 <?php
 /* Contains all code producing list widgets and list controls */
 namespace Toplist;
+if(!defined('TopList')) {
+   die('Not permitted');
+}
 
 /* This class represents a listwidget */
 class TListWidget {

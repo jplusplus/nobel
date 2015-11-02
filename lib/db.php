@@ -2,6 +2,9 @@
 /* Contains a class for querying the Nobel laureates database.
 */ 
 namespace Toplist;
+if(!defined('TopList')) {
+   die('Not permitted');
+}
 
 require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
 require $baseDir . 'lib/regions.php'; //class RegionFinder
@@ -198,4 +201,4 @@ Class SPARQLQuery extends Query{
 //        print_r($output);
         return $output;
     }
-} 
+}

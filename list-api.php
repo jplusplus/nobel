@@ -1,4 +1,5 @@
 <?php
+define('TopList', TRUE);
 require __DIR__ . '/settings.php';
 require $baseDir . 'lib/list.php';
 
