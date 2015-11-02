@@ -39,9 +39,11 @@ class Widget {
     var $list;
     var $widget;
     var $parameters;
+    var $validParameters;
 
     function __construct( $parameters = array() ){
-        foreach (TList::getParameters() as $parameter) {
+        $this->validParameters = TList::getParameters();
+        foreach ($this->validParameters as $parameter) {
             if ( array_key_exists( $parameter, $parameters ) ){
                 $this->$parameter = $parameters[$parameter];
             } else {
@@ -56,9 +58,9 @@ class Widget {
         $widgetCounter = Counter::getInstance()->getNext();
 
         /* update parameters in case of any changes */
-        foreach ($this->parameters as $k => $v) {
-            if ( isset( $this->$k ) ){
-                $this->parameters[$k] = $v;
+        foreach ($this->validParameters as $parameter) {
+            if ( isset( $this->$parameter ) ){
+                $this->parameters[$parameter] = $this->$parameter;
             }
         }
         $this->list = new TList( $this->parameters );
