@@ -19,11 +19,12 @@ $baseDir = __DIR__ . '/';
 $baseUrl = '/nobel';
 
 /* Default number of list items, if not specified */
-const NUM_ITEMS = 10;
+define('NUM_ITEMS', 10);
 
 
 /* Debug modes */
-const PRODUCTION = 0;
-const DEBUG = 2;
+define('PRODUCTION', 0);
+define('DEVELOPMENT', 1);
+define('DEBUG', 2);
 /* Debug level. Use PRODUCTION for, well, production */
 $debugLevel = DEBUG;

@@ -52,10 +52,10 @@ class TListWidget {
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
             $js = str_replace('¤CSS', $css, $js);
             global $debugLevel;
-            if ($debugLevel === DEBUG){
+            if ( $debugLevel > PRODUCTION ){
                 $script = $this->dom->createElement('script', $js);
             } else {
-                $script = $dom->createElement('script', JShrink\Minifier::minify($js));
+                $script = $this->dom->createElement('script', \JShrink\Minifier::minify($js));
             }
             $this->dom->appendChild($script);
         }
