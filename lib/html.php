@@ -8,12 +8,13 @@ class TListWidget {
     var $laureates;
     var $dom;
     var $id;
-    var $jsSettings = array(
-                            'endpoint' => 'list-api.php',
-                            );
+    var $jsSettings;
 
 
     function __construct( TList $list, $debugMode=PRODUCTION, $id=0 ) {
+        global $baseUrl;
+        $this->jsSettings = array( 'endpoint' => "$baseUrl/list-api.php",
+                                  );
         $this->laureates = $list->getData();
         $this->id = $id;
         $this->debugMode = $debugMode;
