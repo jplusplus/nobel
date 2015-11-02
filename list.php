@@ -1,5 +1,9 @@
 <?php
-/* Entry point for PHP scripts. See index.php for usage examples. */
+/* Entry point for PHP scripts. See index.php for usage examples.
+
+   Todo: Use TList for all parameter handling.
+
+*/
 
 namespace Toplist;
 require __DIR__ . '/settings.php';
@@ -10,6 +14,9 @@ class Widget {
 
     var $list;
     var $widget;
+    var $gender;
+    var $region;
+    var $award;
 
     function __construct( $parameters = array() ){
         foreach ($parameters as $k => $v){
@@ -19,10 +26,10 @@ class Widget {
 
     private function _run(){
         $this->list = new TList( array(
-                                        'gender' => $this->gender || null,
-                                        'length' => $this->length || null,
-                                        'region' => $this->region || null,
-                                        'award' => $this->award || null,
+                                        'gender' => $this->gender,
+                                        'length' => $this->length,
+                                        'region' => $this->region,
+                                        'award' => $this->award,
                                        ) );
         $this->widget = new TListWidget($this->list, DEBUG);
     }
