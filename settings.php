@@ -29,3 +29,10 @@ define('DEVELOPMENT', 1);
 define('DEBUG', 2);
 /* Debug level. Use PRODUCTION for, well, production */
 $debugLevel = DEBUG;
+
+
+/* ----------------------------------------------- */
+
+if ($debugLevel == DEBUG){
+	error_reporting(E_ALL);	
+}
