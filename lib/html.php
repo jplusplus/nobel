@@ -72,9 +72,9 @@ class TListWidget extends TListHtml {
             $this->dom->appendChild($script);
         }
 
-        $container = $this->_createTag( 'div', '', array('class' => "toplist id_$id"));
+        $container = $this->_createTag( 'div', '', array('id' =>  'toplist-'.$id, 'class' => "toplist"));
 
-        $list = $this->_createTag( 'ul' );
+        $list = $this->_createTag( 'ul', '', array( 'class' => 'list') );
         foreach ($this->laureates as $label => $laureate) {
             $li = $this->_createTag( 'li', '', array('class' => 'list-item',
                                                      'data-id' => $laureate['id'],
@@ -132,17 +132,29 @@ class TListUI extends TListHtml {
 
 <<<END
 
-<form action="GET">
+<form action="GET" data-filter-for="#toplist-1" class="toplist-filter-ui">
  <p>Just testing...</p>
- <label for="award-input">Award</label>
- <select id="award-input" name="award"><option value="Peace">Peace</option></select>
+ <div class="row">
+    <div class="small-6 columns">
+        <label for="award-filter">Award</label>
+        <select id="award-filter" class="filter" name="award">
+            <option value="null">Filter by award</option>
+            <option value="Peace">Peace</option>
+            <option value="Chemistry">Chemistry</option>
+        </select>
+    </div>
+    <div class="small-6 columns">
+        <label for="gender-filter">Gender</label>
+        <select id="gender-filter" class="filter" name="gender">
+            <option value="null">Filter by gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+    </div>
+</div>
+    
 
- <label for="gender-input-male">male</label>
- <input type="radio" id="gender-input-male" name="gender" value="male">
- <label for="gender-input-female">female</label>
- <input type="radio" id="gender-input-female" name="gender" value="female">
-
- <input type="submit" value="Submit" class="hideonjs">
+ <input type="submit" value="Submit" class="hideonjs button">
 <form/>
 END
         );

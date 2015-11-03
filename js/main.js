@@ -6,9 +6,10 @@ Handles the current filter state
 */ 
 
 FilterSet = (function() {
-    function FilterSet(availableFilters, endpoint) {
+    function FilterSet(availableFilters, $elem, endpoint) {
         var self = this;
         self.availableFilters = availableFilters;
+        self.$elem = $elem;
         self.endpoint = endpoint;
         self.reset();
     }
@@ -56,7 +57,8 @@ FilterSet = (function() {
 
     // Send signal to list to update DOM
     FilterSet.prototype.triggerUpdate = function() {
-        $("body").trigger("update-toplist");
+        var self = this;
+        self.$elem.trigger("update");
     }
 
     FilterSet.prototype.asApiEndpoint = function() {
@@ -73,13 +75,21 @@ FilterSet = (function() {
 })();
 
 TopList = (function() {
-    function TopList(selector, filterset) {
+    function TopList($container, filterset) {
         var self = this;
-        self.$container = $(selector);
+        self.$container = $container;
+        self.$list = $container.find(".list");
+
+        // Bind filterset to DOM element
+        self.filterset = filterset;
+        $container.data("filterset", filterset);
         
         //  Make a template out of the first element in the list
-        self.$listElementTemplate = self.$container.find("li").first().clone(); 
-        self.filterset = filterset;
+        self.$listElementTemplate = self.$list.find(".list-item").first().clone();
+
+        $container.on("update", function() {
+            self.update();
+        });
     }
 
     /*  Takes data about a person and renders a list item based on the list item
@@ -117,7 +127,7 @@ TopList = (function() {
         $.getJSON(url, function(data) {
             data.forEach(function(row) {
                 var $li = self.renderListItem(row);
-                self.$container.append($li);
+                self.$list.append($li);
             })
             self.initFilterLinks();
         })
@@ -125,7 +135,7 @@ TopList = (function() {
     }
     TopList.prototype.clear = function() {
         var self = this;
-        self.$container.empty();
+        self.$list.empty();
     }
     return TopList;
 })();
@@ -138,13 +148,8 @@ TopList = (function() {
 ==============
 */ 
 
-/*  Store the current state of the list this global variable
-    Valid filters are defined here.
-*/
-gToplistSettings.state = new FilterSet(["gender", "award", "country"], gToplistSettings.endpoint);
 
-// Get current filters from url params
-gToplistSettings.state.urlSync();
+var topLists = {};
 
 var pageInitialized = false; //Prevent ready block to fire twice;
 $(document).ready(function() {
@@ -163,10 +168,27 @@ $(document).ready(function() {
         css.innerHTML += cssCode;
     }
 
-    var topList = new TopList(".toplist ul", gToplistSettings.state);
-    topList.update();
-    $("body").on("update-toplist", function() {
-        topList.update();
+    $(".toplist").each(function() {
+        var $el = $(this);
+        var id = $el.attr("id");
+
+        var filterset = new FilterSet(["gender", "award", "country"], $el, gToplistSettings.endpoint);
+        filterset.urlSync();
+        topLists[id] = new TopList($el, filterset);
+    })
+
+    $(".toplist-filter-ui").each(function() {
+        var $form = $(this);
+        var $toplist = $( $form.attr("data-filter-for") );
+        $form.find(".filter").on("change", function() {
+            var $select = $(this);
+            var key = $select.attr("name");
+            var value = $select.val();
+            value = (value == "null" && value == "") ? null : value;
+            var filter = {};
+            filter[key] = value;
+            $toplist.data("filterset").changeFilter(filter);
+        })
     })
 });
 
