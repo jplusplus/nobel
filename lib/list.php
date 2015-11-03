@@ -15,14 +15,12 @@ class TList {
     var $profileDataFile;
     static $validationRules = array (
             'length'    => 'integer|min_numeric,3|max_numeric,50',
-            'debug'     => 'boolean',
             'award'     => 'alpha',
             'gender'    => 'alpha',
             'region'    => 'alpha_dash',
         );
     static $filterRules = array(
             'length' => 'trim|sanitize_numbers',
-            'debug'  => 'trim',
             'award'  => 'trim|sanitize_string',
             'gender' => 'trim|sanitize_string',
             'region' => 'trim',
@@ -42,7 +40,10 @@ class TList {
         $parameters = $gump->run($parameters);
 
         if($parameters === false) {
-            echo $gump->get_readable_errors(true); //DEBUG
+            global $debugLevel;
+            if ( $debugLevel >= DEBUG ) {
+                echo $gump->get_readable_errors( true );
+            }
             $parameters = array();
         }
 
@@ -85,6 +86,7 @@ class TList {
             }
             $row['popularity'] = $sparkline;
         }
+        unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
 
         return array_values (array_slice($list, 0, $this->list_length));
 
