@@ -75,6 +75,17 @@ class TList {
                 $list[$row[1]]['stats_url'] = $row[0];
             }
         }
+        // Add random sparkline data
+        foreach ($list as &$row) {
+            $min = rand(0, 80);
+            $max = rand(50, 500);
+            $sparkline = array();
+            for ($i = 0; $i < 120; $i++) {
+                $sparkline[] = rand($min, $max);
+            }
+            $row['popularity'] = $sparkline;
+        }
+
         return array_values (array_slice($list, 0, $this->list_length));
 
     }
