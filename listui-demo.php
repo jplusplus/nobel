@@ -5,9 +5,12 @@
 include "list.php";
 
 ?><html><head><title>List UI demo</title>
-<link rel="stylesheet" href="http://leowallentin.se/css/main.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.css" />
+<link rel="stylesheet" href="//www.nobelprize.org/css/nobel_custom.css?v=20141203" />
 <link rel="stylesheet" href="//highlightjs.org/static/styles/github.css" />
-</head><body><article>
+</head><body><article class="row">
+
+
     <header>
         <h1>List UI demo</h1>
     </header>
