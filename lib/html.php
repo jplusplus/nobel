@@ -5,25 +5,16 @@ if(!defined('TopList')) {
    die('Not permitted');
 }
 
-/* This class represents a listwidget */
-class TListWidget {
+/* Base class for html producing classes */
+class TListHtml {
 
-    var $laureates;
     var $dom;
-    var $id;
-    var $jsSettings;
 
-
-    function __construct( TList $list, $id=0 ) {
-        global $baseUrl;
-        $this->jsSettings = array( 'endpoint' => "$baseUrl/list-api.php",
-                                  );
-        $this->laureates = $list->getData();
-        $this->id = $id;
+    function __construct() {
+        $this->dom = new \DOMDocument('1.0', 'utf-8');
     }
 
-
-    private function _createTag($tag, $content = '', $attributes = array()){
+    protected function _createTag($tag, $content = '', $attributes = array()){
         $element = $this->dom->createElement($tag, $content);
         foreach ($attributes as $key => $val){
             $attr = $this->dom->createAttribute($key);
@@ -33,9 +24,30 @@ class TListWidget {
         return $element;
     }
 
+    public function printHTML(){
+        echo $this->getHTML();
+    }
+
+}
+
+/* This class represents a listwidget */
+class TListWidget extends TListHtml {
+
+    var $laureates;
+    var $id;
+    var $jsSettings;
+
+    function __construct( TList $list, $id=0 ) {
+        parent::__construct();
+
+        global $baseUrl;
+        $this->jsSettings = array( 'endpoint' => "$baseUrl/list-api.php",
+                                  );
+        $this->laureates = $list->getData();
+        $this->id = $id;
+    }
 
     function getHTML(){
-        $this->dom = new \DOMDocument('1.0', 'utf-8');
 
         $id = $this->id;
         if ($id === 1){
@@ -103,8 +115,36 @@ class TListWidget {
 
     }
 
-    function printHTML(){
-        echo $this->getHTML();
+}
+
+/* This class represents a full UI (a list with filter controls) */
+/* There can only be one full UI at the same page */
+class TListUI extends TListHtml {
+
+    function __construct( ) {
+        parent::__construct();
+
+
+    }
+
+    function getHTML(){
+        $this->dom->loadHTML(
+
+<<<END
+
+<form action="GET">
+ <label for="award-input">Award</label>
+ <select id="award-input" name="award"><option value="Peace">Peace</option></select>
+
+ <label for="gender-input-male">male</label>
+ <input type="radio" id="gender-input-male" name="gender" value="male" />
+ <label for="gender-input-female">female</label>
+ <input type="radio" id="gender-input-female" name="gender" value="female" />
+
+<form/>
+END
+        );
+        return $this->dom->saveHTML();
     }
 
 }

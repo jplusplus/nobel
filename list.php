@@ -90,7 +90,10 @@ function printWidget( $parameters = array() ){
     $obj->printHTML();
 }
 
-function printUI( ){
-    $obj = new Widget( $_GET );
+function printUI(){
+    $obj = new TListUI();
     $obj->printHTML();
+
+    $listObj = new Widget( $_GET );
+    $listObj->printHTML();
 }
