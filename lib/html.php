@@ -133,14 +133,16 @@ class TListUI extends TListHtml {
 <<<END
 
 <form action="GET">
+ <p>Just testing...</p>
  <label for="award-input">Award</label>
  <select id="award-input" name="award"><option value="Peace">Peace</option></select>
 
  <label for="gender-input-male">male</label>
- <input type="radio" id="gender-input-male" name="gender" value="male" />
+ <input type="radio" id="gender-input-male" name="gender" value="male">
  <label for="gender-input-female">female</label>
- <input type="radio" id="gender-input-female" name="gender" value="female" />
+ <input type="radio" id="gender-input-female" name="gender" value="female">
 
+ <input type="submit" value="Submit" class="hideonjs">
 <form/>
 END
         );
