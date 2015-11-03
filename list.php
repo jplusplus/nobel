@@ -3,9 +3,13 @@
 
 */
 namespace Toplist;
-define('TopList', TRUE);
+if(!defined('TopList')) {
+    define('TopList', TRUE);
+}
+if(!defined('SETTINGS')) {
+    require __DIR__ . '/settings.php';
+}
 
-require __DIR__ . '/settings.php';
 require $baseDir . 'lib/list.php';
 require $baseDir . 'lib/html.php';
 

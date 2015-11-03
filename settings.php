@@ -3,6 +3,7 @@ namespace Toplist;
 if(!defined('TopList')) {
    die('Not permitted');
 }
+define('SETTINGS', true);
 
 /* -------------- GLOBAL SETTINGS --------------- */
 
