@@ -54,7 +54,7 @@ class TList {
     }
 
     /* Get all allowed parameters */
-    function getParameters(){
+    static function getParameters(){
         return array_keys(self::$validationRules);
     }
 
