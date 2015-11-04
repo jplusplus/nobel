@@ -182,7 +182,7 @@ Class SPARQLQuery extends Query{
             }
             /* DBPedia */
             if (isset($value['sameAs'])){
-                $host = parse_url($value['sameAs'])['host'];
+                $host = parse_url($value['sameAs'], PHP_URL_HOST);
                 if ('dbpedia.org' === $host){
                     $output[$key]['dbPedia'] = $value['sameAs'];
                 }
