@@ -1,3 +1,7 @@
+body {
+    background: none;
+}
+
 .filterable {
     text-decoration: underline;
     cursor: pointer;
