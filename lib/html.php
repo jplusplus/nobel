@@ -61,7 +61,7 @@ class TListWidget extends TListHtml {
             $js = file_get_contents($baseDir . 'js/main.js');
             $css = file_get_contents($baseDir . 'css/main.css');
             $css = str_replace("\n", "", $css);
-            $js = 'var gToplistSettings = ' . json_encode($this->jsSettings, JSON_UNESCAPED_UNICODE) . ';' . $js;
+            $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';' . $js;
             $js = str_replace('¤CSS', $css, $js);
             global $debugLevel;
             if ( $debugLevel > PRODUCTION ){
