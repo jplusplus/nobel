@@ -168,7 +168,7 @@ Class SPARQLQuery extends Query{
 
             /* award, award-year */
             if (isset($value['prize'])){
-                $pathParts = explode('/', parse_url($value['prize'])["path"]);
+                $pathParts = explode('/', parse_url($value['prize'], PHP_URL_PATH));
                 $award = array('award' => $pathParts[3],
                                'year'  => $pathParts[4]);
                 if (!in_array($award, $output[$key]['awards'])) {
@@ -190,7 +190,7 @@ Class SPARQLQuery extends Query{
 
             /* country, city */
             if (isset($value["birthPlace"])){
-                $pathParts = explode('/', parse_url($value["birthPlace"])["path"]);
+                $pathParts = explode('/', parse_url($value["birthPlace"], PHP_URL_PATH));
                 if ($pathParts[2] === 'country'){
                     $output[$key]['country'] = $pathParts[3];
                 } elseif ($pathParts[2] === 'city'){
