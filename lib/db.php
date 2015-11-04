@@ -160,11 +160,7 @@ Class SPARQLQuery extends Query{
             $output[$key]['name'] = $value["label"];
 
             /* id */
-            global $debugLevel;
-            if ($debugLevel === DEBUG){
-                file_put_contents('php://stderr', print_r($value, TRUE));
-            }
-            $pathParts = explode('/', parse_url($value['laur'])["path"]);
+            $pathParts = explode('/', parse_url($value['laur'], PHP_URL_PATH));
             $output[$key]['id'] = array_pop($pathParts);
 
             /* url */
