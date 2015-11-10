@@ -24,8 +24,8 @@ class TListHtml {
         return $element;
     }
 
-    public function printHTML(){
-        echo $this->getHTML();
+    public function printHTML( $params = null ){
+        echo $this->getHTML( $params );
     }
 
     /* Concat and return content of all files */
@@ -179,13 +179,13 @@ class TListWidget extends TListHtml {
 /* There can only be one full UI at the same page */
 class TListUI extends TListHtml {
 
-    function __construct( ) {
+    function __construct() {
         parent::__construct();
 
 
     }
 
-    function getHTML(){
+    function getHTML( $selectedParams = array()){
 
         $intro = $this->loremIpsum(250);
         $options = array('null' => 'Filter by award');
@@ -198,7 +198,12 @@ class TListUI extends TListHtml {
                         'Economic_Sciences' => 'Economic sciences');
         $optionsCode = '';
         foreach ($options as $key => $value) {
-            $optionsCode .= "<option value=\"$key\">$value</option>";
+            if ( isset($selectedParams['award']) && $selectedParams['award'] === $key ){
+                $selected = ' selected';
+            } else {
+                $selected = ' ';
+            }
+            $optionsCode .= "<option value=\"$key\" $selected>$value</option>";
         }
 
         $this->dom->loadHTML(
