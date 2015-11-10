@@ -5,9 +5,20 @@
 include "list.php";
 
 ?><html><head><title>List UI demo</title>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.css" />
+<!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.css" />-->
+
+<link rel="stylesheet" href="css/foundation.min.css" />
 <link rel="stylesheet" href="//www.nobelprize.org/css/nobel_custom.css?v=20141203" />
+
 <link rel="stylesheet" href="//highlightjs.org/static/styles/github.css" />
+
+<style>
+    /* FOR DEMO PAGE ONLY */
+    body {
+        background-image: none;
+    }
+</style>
+
 </head><body><article class="row">
 
 

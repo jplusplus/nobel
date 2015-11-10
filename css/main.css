@@ -6,7 +6,34 @@ body {
     text-decoration: underline;
     cursor: pointer;
 }
-.list-item span {
-    display: inline-block;
-    padding: 0 4px;
+
+
+
+.toplist {
+    counter-reset: toplist-counter;
+}
+
+/* --- LIST ITEM ---
+*/
+.toplist .list-item {
+    position: relative;
+    padding: 4px 0 10px 0;
+    padding-left: 43px;
+    border-top: 1px solid #CECECE;
+}
+/* List numbering */
+.toplist .list-item:before {
+    content: counter(toplist-counter);
+    counter-increment: toplist-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font: 'Libre Baskerville', serif;
+    font-size: 32px;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.toplist .list-item .name {
+    font-size: 1.3em;
 }

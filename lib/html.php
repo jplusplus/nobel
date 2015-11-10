@@ -89,12 +89,12 @@ class TListWidget extends TListHtml {
             $h3->appendChild($a);
             $li->appendChild($h3);
 
-            $genderspan = $this->_createTag( 'span', $laureate["gender"], array(
+            /*$genderspan = $this->_createTag( 'span', $laureate["gender"], array(
                                                                             "class" => "gender filterable",
                                                                             "data-filter-key" => "gender",
                                                                             "data-filter-value" => $laureate["gender"]
                                                                             ));
-            $li->appendChild($genderspan);
+            $li->appendChild($genderspan);*/
             
             $awardsString = implode(', ', array_map(function($el){
                                                         return str_replace( '_', ' ', $el['award'] ) . ' (' . $el['year'] . ')';
