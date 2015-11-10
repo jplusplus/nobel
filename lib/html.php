@@ -96,10 +96,15 @@ class TListWidget extends TListHtml {
                                                      'data-name' => $laureate['name'],
                                                      'data-gender' => $laureate['gender'],
                                                      'data-awards' => json_encode($laureate['awards']),
-                                                     'data-popularity' => implode(",", $laureate['popularity'])
                                                      )
                                     );
             
+            $sparklinediv = $this->_createTag( 'div', '', array(
+                                                            "class" => "sparkline popularity",
+                                                            "data-values" => implode(",", $laureate['popularity'])
+                                                        ));
+            $li->appendChild($sparklinediv);
+
             $h3 = $this->_createTag( 'h3', '', array("class" => "name"));
             $a = $this->_createTag('a', $laureate["name"], array("href" => $laureate['laureates_url']));
             $h3->appendChild($a);
@@ -118,8 +123,6 @@ class TListWidget extends TListHtml {
             $awardspan = $this->_createTag( 'span', $awardsString, array("class" => "awards"));
             $li->appendChild($awardspan);
 
-            $sparklinediv = $this->_createTag( 'div', '', array("class" => "sparkline popularity"));
-            $li->appendChild($sparklinediv);
 
             $list->appendChild($li);
         }
