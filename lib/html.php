@@ -18,7 +18,7 @@ class TListHtml {
         $element = $this->dom->createElement($tag, $content);
         foreach ($attributes as $key => $val){
             $attr = $this->dom->createAttribute($key);
-            $attr->value = $val;
+            $attr->value = htmlentities($val);
             $element->appendChild($attr);
         }
         return $element;
@@ -37,6 +37,19 @@ class TListHtml {
         }
         return $str;
 
+    }
+
+    /* retun an array of <option> html strings */
+    protected function _createOptions( array $options, $selected = null ){
+        $optionsCode = array();
+        foreach ($options as $key => $value) {
+            if ( $selected === $key ){
+                $selected = ' selected';
+            } else {
+                $selected = ' ';
+            }
+            $optionsCode[] = "<option value=\"$key\" $selected>$value</option>";
+        }
     }
 
     /* Return everything under js/$dir/ and css/$dir as a string */
