@@ -130,7 +130,8 @@ class TListWidget extends TListHtml {
                                                      'data-awards' => json_encode($laureate['awards']),
                                                      )
                                     );
-            
+
+            // Wikipedia sparkline            
             $wikipediaContainer = $this->_createTag( 'div', '', array("class" => "popularity wikipedia" ));
 
             $wikipediaSparkline = $this->_createTag( 'span', '', array(
@@ -143,6 +144,20 @@ class TListWidget extends TListHtml {
             $wikipediaContainer -> appendChild($wikipediaTitle);
 
             $li->appendChild($wikipediaContainer);
+
+            // Page view sparkline
+            $pageViewContainer = $this->_createTag( 'div', '', array("class" => "page-views popularity" ));
+
+            $pageViewSparkline = $this->_createTag( 'span', '', array(
+                                                            "class" => "sparkline",
+                                                            "data-values" => implode(",", $laureate['popularity'])
+                                                        ));
+            $pageViewTitle = $this->_createTag('span', 'Page views on nobel.se, 20XX-', array("class" => "title"));
+
+            $pageViewContainer -> appendChild($pageViewSparkline);
+            $pageViewContainer -> appendChild($pageViewTitle);
+
+            $li->appendChild($pageViewContainer);
 
             $h3 = $this->_createTag( 'h3', '', array("class" => "name"));
             $a = $this->_createTag('a', $laureate["name"], array("href" => $laureate['laureates_url']));
@@ -226,6 +241,9 @@ class TListUI extends TListHtml {
             <option value="female">Female</option>
         </select>
     </div>
+</div>
+<div class="row">
+
     <div class="small-6 columns">
         <label for="region-filter">Region</label>
         <select id="region-filter" class="filter" name="region">
@@ -239,7 +257,15 @@ class TListUI extends TListHtml {
             <option value="north-america" class="optchild">&nbsp;&nbsp;&nbsp;Nouth</option>
         </select>
     </div>
- </div>
+    <div class="small-6 columns">
+        <label for="parkline-select">Popularity measure</label>
+        <select id="sparkline-select" class="" name="sparkline-select">
+            <option value="page-views">Page views</option>
+            <option value="wikipedia">Wikipedia</option>
+        </select>
+    </div>
+</div>
+
     
  <input type="submit" value="Submit" class="hideonjs button">
 </form>
