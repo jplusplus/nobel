@@ -40,7 +40,11 @@ class TListHtml {
         $cssFiles = glob($baseDir . 'css/' . $dir . '/*.css');
         $css = '';
         foreach( $cssFiles as $file ){
-            $css .= str_replace("\n", "", $css);
+            $css .= htmlspecialchars(file_get_contents($file));
+        }
+        global $debugLevel;
+        if ( $debugLevel > PRODUCTION ){
+            $css = str_replace("\n", "", $css);
         }
         $js = str_replace('¤CSS', $css, $js);
 
