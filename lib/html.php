@@ -109,11 +109,18 @@ class TListWidget extends TListHtml {
                                                      )
                                     );
             
-            $sparklinediv = $this->_createTag( 'div', '', array(
-                                                            "class" => "sparkline popularity",
+            $wikipediaContainer = $this->_createTag( 'div', '', array("class" => "popularity wikipedia" ));
+
+            $wikipediaSparkline = $this->_createTag( 'span', '', array(
+                                                            "class" => "sparkline",
                                                             "data-values" => implode(",", $laureate['popularity'])
                                                         ));
-            $li->appendChild($sparklinediv);
+            $wikipediaTitle = $this->_createTag('span', 'Page views on Wikipedia, 2007-', array("class" => "title"));
+
+            $wikipediaContainer -> appendChild($wikipediaSparkline);
+            $wikipediaContainer -> appendChild($wikipediaTitle);
+
+            $li->appendChild($wikipediaContainer);
 
             $h3 = $this->_createTag( 'h3', '', array("class" => "name"));
             $a = $this->_createTag('a', $laureate["name"], array("href" => $laureate['laureates_url']));

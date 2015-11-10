@@ -26,7 +26,7 @@ TopList = (function() {
         $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
         $listItem.find(".country").text(row.country);
         $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + "("+ d.year +")" }));        
-        $listItem.find(".popularity.sparkline").attr("data-values", row.popularity.join(","));
+        $listItem.find(".popularity.wikipedia .sparkline").attr("data-values", row.popularity.join(","));
         return $listItem;
     }
 
@@ -50,9 +50,14 @@ TopList = (function() {
                 height: "2em",
                 lineColor: "#666",
                 fillColor: "#eee",
+                minSpotColor: false,
                 maxSpotColor: "#EEA200",
+                highlightSpotColor: "#EEA200",
+                highlightLineColor: "#EEA200",
+                spotRadius: 2,
                 chartRangeMin: 0,
-                tagValuesAttribute: "data-values"
+                tagValuesAttribute: "data-values",
+                disableInteraction: true,
             });
         });
         return self;
