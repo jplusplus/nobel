@@ -18,9 +18,11 @@ body {
 .toplist .list-item {
     position: relative;
     padding: 4px 0 10px 0;
-    padding-left: 43px;
+    padding-left: 97px;
     border-top: 1px solid #CECECE;
     clear: both;
+    padding-top: 10px;
+    min-height: 85px;
 }
 /* List numbering */
 .toplist .list-item:before {
@@ -37,8 +39,14 @@ body {
 
 .toplist .list-item .name {
     font-size: 1.3em;
+    padding-top: 0;
 }
 
+.toplist .image {
+    position: absolute;
+    left: 40px;
+    width: 40px;
+}
 
 
 /* SPARKLINE
