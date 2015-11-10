@@ -4,6 +4,9 @@ namespace Toplist;
 if(!defined('TopList')) {
    die('Not permitted');
 }
+if(!defined('SETTINGS')) {
+    require __DIR__ . '/settings.php';
+}
 
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/db.php';
@@ -76,7 +79,7 @@ class TList {
                 $list[$row[1]]['stats_url'] = $row[0];
             }
         }
-        // Add random sparkline data
+        // Add random sparkline data, link and image
         foreach ($list as &$row) {
             $min = rand(0, 80);
             $max = rand(50, 500);
@@ -85,6 +88,9 @@ class TList {
                 $sparkline[] = rand($min, $max);
             }
             $row['popularity'] = $sparkline;
+            global $profilePageUrl;
+            $row['url'] = sprintf($profilePageUrl, $row['id']);
+
         }
         unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
 
