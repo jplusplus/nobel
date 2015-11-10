@@ -47,6 +47,17 @@ class TListHtml {
         return $js;
     }
 
+    /* Append a script tag with $js */
+    protected function _appendScript( $js ){
+        global $debugLevel;
+        if ( $debugLevel > PRODUCTION ){
+            $script = $this->dom->createElement('script', $js);
+        } else {
+            $script = $this->dom->createElement('script', \JShrink\Minifier::minify($js));
+        }
+        $this->dom->appendChild($script);
+    }
+
 }
 
 /* This class represents a listwidget */
@@ -78,13 +89,8 @@ class TListWidget extends TListHtml {
             /* Append script tag with main.js and sparkline.js */
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
             $js .= $this->_getScripts('list');
-            global $debugLevel;
-            if ( $debugLevel > PRODUCTION ){
-                $script = $this->dom->createElement('script', $js);
-            } else {
-                $script = $this->dom->createElement('script', \JShrink\Minifier::minify($js));
-            }
-            $this->dom->appendChild($script);
+            $this->_appendScript( $js );
+
         }
 
         $container = $this->_createTag( 'div', '', array('id' =>  'toplist-'.$id, 'class' => "toplist"));
@@ -147,6 +153,10 @@ class TListUI extends TListHtml {
     }
 
     function getHTML(){
+
+        $js = $this->_getScripts('ui');
+        $this->_appendScript( $js );
+
         $this->dom->loadHTML(
 
 <<<END
