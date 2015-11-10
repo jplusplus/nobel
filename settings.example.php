@@ -23,7 +23,13 @@ $baseUrl = '/nobel';
 $maxListItems = 10;
 
 /* Profile page url. %d will be replaced by numeric id */
-$profilePageUrl = 'http://www.nobelprize.org/nobel_prizes/redirect_to_facts.php?id=%d';
+$gProfilePageUrl = 'http://www.nobelprize.org/nobel_prizes/redirect_to_facts.php?id=%d';
+
+/* Url to thumbnail service.                      */
+/* Should return an approximately 162 px wide     */
+/* image, the closer to a square the better.      */
+/* %d will be replaced by numeric id.             */
+$gImageAPI = 'http://www.nobelprize.org/nobel_prizes/get_image.php?id=%d&size=3';
 
 /* Debug modes */
 define('PRODUCTION', 0);

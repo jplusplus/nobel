@@ -88,8 +88,10 @@ class TList {
                 $sparkline[] = rand($min, $max);
             }
             $row['popularity'] = $sparkline;
-            global $profilePageUrl;
-            $row['url'] = sprintf($profilePageUrl, $row['id']);
+            global $gProfilePageUrl;
+            $row['url'] = sprintf($gProfilePageUrl, $row['id']);
+            global $gImageAPI;
+            $row['image'] = sprintf($gImageAPI, $row['id']);
 
         }
         unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
