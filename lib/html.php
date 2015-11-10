@@ -67,11 +67,26 @@ class Html {
         /* only print common js and CSS injector once */
         if ($this->fragmentNumber === 1){
             $js = $this->_getScripts('common', 'js');
+            $css = $this->css;
             global $debugLevel;
             if ( $debugLevel > PRODUCTION ){
-                $this->css = str_replace("\n", "", $this->css);
+                $css = str_replace("\n", "", $css);
             }
-            $js = str_replace('¤CSS', $this->css, $js);
+            $js .= <<<END
+$(document).ready(function() {
+    /* inject CSS */
+    var css = document.createElement("style");
+    document.getElementsByTagName("head")[0].appendChild(css);
+    var cssCode = "$css";
+    if (css.styleSheet) {
+        // IE
+        css.styleSheet.cssText += cssCode;
+    } else {
+        // Other browsers
+        css.innerHTML += cssCode;
+    }
+});
+END;
             $this->_appendScript( $js );
 
         }
