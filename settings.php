@@ -22,7 +22,7 @@ $baseUrl = '/nobel';
 /* Default number of list items, if not specified */
 $maxListItems = 10;
 
-/* Profile page url. %d will be replaced by a numeric id */
+/* Profile page url. %d will be replaced by numeric id */
 $profilePageUrl = 'http://www.nobelprize.org/nobel_prizes/redirect_to_facts.php?id=%d';
 
 /* Debug modes */
