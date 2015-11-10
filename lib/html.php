@@ -5,13 +5,45 @@ if(!defined('TopList')) {
    die('Not permitted');
 }
 
+/* Counter singleton for html snippets */
+class SnippetCounter {
+
+    private $CurrentValue = 0;
+    private static $m_pInstance; 
+
+    private function __construct() {}
+
+    public static function getInstance() {
+        if (!self::$m_pInstance) {
+            self::$m_pInstance = new SnippetCounter();
+        }
+        return self::$m_pInstance;
+    }
+
+    public function getNext() {
+        $this->CurrentValue += 1;
+        return $this->CurrentValue;
+    }
+
+}
+
 /* Base class for html producing classes */
-class TListHtml {
+class Html {
 
     var $dom;
+    var $fragmentNumber;
 
     function __construct() {
         $this->dom = new \DOMDocument('1.0', 'utf-8');
+        /* keep track of the html fragments */
+        $this->fragmentNumber = SnippetCounter::getInstance()->getNext();
+        if ( $this->fragmentNumber === 1 ){
+            /* Make sure jQuery loads */
+            $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
+            $script = $this->dom->createElement('script', $jquery_js);
+            $this->dom->appendChild($script);
+
+        }
     }
 
     protected function _createTag( $tag, $content = '', $attributes = array() ){
@@ -24,6 +56,16 @@ class TListHtml {
         return $element;
     }
 
+    /* Child classes should always call this 
+       function before returning their HTML
+    */
+    protected function _finalizeHtml() {
+        $js = $this->_getScripts('common');
+        $this->_appendScript( $js );
+        return $this->dom->saveHTML();
+    } 
+
+    /* Echo returned HTML to the screen */
     public function printHTML( $params = null ){
         echo $this->getHTML( $params );
     }
@@ -122,7 +164,7 @@ END;
 }
 
 /* This class represents a listwidget */
-class TListWidget extends TListHtml {
+class TListWidget extends Html {
 
     var $laureates;
     var $id;
@@ -142,12 +184,7 @@ class TListWidget extends TListHtml {
 
         $id = $this->id;
         if ($id === 1){
-            /* Append script tag with jQuery */
-            $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
-            $script = $this->dom->createElement('script', $jquery_js);
-            $this->dom->appendChild($script);
-
-            /* Append script tag */
+            /* Add gToplistSettings */
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
             $js .= $this->_getScripts('list');
             $this->_appendScript( $js );
@@ -221,10 +258,9 @@ class TListWidget extends TListHtml {
             $list->appendChild($li);
         }
         $container->appendChild($list);
-
         $this->dom->appendChild($container);
 
-        return $this->dom->saveHTML();
+        return $this->_finalizeHtml();
 
     }
 
@@ -232,7 +268,7 @@ class TListWidget extends TListHtml {
 
 /* This class represents a full UI (a list with filter controls) */
 /* There can only be one full UI at the same page */
-class TListUI extends TListHtml {
+class TListUI extends Html {
 
     function __construct() {
         parent::__construct();
@@ -286,7 +322,14 @@ class TListUI extends TListHtml {
 
         $regionOptionsCode = implode("\n", $this->_createOptions($regionOptions, isset($selectedParams['region']) ? $selectedParams['region'] : null ));
 
-        $this->dom->loadHTML(
+        $statOptions = array(
+                        'page-views' => 'Page views',
+                        'wikipedia' => 'Wikipedia',
+                    );
+        $statOptionsCode = implode("\n", $this->_createOptions($statOptions));
+
+        $formDom = new \DOMDocument();
+        $formDom->loadHTML(
 
 <<<END
 <form action="" method="GET" data-filter-for="#toplist-1" class="toplist-filter-ui">
@@ -316,8 +359,7 @@ class TListUI extends TListHtml {
     <div class="small-6 columns">
         <label for="sparkline-select">Popularity measure</label>
         <select id="sparkline-select" class="" name="sparkline-select">
-            <option value="page-views">Page views</option>
-            <option value="wikipedia">Wikipedia</option>
+            $statOptionsCode
         </select>
     </div>
 </div>
@@ -328,10 +370,13 @@ class TListUI extends TListHtml {
 END
         , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 
+        $tempImported = $this->dom->importNode($formDom->getElementsByTagName("form")->item(0), true);
+        $this->dom->appendChild($tempImported);
+
         $js = $this->_getScripts('ui');
         $this->_appendScript( $js );
 
-        return $this->dom->saveHTML();
+        return $this->_finalizeHtml();
     }
 
 }
