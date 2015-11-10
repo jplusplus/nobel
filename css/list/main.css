@@ -39,7 +39,17 @@ body {
     font-size: 1.3em;
 }
 
-.toplist .list-item .sparkline {
+
+
+/* SPARKLINE
+*/
+.toplist .list-item .popularity {
     float: right;
     max-width: 200px;
+}
+.toplist .list-item .popularity .title {
+    font-size: 8px;
+    color: #939393;
+    display: block;
+    text-align: center;
 }
