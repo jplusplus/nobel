@@ -177,9 +177,6 @@ class TListUI extends TListHtml {
 
     function getHTML(){
 
-        $js = $this->_getScripts('ui');
-        $this->_appendScript( $js );
-
         $intro = $this->loremIpsum(250);
         $options = array('null' => 'Filter by award');
         $options += array(
@@ -197,7 +194,7 @@ class TListUI extends TListHtml {
         $this->dom->loadHTML(
 
 <<<END
-<form action="GET" data-filter-for="#toplist-1" class="toplist-filter-ui">
+<form action="" method="GET" data-filter-for="#toplist-1" class="toplist-filter-ui">
  <p>$intro</p>
  <div class="row">
     <div class="small-6 columns">
@@ -214,13 +211,29 @@ class TListUI extends TListHtml {
             <option value="female">Female</option>
         </select>
     </div>
-</div>
+    <div class="small-6 columns">
+        <label for="region-filter">Region</label>
+        <select id="region-filter" class="filter" name="region">
+            <option value="null">Filter by region</option>
+            <option value="asia">Asia</option>
+            <option value="africa">Africa</option>
+            <option value="europe">Europe</option>
+            <option value="oceania">Oceania</option>
+            <option value="america" class="optgroup">America</option>
+            <option value="south-america" class="optchild">&nbsp;&nbsp;&nbsp;South</option>
+            <option value="north-america" class="optchild">&nbsp;&nbsp;&nbsp;Nouth</option>
+        </select>
+    </div>
+ </div>
     
-
  <input type="submit" value="Submit" class="hideonjs button">
-<form/>
+</form>
 END
-        );
+        , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+
+        $js = $this->_getScripts('ui');
+        $this->_appendScript( $js );
+
         return $this->dom->saveHTML();
     }
 
