@@ -14,7 +14,7 @@ class TListHtml {
         $this->dom = new \DOMDocument('1.0', 'utf-8');
     }
 
-    protected function _createTag($tag, $content = '', $attributes = array()){
+    protected function _createTag( $tag, $content = '', $attributes = array() ){
         $element = $this->dom->createElement($tag, $content);
         foreach ($attributes as $key => $val){
             $attr = $this->dom->createAttribute($key);
@@ -62,6 +62,25 @@ class TListHtml {
         $this->dom->appendChild($script);
     }
 
+    /* Return $length characters of lorem ipsum. */
+    public function loremIpsum( $length ){
+
+        $lorem = <<<END
+        Posse dicta cotidieque ei eum, at illud decore regione mei, everti eripuit cu quo. Graeco perfecto id est, vis legere iuvaret definitiones no. Quo imperdiet consectetuer et, per cu rebum tractatos conceptam. Quot ponderum gubergren cu mei, ea sed adhuc idque quaerendum, no inimicus vulputate usu.
+Vim at invidunt volutpat, ne vel atqui timeam singulis. At veri dissentiet deterruisset per, solet discere eu eum. Et has prompta placerat perpetua, eruditi ocurreret vituperatoribus no mea. Putent conceptam incorrupte an vix, mel ei veri ponderum. Amet falli dicam ei qui, sit aliquam consequat ea, mea dolor nominavi gubergren ut.
+Impedit fabellas ad vis, eu lucilius expetenda quo, aeterno saperet cu mel. Duo ut meis contentiones, tation graecis instructior at cum. Mea ex persius convenire patrioque, magna constituto sit et, id mel odio minimum signiferumque. Id ius esse justo mnesarchum, mel dicit disputando deterruisset ne, has soleat inermis efficiantur no.
+Inani habemus atomorum vim ad, ludus docendi euripidis his no, aliquid electram percipitur ea quo. Cum rebum labores an, et has ornatus dolorem. Te has vidit ocurreret, adolescens deseruisse ad per, eam verear necessitatibus cu. Ipsum detracto corrumpit ne his, cu harum iudicabit est. Quaeque meliore dissentiunt ea eum, tation dissentiet duo ex.
+Nonumy animal aliquip usu eu, te paulo laoreet sed, autem illud nobis sea eu. Sea no tota civibus ullamcorper, id usu oratio doctus quaerendum, an ferri utinam vix. Et agam officiis eum, eos at alii philosophia voluptatibus. Diam corrumpit disputando ex quo. Ferri maluisset persecuti ad mel, ut equidem tibique ullamcorper usu. Nec cu vocent latine fastidii, vel ut scripta pericula accusamus.
+Id nec enim facer ancillae. Pri ut possit consulatu, pro te eius insolens, vis eu nihil dissentias. Pro eu graeci noster, vis epicuri molestie rationibus in. Ius ne hinc liber consulatu, duo cu malis doctus minimum.
+END;
+        $str = mb_substr( $lorem, 0, $length);
+        $lastSpace = strrpos( $str, " " );
+        if ($lastSpace) {
+            $str = mb_substr( $str, 0, $lastSpace);
+        }
+        return $str;
+    }
+
 }
 
 /* This class represents a listwidget */
@@ -90,7 +109,7 @@ class TListWidget extends TListHtml {
             $script = $this->dom->createElement('script', $jquery_js);
             $this->dom->appendChild($script);
 
-            /* Append script tag with main.js and sparkline.js */
+            /* Append script tag */
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
             $js .= $this->_getScripts('list');
             $this->_appendScript( $js );
@@ -161,19 +180,30 @@ class TListUI extends TListHtml {
         $js = $this->_getScripts('ui');
         $this->_appendScript( $js );
 
+        $intro = $this->loremIpsum(250);
+        $options = array('null' => 'Filter by award');
+        $options += array(
+                        'Physics' => 'Physics',
+                        'Chemistry' => 'Chemistry',
+                        'Literature' => 'Literature',
+                        'Peace' => 'Peace',
+                        'Physiology_or_Medicine' => 'Physiology or medicine',
+                        'Economic_Sciences' => 'Economic sciences');
+        $optionsCode = '';
+        foreach ($options as $key => $value) {
+            $optionsCode .= "<option value=\"$key\">$value</option>";
+        }
+
         $this->dom->loadHTML(
 
 <<<END
-
 <form action="GET" data-filter-for="#toplist-1" class="toplist-filter-ui">
- <p>Just testing...</p>
+ <p>$intro</p>
  <div class="row">
     <div class="small-6 columns">
         <label for="award-filter">Award</label>
         <select id="award-filter" class="filter" name="award">
-            <option value="null">Filter by award</option>
-            <option value="Peace">Peace</option>
-            <option value="Chemistry">Chemistry</option>
+            $optionsCode
         </select>
     </div>
     <div class="small-6 columns">
