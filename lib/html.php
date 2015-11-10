@@ -28,20 +28,23 @@ class TListHtml {
         echo $this->getHTML();
     }
 
+    /* Concat and return content of all files */
+    private function _loadFiles( $path ){
+        $files = glob($path);
+        $str = '';
+        foreach( $files as $file ){
+            $str .= htmlspecialchars(file_get_contents($file));
+        }
+        return $str;
+
+    }
+
     /* Return everything under js/$dir/ and css/$dir as a string */
     protected function _getScripts( $dir ){
         global $baseDir;
-        $js = '';
-        $jsFiles = glob($baseDir . 'js/' . $dir . '/*.js');
-        foreach($jsFiles as $file){
-            $js .= htmlspecialchars(file_get_contents($file));
-        }
+        $js = $this->_loadFiles($baseDir . 'js/' . $dir . '/*.js');
+        $css = $this->_loadFiles($baseDir . 'css/' . $dir . '/*.css');
 
-        $cssFiles = glob($baseDir . 'css/' . $dir . '/*.css');
-        $css = '';
-        foreach( $cssFiles as $file ){
-            $css .= htmlspecialchars(file_get_contents($file));
-        }
         global $debugLevel;
         if ( $debugLevel > PRODUCTION ){
             $css = str_replace("\n", "", $css);
