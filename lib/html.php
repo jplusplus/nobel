@@ -28,6 +28,25 @@ class TListHtml {
         echo $this->getHTML();
     }
 
+    /* Return everything under js/$dir/ and css/$dir as a string */
+    protected function _getScripts( $dir ){
+        global $baseDir;
+        $js = '';
+        $jsFiles = glob($baseDir . 'js/' . $dir . '/*.js');
+        foreach($jsFiles as $file){
+            $js .= htmlspecialchars(file_get_contents($file));
+        }
+
+        $cssFiles = glob($baseDir . 'css/' . $dir . '/*.css');
+        $css = '';
+        foreach( $cssFiles as $file ){
+            $css .= str_replace("\n", "", $css);
+        }
+        $js = str_replace('¤CSS', $css, $js);
+
+        return $js;
+    }
+
 }
 
 /* This class represents a listwidget */
@@ -57,13 +76,8 @@ class TListWidget extends TListHtml {
             $this->dom->appendChild($script);
 
             /* Append script tag with main.js and sparkline.js */
-            global $baseDir;
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
-            $js .= file_get_contents($baseDir . 'js/main.js');
-            $js .= htmlspecialchars(file_get_contents($baseDir . 'js/jquery.sparkline.min.js'));
-            $css = file_get_contents($baseDir . 'css/main.css');
-            $css = str_replace("\n", "", $css);
-            $js = str_replace('¤CSS', $css, $js);
+            $js .= $this->_getScripts('list');
             global $debugLevel;
             if ( $debugLevel > PRODUCTION ){
                 $script = $this->dom->createElement('script', $js);
