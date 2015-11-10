@@ -58,11 +58,11 @@ class TListWidget extends TListHtml {
 
             /* Append script tag with main.js and sparkline.js */
             global $baseDir;
-            $js = file_get_contents($baseDir . 'js/main.js');
+            $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
+            $js .= file_get_contents($baseDir . 'js/main.js');
+            $js .= htmlspecialchars(file_get_contents($baseDir . 'js/jquery.sparkline.min.js'));
             $css = file_get_contents($baseDir . 'css/main.css');
             $css = str_replace("\n", "", $css);
-            $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';' . $js;
-            $js = $js . file_get_contents($baseDir . 'js/jquery.sparkline.min.js');
             $js = str_replace('¤CSS', $css, $js);
             global $debugLevel;
             if ( $debugLevel > PRODUCTION ){
