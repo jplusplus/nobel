@@ -159,6 +159,11 @@ class TListWidget extends TListHtml {
 
             $li->appendChild($pageViewContainer);
 
+            // Image 
+            $img = $this->_createTag( 'img', '', array("class" => "image", "src" => $laureate['image'] ));
+            $li->appendChild($img);
+
+            // Name of laureate
             $h3 = $this->_createTag( 'h3', '', array("class" => "name"));
             $a = $this->_createTag('a', $laureate["name"], array("href" => $laureate['laureates_url']));
             $h3->appendChild($a);
