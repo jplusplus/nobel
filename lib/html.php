@@ -40,16 +40,37 @@ class TListHtml {
     }
 
     /* retun an array of <option> html strings */
-    protected function _createOptions( array $options, $selected = null ){
-        $optionsCode = array();
+    protected function _createOptions( array $options, $selected=null, $level=0, $optgroup=null ){
+        $output = array();
         foreach ($options as $key => $value) {
-            if ( $selected === $key ){
-                $selected = ' selected';
+            if (is_array($value)){
+                $subarray = $this->_createOptions( $value, $selected, $level+1, $key );
+                $output = array_merge( $output, $subarray);
             } else {
-                $selected = ' ';
+                if ( $selected === $key ){
+                    $selected = ' selected';
+                } else {
+                    $selected = ' ';
+                }
+                $indent = '';
+                if ($level){
+                    $classes = array();
+                    if ($optgroup === $key){
+                        $classes[] = 'optgroup';
+                    } else {
+                        $classes[] = 'optchild';
+                        $indent = str_repeat( "&nbsp;&nbsp;&nbsp;", $level );
+                    }
+                    $classes[] = "level-$level";
+
+                    $class = implode(' ', $classes);
+                } else {
+                    $class = '';
+                }
+                $output[] = "<option value=\"$key\" class=\"$class\" $selected>$indent$value</option>";
             }
-            $optionsCode[] = "<option value=\"$key\" $selected>$value</option>";
         }
+        return $output;
     }
 
     /* Return everything under js/$dir/ and css/$dir as a string */
@@ -221,23 +242,37 @@ class TListUI extends TListHtml {
     function getHTML( $selectedParams = array()){
 
         $intro = $this->loremIpsum(250);
-        $options = array('null' => 'Filter by award');
-        $options += array(
+        $awardOptions = array('null' => 'Filter by award');
+        $awardOptions += array(
                         'Physics' => 'Physics',
                         'Chemistry' => 'Chemistry',
                         'Literature' => 'Literature',
                         'Peace' => 'Peace',
                         'Physiology_or_Medicine' => 'Physiology or medicine',
                         'Economic_Sciences' => 'Economic sciences');
-        $optionsCode = '';
-        foreach ($options as $key => $value) {
-            if ( isset($selectedParams['award']) && $selectedParams['award'] === $key ){
-                $selected = ' selected';
-            } else {
-                $selected = ' ';
-            }
-            $optionsCode .= "<option value=\"$key\" $selected>$value</option>";
-        }
+        $awardOptionsCode = implode("\n", $this->_createOptions($awardOptions, isset($selectedParams['award']) ? $selectedParams['award'] : null ));
+
+        $genderOptions = array('null' => 'Filter by gender');
+        $genderOptions += array(
+                        'male' => 'Male',
+                        'female' => 'Female',
+                        );
+        $genderOptionsCode = implode("\n", $this->_createOptions($genderOptions, isset($selectedParams['gender']) ? $selectedParams['gender'] : null ));
+
+        $regionOptions = array('null' => 'Filter by region');
+        $regionOptions += array(
+                        'africa' => 'Africa',
+                        'america' => array(
+                            'america' => 'America',
+                            'south-america' => 'South',
+                            'north-america' => 'North',
+                        ),
+                        'asia' => 'Asia',
+                        'europe' => 'Europe',
+                        'oceania' => 'Oceania',
+                        );
+
+        $regionOptionsCode = implode("\n", $this->_createOptions($regionOptions, isset($selectedParams['region']) ? $selectedParams['region'] : null ));
 
         $this->dom->loadHTML(
 
@@ -248,15 +283,13 @@ class TListUI extends TListHtml {
     <div class="small-6 columns">
         <label for="award-filter">Award</label>
         <select id="award-filter" class="filter" name="award">
-            $optionsCode
+            $awardOptionsCode
         </select>
     </div>
     <div class="small-6 columns">
         <label for="gender-filter">Gender</label>
         <select id="gender-filter" class="filter" name="gender">
-            <option value="null">Filter by gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            $genderOptionsCode
         </select>
     </div>
 </div>
@@ -265,18 +298,11 @@ class TListUI extends TListHtml {
     <div class="small-6 columns">
         <label for="region-filter">Region</label>
         <select id="region-filter" class="filter" name="region">
-            <option value="null">Filter by region</option>
-            <option value="asia">Asia</option>
-            <option value="africa">Africa</option>
-            <option value="europe">Europe</option>
-            <option value="oceania">Oceania</option>
-            <option value="america" class="optgroup">America</option>
-            <option value="south-america" class="optchild">&nbsp;&nbsp;&nbsp;South</option>
-            <option value="north-america" class="optchild">&nbsp;&nbsp;&nbsp;Nouth</option>
+            $regionOptionsCode
         </select>
     </div>
     <div class="small-6 columns">
-        <label for="parkline-select">Popularity measure</label>
+        <label for="sparkline-select">Popularity measure</label>
         <select id="sparkline-select" class="" name="sparkline-select">
             <option value="page-views">Page views</option>
             <option value="wikipedia">Wikipedia</option>
