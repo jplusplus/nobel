@@ -42,18 +42,6 @@ $(document).ready(function() {
     if(topListInitialized) return;
     topListInitialized = true;
 
-    /* inject CSS */
-    var css = document.createElement("style");
-    document.getElementsByTagName("head")[0].appendChild(css);
-    var cssCode = "¤CSS";
-    if (css.styleSheet) {
-        // IE
-        css.styleSheet.cssText += cssCode;
-    } else {
-        // Other browsers
-        css.innerHTML += cssCode;
-    }
-
     $(".toplist").each(function() {
         var $el = $(this);
         var id = $el.attr("id");
