@@ -92,7 +92,7 @@ function printWidget( $parameters = array() ){
 
 function printUI(){
     $obj = new TListUI();
-    $obj->printHTML();
+    $obj->printHTML( $_GET );
 
     $listObj = new Widget( $_GET );
     $listObj->printHTML();
