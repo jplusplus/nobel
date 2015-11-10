@@ -57,6 +57,7 @@ class TListHtml {
                     $classes = array();
                     if ($optgroup === $key){
                         $classes[] = 'optgroup';
+                        $indent = str_repeat( "&nbsp;&nbsp;&nbsp;", $level-1 );
                     } else {
                         $classes[] = 'optchild';
                         $indent = str_repeat( "&nbsp;&nbsp;&nbsp;", $level );
@@ -265,9 +266,20 @@ class TListUI extends TListHtml {
                         'america' => array(
                             'america' => 'America',
                             'south-america' => 'South',
-                            'north-america' => 'North',
-                        ),
-                        'asia' => 'Asia',
+                            'north-america' => array(
+                                    'north-america' => 'North',
+                                    'carribean' => 'Carribean',
+                                    'central-america' => 'Central America',
+                                ),
+                            ),
+                        'asia' => array(
+                            'asia' => 'Asia',
+                            'central-asia' => 'Central',
+                            'east-asia' => 'East',
+                            'middle-east' => 'Middle East',
+                            'south-asia' => 'South',
+                            'southeast-asia' => 'Southeast',
+                            ),
                         'europe' => 'Europe',
                         'oceania' => 'Oceania',
                         );
