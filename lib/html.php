@@ -32,6 +32,7 @@ class Html {
 
     var $dom;
     var $fragmentNumber;
+    var $css;
 
     function __construct() {
         $this->dom = new \DOMDocument('1.0', 'utf-8');
@@ -42,6 +43,9 @@ class Html {
             $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
             $script = $this->dom->createElement('script', $jquery_js);
             $this->dom->appendChild($script);
+
+            /* add commons css to resource loader queue */
+            $this->_addStyles('common');
 
         }
     }
@@ -60,8 +64,17 @@ class Html {
        function before returning their HTML
     */
     protected function _finalizeHtml() {
-        $js = $this->_getScripts('common');
-        $this->_appendScript( $js );
+        /* only print common js and CSS injector once */
+        if ($this->fragmentNumber === 1){
+            $js = $this->_getScripts('common', 'js');
+            global $debugLevel;
+            if ( $debugLevel > PRODUCTION ){
+                $this->css = str_replace("\n", "", $this->css);
+            }
+            $js = str_replace('¤CSS', $this->css, $js);
+            $this->_appendScript( $js );
+
+        }
         return $this->dom->saveHTML();
     } 
 
@@ -116,19 +129,14 @@ class Html {
         return $output;
     }
 
-    /* Return everything under js/$dir/ and css/$dir as a string */
-    protected function _getScripts( $dir ){
-        global $baseDir;
-        $js = $this->_loadFiles($baseDir . 'js/' . $dir . '/*.js');
-        $css = $this->_loadFiles($baseDir . 'css/' . $dir . '/*.css');
-
-        global $debugLevel;
-        if ( $debugLevel > PRODUCTION ){
-            $css = str_replace("\n", "", $css);
+    /* Return everything under js/$dir/ or css/$dir as a string */
+    protected function _getScripts( $dir, $type ){
+        if (!in_array($type, array('js', 'css'))){
+            return null;
         }
-        $js = str_replace('¤CSS', $css, $js);
-
-        return $js;
+        global $baseDir;
+        $script = $this->_loadFiles($baseDir . $type . '/' . $dir . '/*.' . $type);
+        return $script;
     }
 
     /* Append a script tag with $js */
@@ -140,6 +148,10 @@ class Html {
             $script = $this->dom->createElement('script', \JShrink\Minifier::minify($js));
         }
         $this->dom->appendChild($script);
+    }
+
+    protected function _addStyles( $dir ){
+        $this->css .= $this->_getScripts('list', 'css');
     }
 
     /* Return $length characters of lorem ipsum. */
@@ -186,9 +198,10 @@ class TListWidget extends Html {
         if ($id === 1){
             /* Add gToplistSettings */
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
-            $js .= $this->_getScripts('list');
+            $js .= $this->_getScripts('list', 'js');
             $this->_appendScript( $js );
 
+            $this->_addStyles('list');
         }
 
         $container = $this->_createTag( 'div', '', array('id' =>  'toplist-'.$id, 'class' => "toplist"));
@@ -373,8 +386,10 @@ END
         $tempImported = $this->dom->importNode($formDom->getElementsByTagName("form")->item(0), true);
         $this->dom->appendChild($tempImported);
 
-        $js = $this->_getScripts('ui');
+        $js = $this->_getScripts('ui', 'js');
         $this->_appendScript( $js );
+
+        $this->_addStyles('ui');
 
         return $this->_finalizeHtml();
     }

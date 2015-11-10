@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	console.log("HEJ");
 	/* inject CSS */
 	var css = document.createElement("style");
 	document.getElementsByTagName("head")[0].appendChild(css);
