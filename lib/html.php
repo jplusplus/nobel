@@ -56,12 +56,13 @@ class TListWidget extends TListHtml {
             $script = $this->dom->createElement('script', $jquery_js);
             $this->dom->appendChild($script);
 
-            /* Append script tag with main.js */
+            /* Append script tag with main.js and sparkline.js */
             global $baseDir;
             $js = file_get_contents($baseDir . 'js/main.js');
             $css = file_get_contents($baseDir . 'css/main.css');
             $css = str_replace("\n", "", $css);
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';' . $js;
+            $js = $js . file_get_contents($baseDir . 'js/jquery.sparkline.min.js');
             $js = str_replace('¤CSS', $css, $js);
             global $debugLevel;
             if ( $debugLevel > PRODUCTION ){
@@ -81,6 +82,7 @@ class TListWidget extends TListHtml {
                                                      'data-name' => $laureate['name'],
                                                      'data-gender' => $laureate['gender'],
                                                      'data-awards' => json_encode($laureate['awards']),
+                                                     'data-popularity' => implode(",", $laureate['popularity'])
                                                      )
                                     );
             

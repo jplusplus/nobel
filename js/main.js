@@ -102,6 +102,9 @@ TopList = (function() {
         $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
         $listItem.find(".country").text(row.country);
         $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + "("+ d.year +")" }));
+        
+        var popularityValues = row.popularity;
+        $listItem.find(".popularity").sparkline(popularityValues);
         return $listItem;
     }
 
