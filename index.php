@@ -104,6 +104,6 @@ include "list.php";
     echo( $html );
 
 ?></article>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<script src="http://cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <?php
