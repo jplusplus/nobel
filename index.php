@@ -10,6 +10,9 @@ if ($debugLevel === PRODUCTION){
 include "list.php";
 
 ?><html><head><title>List widget demo</title>
+<link rel="stylesheet" href="css/foundation.min.css" />
+<link rel="stylesheet" href="//www.nobelprize.org/css/nobel_custom.css?v=20141203" />
+
 <link rel="stylesheet" href="http://leowallentin.se/css/main.min.css" />
 <link rel="stylesheet" href="//highlightjs.org/static/styles/github.css" />
 </head><body><article>
