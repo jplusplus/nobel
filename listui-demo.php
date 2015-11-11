@@ -1,4 +1,10 @@
 <?php
+/* Disable this script in development environments */
+define('TopList', TRUE);
+include "settings.php";
+if ($debugLevel === PRODUCTION){
+    die('Not permitted');
+}
 include "list.php";
 
 ?><html><head><title>List UI demo</title>
