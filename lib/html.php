@@ -43,7 +43,7 @@ class Html {
             $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
             $script = $this->dom->createElement('script', $jquery_js);
             $this->dom->appendChild($script);
-
+            
             /* add commons css to resource loader queue */
             $this->_addStyles('common');
 
@@ -64,32 +64,29 @@ class Html {
        function before returning their HTML
     */
     protected function _finalizeHtml() {
-        /* only print common js and CSS injector once */
-        if ($this->fragmentNumber === 1){
-            $js = $this->_getScripts('common', 'js');
-            $css = $this->css;
-            global $debugLevel;
-            if ( $debugLevel > PRODUCTION ){
-                $css = str_replace("\n", "", $css);
-            }
-            $js .= <<<END
+        $js = $this->_getScripts('common', 'js');
+        $css = htmlentities($this->css);
+        global $debugLevel;
+        if ( $debugLevel > PRODUCTION ){
+            $css = str_replace("\n", "", $css);
+        }
+        $js .= <<<END
 $(document).ready(function() {
-    /* inject CSS */
-    var css = document.createElement("style");
-    document.getElementsByTagName("head")[0].appendChild(css);
-    var cssCode = "$css";
-    if (css.styleSheet) {
-        // IE
-        css.styleSheet.cssText += cssCode;
-    } else {
-        // Other browsers
-        css.innerHTML += cssCode;
-    }
+/* inject CSS */
+var css = document.createElement("style");
+document.getElementsByTagName("head")[0].appendChild(css);
+var cssCode = "$css";
+if (css.styleSheet) {
+    // IE
+    css.styleSheet.cssText += cssCode;
+} else {
+    // Other browsers
+    css.innerHTML += cssCode;
+}
 });
 END;
-            $this->_appendScript( $js );
+        $this->_appendScript( $js );
 
-        }
         return $this->dom->saveHTML();
     } 
 
@@ -150,12 +147,18 @@ END;
             return null;
         }
         global $baseDir;
-        $script = $this->_loadFiles($baseDir . $type . '/' . $dir . '/*.' . $type);
+        $path = $baseDir . $type . '/' . $dir . '/*.' . $type;
+        $script = $this->_loadFiles($path);
+        $script = str_replace('"', '\"', $script);
         return $script;
     }
 
     /* Append a script tag with $js */
     protected function _appendScript( $js ){
+        if ( !$js ){
+            return null;
+        }
+
         global $debugLevel;
         if ( $debugLevel > PRODUCTION ){
             $script = $this->dom->createElement('script', $js);
@@ -209,8 +212,8 @@ class TListWidget extends Html {
 
     function getHTML(){
 
-        $id = $this->id;
-        if ($id === 1){
+        $id = $this->fragmentNumber;
+        if ($this->id){
             /* Add gToplistSettings */
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
             $js .= $this->_getScripts('list', 'js');

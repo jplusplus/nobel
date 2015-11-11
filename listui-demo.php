@@ -1,7 +1,4 @@
 <?php
-/* Disable this script in development environments */
-/***************************************************/
-
 include "list.php";
 
 ?><html><head><title>List UI demo</title>
