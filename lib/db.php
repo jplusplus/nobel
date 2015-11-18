@@ -161,9 +161,6 @@ Class SPARQLQuery extends Query{
             $pathParts = explode('/', parse_url($value['laur'], PHP_URL_PATH));
             $output[$key]['id'] = array_pop($pathParts);
 
-            /* url */
-            $output[$key]['laureates_url'] = '//www.nobelprize.org/nobel_prizes/laureates/index.php?id=' . $output[$key]["id"];
-
             /* award, award-year */
             if (isset($value['prize'])){
                 $pathParts = explode('/', parse_url($value['prize'], PHP_URL_PATH));

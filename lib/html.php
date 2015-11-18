@@ -266,9 +266,12 @@ class TListWidget extends Html {
             $img = $this->_createTag( 'img', '', array("class" => "image", "src" => $laureate['image'] ));
             $li->appendChild($img);
 
-            // Name of laureate
+            // Name and link to laureate
+            global $gProfilePageUrl;
+            $href = sprintf($gProfilePageUrl, $laureate["id"]);
+
             $h3 = $this->_createTag( 'h3', '', array("class" => "name"));
-            $a = $this->_createTag('a', $laureate["name"], array("href" => $laureate['laureates_url']));
+            $a = $this->_createTag('a', $laureate["name"], array("href" => $href));
             $h3->appendChild($a);
             $li->appendChild($h3);
 
