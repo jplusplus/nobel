@@ -17,6 +17,7 @@ Class PopularityList {
 
     /* Return a laureate list ordered by popularity */
     function getOrdered(){
+
         $orderedList = $this->list;
         /* sort by most recent value */
         uasort($orderedList, function ($a, $b){
@@ -45,8 +46,27 @@ Class OnsitePopularityList extends PopularityList {
 /* Popularity list based on enwp(?) view counts */
 Class WikipediaPopularityList extends PopularityList {
 
-    function __construct(){
-        $this->list = Array();
+    function __construct($lids){
+
+        $this->list = array();
+        // TODO: cache
+        /* First get all WP ids from dbPedia */
+        $dbPediaQuery = new DbPediaQuery($lids);
+        $wpNames = $dbPediaQuery->get();
+
+        /* Then query Wikimedia API for stats */
+        foreach( $wpNames as $dbpedia => $wp){
+            $project = 'en';
+            $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project.wikipedia/all-access/all-agents/$wp/daily/20151101/20151115";
+            $json = file_get_contents($endpoint);
+            $items = json_decode($json, true)['items'];
+            $count = 0;
+            foreach( $items as $item ){
+                $count += $item['views'];
+            }
+            $this->list[$dbpedia] = $count;
+        }
+
     }
 
 }

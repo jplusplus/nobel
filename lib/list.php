@@ -98,15 +98,23 @@ class TList {
             global $gImageAPI;
             $row['image'] = sprintf($gImageAPI, $row['id']);
 
-            $lids[] = $row['id'];
+            $lids[] = $row['dbPedia'];
 
         }
         unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
-        $dbPediaQuery = new DbPediaQuery($lids);
 
-        if ( in_array('popularity', $this->parameters) && $this->parameters['popularity'] === 'wikipedia'){
-            $popularityList = new WikipediaPopularityList();
 
+        if ( array_key_exists('popularity', $this->parameters) && $this->parameters['popularity'] === 'wikipedia'){
+
+            $popularityList = new WikipediaPopularityList($lids);
+            $orderedList = $popularityList->getOrdered();
+            usort($list, function($a, $b) use ($orderedList){
+                $ida = $a['dbPedia'];
+                $idb = $b['dbPedia'];
+                $posa = array_search($ida, $orderedList);
+                $posb = array_search($idb, $orderedList);
+                return $posa > $posb ? 1 : -1;
+            });
 
         } else {
             $popularityList = new OnsitePopularityList();
