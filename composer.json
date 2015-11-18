@@ -2,7 +2,8 @@
     "require": {
         "wixel/gump": "dev-master",
         "tedivm/jshrink": "~1.0",
-        "BorderCloud/SPARQL" : "*"
+        "BorderCloud/SPARQL" : "*",
+        "phpfastcache/phpfastcache": "^3.0"
     },
     "autoload": {
         "classmap": ["vendor/bordercloud/sparql/Endpoint.php"]
