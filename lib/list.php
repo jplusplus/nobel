@@ -106,8 +106,14 @@ class TList {
 
         if ( array_key_exists('popularity', $this->parameters) && $this->parameters['popularity'] === 'wikipedia'){
 
-            $popularityList = new WikipediaPopularityList($lids);
-            $orderedList = $popularityList->getOrdered();
+            // Cache WP-list for this subset of laureates
+            $md5 = md5(serialize($lids));
+            $orderedList = __c()->get($md5);
+            if ( $orderedList === null ){
+                $popularityList = new WikipediaPopularityList($lids);
+                $orderedList = $popularityList->getOrdered();
+                __c()->set($md5, $orderedList, 24*60*60); // cache for one day
+            }
             usort($list, function($a, $b) use ($orderedList){
                 $ida = $a['dbPedia'];
                 $idb = $b['dbPedia'];
