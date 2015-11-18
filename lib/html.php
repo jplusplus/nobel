@@ -115,9 +115,9 @@ END;
                 $output = array_merge( $output, $subarray);
             } else {
                 if ( $selected === $key ){
-                    $selected = ' selected';
+                    $selectedStr = ' selected';
                 } else {
-                    $selected = ' ';
+                    $selectedStr = '';
                 }
                 $indent = '';
                 if ($level){
@@ -135,7 +135,7 @@ END;
                 } else {
                     $class = '';
                 }
-                $output[] = "<option value=\"$key\" class=\"$class\" $selected>$indent$value</option>";
+                $output[] = "<option value=\"$key\" class=\"$class\" $selectedStr>$indent$value</option>";
             }
         }
         return $output;
