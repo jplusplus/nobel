@@ -118,7 +118,7 @@ Class SPARQLQuery extends Query{
 
                 $filters = array();
                 foreach ($data as $str){
-                    $str = str_replace(" ", "_", $str);
+                    $str = urlencode(str_replace(" ", "_", $str));
                     $filters[] = "?birthPlace = <http://data.nobelprize.org/resource/country/$str>";
                 }
                 $filter = implode(' || ', $filters);
@@ -126,8 +126,6 @@ Class SPARQLQuery extends Query{
 
             }
         }
-
-
         $query .= "WHERE {\n$whereString\n}\n";
 
         $this->_query = $query;
