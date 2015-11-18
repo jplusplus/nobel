@@ -357,7 +357,7 @@ class TListUI extends Html {
                         'page-views' => 'Page views',
                         'wikipedia' => 'Wikipedia',
                     );
-        $statOptionsCode = implode("\n", $this->_createOptions($statOptions));
+        $statOptionsCode = implode("\n", $this->_createOptions($statOptions, isset($selectedParams['popularity']) ? $selectedParams['popularity'] : null ));
 
         $formDom = new \DOMDocument();
         $formDom->loadHTML(
@@ -389,7 +389,7 @@ class TListUI extends Html {
     </div>
     <div class="small-6 columns">
         <label for="sparkline-select">Popularity measure</label>
-        <select id="sparkline-select" class="" name="sparkline-select">
+        <select id="sparkline-select" class="filter" name="popularity">
             $statOptionsCode
         </select>
     </div>

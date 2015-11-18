@@ -22,12 +22,14 @@ class TList {
             'award'     => 'alpha',
             'gender'    => 'alpha',
             'region'    => 'alpha_dash',
+            'popularity'=> 'alpha',
         );
     static $filterRules = array(
-            'length' => 'trim|sanitize_numbers',
-            'award'  => 'trim|sanitize_string',
-            'gender' => 'trim|sanitize_string',
-            'region' => 'trim',
+            'length'    => 'trim|sanitize_numbers',
+            'award'     => 'trim|sanitize_string',
+            'gender'    => 'trim|sanitize_string',
+            'region'    => 'trim',
+            'popularity'=> 'trim|sanitize_string'
         );
 
     /* Constructor. Will parse the parameters. */
