@@ -3,5 +3,8 @@
         "wixel/gump": "dev-master",
         "tedivm/jshrink": "~1.0",
         "BorderCloud/SPARQL" : "*"
+    },
+    "autoload": {
+        "classmap": ["vendor/bordercloud/sparql/Endpoint.php"]
     }
 }

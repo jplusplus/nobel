@@ -6,7 +6,7 @@ if(!defined('TopList')) {
    die('Not permitted');
 }
 
-require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
+//require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
 require $baseDir . 'lib/regions.php'; //class RegionFinder
 
 Class Query {
