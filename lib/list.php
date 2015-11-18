@@ -10,6 +10,7 @@ if(!defined('SETTINGS')) {
 
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/db.php';
+require $baseDir . 'lib/popularity.php';
 
 /* This class represents a laureate top list. */
 class TList {
@@ -95,6 +96,16 @@ class TList {
 
         }
         unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
+
+        $popularityList = new OnsitePopularityList();
+        $orderedList = $popularityList->getOrdered();
+        usort($list, function($a, $b) use ($orderedList){
+            $ida = $a['id'];
+            $idb = $b['id'];
+            $posa = array_search($ida, $orderedList);
+            $posb = array_search($idb, $orderedList);
+            return $posa < $posb ? 1 : -1;
+        });
 
         return array_values (array_slice($list, 0, $this->list_length));
 
