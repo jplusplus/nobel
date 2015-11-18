@@ -10,6 +10,7 @@ if(!defined('SETTINGS')) {
 
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/db.php';
+require $baseDir . 'lib/dbpedia.php';
 require $baseDir . 'lib/popularity.php';
 
 /* This class represents a laureate top list. */
@@ -69,6 +70,7 @@ class TList {
 
         $query = new SPARQLQuery($this->parameters);
         $list = $query->get();
+        $lids = array(); // Laureate id's, for looking up Wikipedia links
 
         // Import profile pages for poularity statistic
         $data = array_map( 'str_getcsv',
@@ -96,18 +98,27 @@ class TList {
             global $gImageAPI;
             $row['image'] = sprintf($gImageAPI, $row['id']);
 
+            $lids[] = $row['id'];
+
         }
         unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
+        $dbPediaQuery = new DbPediaQuery($lids);
 
-        $popularityList = new OnsitePopularityList();
-        $orderedList = $popularityList->getOrdered();
-        usort($list, function($a, $b) use ($orderedList){
-            $ida = $a['id'];
-            $idb = $b['id'];
-            $posa = array_search($ida, $orderedList);
-            $posb = array_search($idb, $orderedList);
-            return $posa < $posb ? 1 : -1;
-        });
+        if ( in_array('popularity', $this->parameters) && $this->parameters['popularity'] === 'wikipedia'){
+            $popularityList = new WikipediaPopularityList();
+
+
+        } else {
+            $popularityList = new OnsitePopularityList();
+            $orderedList = $popularityList->getOrdered();
+            usort($list, function($a, $b) use ($orderedList){
+                $ida = $a['id'];
+                $idb = $b['id'];
+                $posa = array_search($ida, $orderedList);
+                $posb = array_search($idb, $orderedList);
+                return $posa < $posb ? 1 : -1;
+            });
+        }
 
         return array_values (array_slice($list, 0, $this->list_length));
 
