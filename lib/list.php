@@ -22,7 +22,7 @@ class TList {
             'award'     => 'alpha',
             'gender'    => 'alpha',
             'region'    => 'alpha_dash',
-            'popularity'=> 'alpha',
+            'popularity'=> 'alpha_dash',
         );
     static $filterRules = array(
             'length'    => 'trim|sanitize_numbers',
