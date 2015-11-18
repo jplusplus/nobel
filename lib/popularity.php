@@ -27,7 +27,7 @@ Class PopularityList {
 }
 
 
-/* Base class for popularity lists */
+/* Popularity list based on nobelprize.org pageviews */
 Class OnsitePopularityList extends PopularityList {
 
     function __construct(){
@@ -37,6 +37,16 @@ Class OnsitePopularityList extends PopularityList {
         /* Adding quotes arounc the keys will allow us to parse it. */
         $json = preg_replace('/([{\[,])\s*([a-zA-Z0-9_]+?):/', '$1"$2":', $json);
         $this->list = json_decode($json, true)["pageviews"];
+    }
+
+}
+
+
+/* Popularity list based on enwp(?) view counts */
+Class WikipediaPopularityList extends PopularityList {
+
+    function __construct(){
+        $this->list = Array();
     }
 
 }
