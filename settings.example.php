@@ -37,7 +37,7 @@ $gPageStatsAPI = '//www.nobelprize.org/nobel_prizes/popular_api.php';
 
 /* How many days should should be aggregated in   */
 /* datapoint in the page view statistics          */
-$gStatsInterval = 30;
+$gStatsInterval = 7;
 
 /* When should we start counting statistics (Ymd) */
 $gStatsStart = '20110101';
