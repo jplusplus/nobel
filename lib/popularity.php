@@ -80,7 +80,7 @@ Class ArticleStats {
 
         /* Default $to is yesterday */
         if ($to === null){
-            $date = new \DateTime();
+            $date = new \DateTime('now', new \DateTimeZone('Europe/Stockholm'));
             $date->add(\DateInterval::createFromDateString('yesterday'));
             $to = $date->format('Ymd');
         }
