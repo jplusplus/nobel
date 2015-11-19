@@ -20,7 +20,7 @@ class TList {
     var $profileDataFile;
     static $validationRules = array (
             'length'    => 'integer|min_numeric,3|max_numeric,50',
-            'award'     => 'alpha',
+            'award'     => 'alpha_dash',
             'gender'    => 'alpha',
             'region'    => 'alpha_dash',
             'popularity'=> 'alpha_dash',
