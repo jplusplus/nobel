@@ -70,20 +70,9 @@ class TList {
 
         $query = new SPARQLQuery($this->parameters);
         $list = $query->get();
-        $lids = array(); // Laureate id's, for looking up Wikipedia links
+        // Laureate id's, for looking up Wikipedia links
+        $lids = array_map(function ($l) {return $l['dbPedia'];}, $list);
 
-        // Import profile pages for poularity statistic
-        $data = array_map( 'str_getcsv',
-                           file( $this->profileDataFile,
-                                 FILE_SKIP_EMPTY_LINES
-                                )
-                          );
-        $headers = array_shift($data);
-        foreach ($data as $row) {
-            if ( array_key_exists($row[1], $list) ){
-                $list[$row[1]]['stats_url'] = $row[0];
-            }
-        }
         // Add random sparkline data, link and image
         foreach ($list as &$row) {
             $min = rand(0, 80);
@@ -98,19 +87,26 @@ class TList {
             global $gImageAPI;
             $row['image'] = sprintf($gImageAPI, $row['id']);
 
-            $lids[] = $row['dbPedia'];
-
         }
         unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
 
 
         if ( array_key_exists('popularity', $this->parameters) && $this->parameters['popularity'] === 'wikipedia'){
 
-            // Cache WP-list for this subset of laureates
+            /* Get and cache all WP ids from dbPedia */
+            $md5 = md5(serialize($list));
+            $wpNames = __c()->get($md5);
+            if ( $wpNames === null ){
+                $dbPediaQuery = new DbPediaQuery($lids);
+                $wpNames = $dbPediaQuery->getWikipediaNames();
+                __c()->set($md5, $wpNames, 24*60*60); // cache for one day
+            }
+
+            /* Get and cache most viewed list for this subset of laureates */
             $md5 = md5(serialize($lids));
             $orderedList = __c()->get($md5);
             if ( $orderedList === null ){
-                $popularityList = new WikipediaPopularityList($lids);
+                $popularityList = new WikipediaPopularityList($wpNames);
                 $orderedList = $popularityList->getOrdered();
                 __c()->set($md5, $orderedList, 24*60*60); // cache for one day
             }
@@ -121,6 +117,15 @@ class TList {
                 $posb = array_search($idb, $orderedList);
                 return $posa > $posb ? 1 : -1;
             });
+            /* Truncate list to max length */
+            $finalList = array_values (array_slice($list, 0, $this->list_length));
+
+            /* Get sparkline data */
+            foreach ($finalList as &$laureate){
+                $article = new ArticleStats( $wpNames[$laureate["dbPedia"]] );
+                $laureate["popularity"] = $article->getPoints(31, '20110101');
+            }
+            unset($laureate); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
 
         } else {
             $popularityList = new OnsitePopularityList();
@@ -132,9 +137,12 @@ class TList {
                 $posb = array_search($idb, $orderedList);
                 return $posa < $posb ? 1 : -1;
             });
+            /* Truncate list to max length */
+            $finalList = array_values (array_slice($list, 0, $this->list_length));
+
         }
 
-        return array_values (array_slice($list, 0, $this->list_length));
+        return $finalList;
 
     }
 
