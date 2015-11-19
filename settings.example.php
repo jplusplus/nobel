@@ -35,6 +35,23 @@ $gImageAPI = '//www.nobelprize.org/nobel_prizes/get_image.php?id=%d&size=3';
 /* Should return stats by laureate.               */
 $gPageStatsAPI = '//www.nobelprize.org/nobel_prizes/popular_api.php';
 
+/* Cache type. Can be auto, memcache, files, etc. */
+/* see http://www.phpfastcache.com/ for full list */
+include("vendor/phpfastcache/phpfastcache/phpfastcache.php");
+\phpFastCache::$config['storage'] = 'files';
+
+/* The number of hours to cache external data on  */
+/* individual laureates, e.g. Wikipedia page view */
+/* stats.                                         */
+$gExternalLaureateDataCacheTime = 12;
+
+/* The number of hours to cache lists based on    */
+/* external data, e.g Wikipedia popularity toplist*/
+$gExternalDataListsCacheTime = 4;
+
+/* Time zone to use when fetching statistics      */
+$gTimezone = 'Europe/Stockholm';
+
 /* Debug modes */
 define('PRODUCTION', 0);
 define('DEVELOPMENT', 1);
