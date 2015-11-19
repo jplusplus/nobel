@@ -35,6 +35,13 @@ $gImageAPI = '//www.nobelprize.org/nobel_prizes/get_image.php?id=%d&size=3';
 /* Should return stats by laureate.               */
 $gPageStatsAPI = '//www.nobelprize.org/nobel_prizes/popular_api.php';
 
+/* How many days should should be aggregated in   */
+/* datapoint in the page view statistics          */
+$gStatsInterval = 30;
+
+/* When should we start counting statistics (Ymd) */
+$gStatsStart = '20110101';
+
 /* Cache type. Can be auto, memcache, files, etc. */
 /* see http://www.phpfastcache.com/ for full list */
 include("vendor/phpfastcache/phpfastcache/phpfastcache.php");
