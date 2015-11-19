@@ -239,9 +239,11 @@ class TListWidget extends Html {
 
             $popularitySparkline = $this->_createTag( 'span', '', array(
                                                             "class" => "sparkline",
+                                                            // TODO: Make dynaimc
+                                                            "data-start-date" => "2011-1",
                                                             "data-values" => implode(",", $laureate['popularity'])
                                                         ));
-            $popularityTitle = $this->_createTag('span', 'Page views on Wikipedia, 2007-', array("class" => "title"));
+            $popularityTitle = $this->_createTag('span', 'Page views on Wikipedia, 2011-', array("class" => "title"));
 
             $popularityContainer -> appendChild($popularitySparkline);
             $popularityContainer -> appendChild($popularityTitle);

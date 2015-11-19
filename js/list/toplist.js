@@ -26,6 +26,14 @@ TopList = (function() {
             self.update();
         });
     }
+    // Take a datestring (2011-1) and return a Date
+    function parseDate(dateString) {
+        var dateString = dateString.split("-");
+        return new Date(+dateString[0], (+dateString[1]) - 1);
+    }
+    function addMonths(date, n) {
+        return date.setMonth(date.getMonth() + n);
+    }
 
     /*  Takes data about a person and renders a list item based on the list item
         template.
@@ -57,6 +65,8 @@ TopList = (function() {
     TopList.prototype.initSparkLines = function() {
         var self = this;
         self.$list.find(".sparkline").each(function() {
+            var $el = $(this);
+            var startDate = parseDate($el.attr("data-start-date"));
             $(this).sparkline("html", {
                 width: "100%",
                 height: "2em",
@@ -70,7 +80,21 @@ TopList = (function() {
                 chartRangeMin: 0,
                 chartRangeMax: 200,
                 tagValuesAttribute: "data-values",
+                startDate: startDate,
+                tooltipOffsetY: -10,
+                //tooltipFormat: 'Value: {{ value }}, x: {{ x }}, y: {{ y }}',
+                //tooltipClassname: 'sparkline-tooltip',
                 //disableInteraction: true,
+                tooltipFormatter: function(sparkline, options, fields) {
+                    var startDate = options.userOptions.startDate;
+                    var date = new Date(startDate.getFullYear(), startDate.getMonth())
+                    var months = fields.x;
+                    // Add the number of months
+
+                    date.setMonth(date.getMonth() + months);
+                    var dateString = date.getFullYear() + "-" + (date.getMonth() + 1);
+                    return "<div class='tooltip-content'>" + dateString +"</div>";
+                }
             });
         });
         return self;

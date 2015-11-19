@@ -119,3 +119,6 @@ body {
     display: block;
     text-align: center;
 }
+.tooltip-content {
+  color: #fff;
+}
