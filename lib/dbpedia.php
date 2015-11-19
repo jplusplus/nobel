@@ -26,11 +26,20 @@ Class DbPediaQuery {
         return implode($glue, $list);
     }
 
+
     function __construct( $laureates ){
 
         $this->endpoint = new \Endpoint('http://dbpedia.org/sparql');
-        $this->_uris = $this->_joinAndAffix( $laureates, ', ', '<', '>');
+        $uris = array_map(array($this, '_encodeUri'), $laureates);
+        $this->_uris = $this->_joinAndAffix( $uris, ', ', '<', '>');
 
+    }
+
+    /* URI encode only path of uri (i.e. keep slashes in hostname etc) */
+    protected function _encodeUri( $uri ){
+        $encodedUri = str_replace('%2F', '/', rawurlencode($uri));
+        $encodedUri = str_replace('%3A', ':', $encodedUri);
+        return $encodedUri;
     }
 
     /* Return an indexed array of laureates data */
@@ -49,7 +58,7 @@ Class DbPediaQuery {
             $pathParts = explode('/', parse_url( $row['label'], PHP_URL_PATH ));
             if ('en.wikipedia.org' === $host){
                 //use the part after the last / as article name. Would break in case of / in name, e.g. in some khoisan languages.
-                $laureateDictionary[$row['uri']] = array_pop($pathParts);
+                $laureateDictionary[rawurldecode($row['uri'])] = array_pop($pathParts);
             }
         }
         return $laureateDictionary;

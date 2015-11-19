@@ -95,7 +95,7 @@ class TList {
 
             /* Get and cache all WP ids from dbPedia */
             $md5 = md5(serialize($list));
-            $wpNames = __c()->get($md5);
+            $wpNames = null;//__c()->get($md5);
             if ( $wpNames === null ){
                 $dbPediaQuery = new DbPediaQuery($lids);
                 $wpNames = $dbPediaQuery->getWikipediaNames();
