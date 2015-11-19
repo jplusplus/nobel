@@ -234,33 +234,20 @@ class TListWidget extends Html {
                                                      )
                                     );
 
-            // Wikipedia sparkline            
-            $wikipediaContainer = $this->_createTag( 'div', '', array("class" => "popularity wikipedia" ));
+            // Popularity sparkline            
+            $popularityContainer = $this->_createTag( 'div', '', array("class" => "popularity" ));
 
-            $wikipediaSparkline = $this->_createTag( 'span', '', array(
+            $popularitySparkline = $this->_createTag( 'span', '', array(
                                                             "class" => "sparkline",
                                                             "data-values" => implode(",", $laureate['popularity'])
                                                         ));
-            $wikipediaTitle = $this->_createTag('span', 'Page views on Wikipedia, 2007-', array("class" => "title"));
+            $popularityTitle = $this->_createTag('span', 'Page views on Wikipedia, 2007-', array("class" => "title"));
 
-            $wikipediaContainer -> appendChild($wikipediaSparkline);
-            $wikipediaContainer -> appendChild($wikipediaTitle);
+            $popularityContainer -> appendChild($popularitySparkline);
+            $popularityContainer -> appendChild($popularityTitle);
 
-            $li->appendChild($wikipediaContainer);
+            $li->appendChild($popularityContainer);
 
-            // Page view sparkline
-            $pageViewContainer = $this->_createTag( 'div', '', array("class" => "page-views popularity" ));
-
-            $pageViewSparkline = $this->_createTag( 'span', '', array(
-                                                            "class" => "sparkline",
-                                                            "data-values" => implode(",", $laureate['popularity'])
-                                                        ));
-            $pageViewTitle = $this->_createTag('span', 'Page views on nobel.se, 20XX-', array("class" => "title"));
-
-            $pageViewContainer -> appendChild($pageViewSparkline);
-            $pageViewContainer -> appendChild($pageViewTitle);
-
-            $li->appendChild($pageViewContainer);
 
             // Image 
             $img = $this->_createTag( 'img', '', array("class" => "image", "src" => $laureate['image'] ));
@@ -366,7 +353,7 @@ class TListUI extends Html {
         $formDom->loadHTML(
 
 <<<END
-<form action="" method="GET" data-filter-for="#toplist-1" class="toplist-filter-ui">
+<form action="" method="GET" data-filter-for="#toplist-2" class="toplist-filter-ui">
  <p>$intro</p>
  <div class="row">
     <div class="small-6 columns">
