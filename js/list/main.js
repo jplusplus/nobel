@@ -46,7 +46,7 @@ $(document).ready(function() {
         var $el = $(this);
         var id = $el.attr("id");
 
-        var filterset = new FilterSet(["gender", "award", "country", "popularity"], $el, gToplistSettings.endpoint);
+        var filterset = new FilterSet(["gender", "award", "region", "popularity"], $el, gToplistSettings.endpoint);
         filterset.urlSync();
         topLists[id] = new TopList($el, filterset).initSparkLines();
     })
