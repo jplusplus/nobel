@@ -93,13 +93,14 @@ class TList {
 
         if ( array_key_exists('popularity', $this->parameters) && $this->parameters['popularity'] === 'wikipedia'){
 
+            global $gExternalDataListsCacheTime;
             /* Get and cache all WP ids from dbPedia */
             $md5 = md5(serialize($list));
             $wpNames = null;//__c()->get($md5);
             if ( $wpNames === null ){
                 $dbPediaQuery = new DbPediaQuery($lids);
                 $wpNames = $dbPediaQuery->getWikipediaNames();
-                __c()->set($md5, $wpNames, 24*60*60); // cache for one day
+                __c()->set($md5, $wpNames, $gExternalDataListsCacheTime*3600);
             }
 
             /* Get and cache most viewed list for this subset of laureates */
@@ -108,7 +109,7 @@ class TList {
             if ( $orderedList === null ){
                 $popularityList = new WikipediaPopularityList($wpNames);
                 $orderedList = $popularityList->getOrdered();
-                __c()->set($md5, $orderedList, 24*60*60); // cache for one day
+                __c()->set($md5, $orderedList, $gExternalDataListsCacheTime*3600);
             }
             usort($list, function($a, $b) use ($orderedList){
                 $ida = $a['dbPedia'];
@@ -120,10 +121,12 @@ class TList {
             /* Truncate list to max length */
             $finalList = array_values (array_slice($list, 0, $this->list_length));
 
+            global $gStatsInterval;
+            global $gStatsStart;
             /* Get sparkline data */
             foreach ($finalList as &$laureate){
                 $article = new ArticleStats( $wpNames[$laureate["dbPedia"]] );
-                $laureate["popularity"] = $article->getPoints(31, '20110101');
+                $laureate["popularity"] = $article->getPoints($gStatsInterval, $gStatsStart);
             }
             unset($laureate); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
 

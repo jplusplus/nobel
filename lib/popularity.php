@@ -90,15 +90,16 @@ Class ArticleStats {
 
     function _pageviewsPerArticle( $from=null, $to=null ){
 
+        global $gTimezone;
         /* Default $to is yesterday */
         if ($to === null){
-            $date = new \DateTime('now', new \DateTimeZone('Europe/Stockholm'));
+            $date = new \DateTime('now', new \DateTimeZone($gTimezone));
             $date->add(\DateInterval::createFromDateString('yesterday'));
             $to = $date->format('Ymd');
         }
         /* Default $from is two weeks ago */
         if ($from === null){
-            $date = new \DateTime('now', new \DateTimeZone('Europe/Stockholm'));
+            $date = new \DateTime('now', new \DateTimeZone($gTimezone));
             $date->add(\DateInterval::createFromDateString('-2 weeks'));
             $from = $date->format('Ymd');
         }
@@ -111,7 +112,8 @@ Class ArticleStats {
         if ($items === null){
             $json = file_get_contents($endpoint);
             $items = json_decode($json, true)['items'];
-            __c()->set($md5, $items, 4*60*60); // cache for 4h
+            global $gExternalLaureateDataCacheTime;
+            __c()->set($md5, $items, $gExternalLaureateDataCacheTime*3600);
         }
 
         return $items;
