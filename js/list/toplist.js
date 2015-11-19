@@ -4,6 +4,17 @@ TopList = (function() {
         self.$container = $container;
         self.$list = $container.find(".list");
 
+        // Loading spinner
+        // Source: http://tobiasahlin.com/spinkit/
+        $container.append(
+            $("<div>").attr("class", "loading-container").html(
+                '<div class="spinner">' +
+                    '<div class="dot1"></div>' +
+                    '<div class="dot2"></div>' +
+                '</div>'
+            )
+        )
+
         // Bind filterset to DOM element
         self.filterset = filterset;
         $container.data("filterset", filterset);
@@ -27,7 +38,7 @@ TopList = (function() {
         $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
         $listItem.find(".country").text(row.country);
         $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + "("+ d.year +")" }));        
-        $listItem.find(".popularity.wikipedia .sparkline").attr("data-values", row.popularity.join(","));
+        $listItem.find(".popularity .sparkline").attr("data-values", row.popularity.join(","));
         return $listItem;
     }
 
@@ -57,8 +68,9 @@ TopList = (function() {
                 highlightLineColor: "#EEA200",
                 spotRadius: 2,
                 chartRangeMin: 0,
+                chartRangeMax: 200,
                 tagValuesAttribute: "data-values",
-                disableInteraction: true,
+                //disableInteraction: true,
             });
         });
         return self;
@@ -69,8 +81,10 @@ TopList = (function() {
     TopList.prototype.update = function() {
         var self = this;
         self.clear();
+        self.$container.addClass("loading");
         var url = self.filterset.asApiEndpoint();
         $.getJSON(url, function(data) {
+            self.$container.removeClass("loading");
             data.forEach(function(row) {
                 var $li = self.renderListItem(row);
                 self.$list.append($li);
