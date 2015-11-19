@@ -37,8 +37,14 @@ Class DbPediaQuery {
 
     /* URI encode only path of uri (i.e. keep slashes in hostname etc) */
     protected function _encodeUri( $uri ){
-        $encodedUri = str_replace('%2F', '/', rawurlencode($uri));
+        $encodedUri = rawurlencode($uri);
+        $encodedUri = str_replace('%2F', '/', $encodedUri);
         $encodedUri = str_replace('%3A', ':', $encodedUri);
+        $encodedUri = str_replace('%2C', ',', $encodedUri);
+        $encodedUri = str_replace('%27', "'", $encodedUri);
+        $encodedUri = str_replace('%28', "(", $encodedUri);
+        $encodedUri = str_replace('%29', ")", $encodedUri);
+        
         return $encodedUri;
     }
 

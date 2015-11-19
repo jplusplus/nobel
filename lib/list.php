@@ -104,7 +104,7 @@ class TList {
 
             /* Get and cache most viewed list for this subset of laureates */
             $md5 = md5(serialize($lids));
-            $orderedList = __c()->get($md5);
+            $orderedList = null;//__c()->get($md5);
             if ( $orderedList === null ){
                 $popularityList = new WikipediaPopularityList($wpNames);
                 $orderedList = $popularityList->getOrdered();
