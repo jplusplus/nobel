@@ -63,6 +63,18 @@ Class WikipediaPopularityList extends PopularityList {
 
     }
 
+    function getOrdered( $onlyKeys=true ){
+
+        $orderedList = $this->list;
+        /* sort by most recent value */
+        arsort($orderedList);
+        if ($onlyKeys){
+            return array_keys($orderedList);
+        } else {
+            return $orderedList;
+        }
+    }
+
 }
 
 /* Represents visitor stats for a Wikimedia project article */
