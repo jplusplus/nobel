@@ -121,4 +121,7 @@ body {
 }
 .tooltip-content {
   color: #fff;
+  height: 25px;
+  min-width: 70px;
+  text-align: center;
 }

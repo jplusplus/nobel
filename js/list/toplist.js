@@ -26,10 +26,13 @@ TopList = (function() {
             self.update();
         });
     }
-    // Take a datestring (2011-1) and return a Date
+    // Take a datestring (20110101) and return a Date
     function parseDate(dateString) {
+        var year = +dateString.substring(0,4);
+        var month = +dateString.substring(4,6) - 1;
+        var day = +dateString.substring(6,8);
         var dateString = dateString.split("-");
-        return new Date(+dateString[0], (+dateString[1]) - 1);
+        return new Date(year, month, day);
     }
     function addMonths(date, n) {
         return date.setMonth(date.getMonth() + n);
@@ -67,6 +70,9 @@ TopList = (function() {
         self.$list.find(".sparkline").each(function() {
             var $el = $(this);
             var startDate = parseDate($el.attr("data-start-date"));
+
+            // Interval is the number of days in am x bin
+            var interval = +$el.attr("data-interval");
             $(this).sparkline("html", {
                 width: "100%",
                 height: "2em",
@@ -82,17 +88,29 @@ TopList = (function() {
                 tagValuesAttribute: "data-values",
                 startDate: startDate,
                 tooltipOffsetY: -10,
-                //tooltipFormat: 'Value: {{ value }}, x: {{ x }}, y: {{ y }}',
                 //tooltipClassname: 'sparkline-tooltip',
-                //disableInteraction: true,
                 tooltipFormatter: function(sparkline, options, fields) {
                     var startDate = options.userOptions.startDate;
-                    var date = new Date(startDate.getFullYear(), startDate.getMonth())
-                    var months = fields.x;
-                    // Add the number of months
+                    var date = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+                    var xValue = fields.x;
 
-                    date.setMonth(date.getMonth() + months);
-                    var dateString = date.getFullYear() + "-" + (date.getMonth() + 1);
+                    /*  Get the date of the hovered position by multiplying
+                        the interval with the x-value (0,1,2,3...)
+                    */
+                    date.setDate(date.getDate() + xValue * interval);
+                    var dateString;
+                    if (interval >= 365) {
+                        // Date format if interval is year
+                        dateString = date.getFullYear();
+                    }
+                    else if (interval >= 30) {
+                        // Date format if interval is month or greater
+                        dateString = date.getFullYear() + "-" + (date.getMonth() + 1 );
+                    } 
+                    else {
+                        // Date format if interval is shorter than month
+                        dateString = date.getFullYear() + "-" + (date.getMonth() + 1 ) + "-" + date.getDate();
+                    }
                     return "<div class='tooltip-content'>" + dateString +"</div>";
                 }
             });
