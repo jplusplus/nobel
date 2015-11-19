@@ -123,6 +123,14 @@ class TList {
 
             global $gStatsInterval;
             global $gStatsStart;
+            if (preg_match('/^\d{8}/', $gStatsStart)){
+                /* A date */
+            } else {
+                /* Assume an offset */
+                $date = new \DateTime();
+                $date->add(\DateInterval::createFromDateString($gStatsStart));
+                $gStatsStart = $date->format('Ymd');
+            }
             /* Get sparkline data */
             foreach ($finalList as &$laureate){
                 $article = new ArticleStats( $wpNames[$laureate["dbPedia"]] );

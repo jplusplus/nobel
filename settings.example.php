@@ -37,10 +37,13 @@ $gPageStatsAPI = '//www.nobelprize.org/nobel_prizes/popular_api.php';
 
 /* How many days should should be aggregated in   */
 /* datapoint in the page view statistics          */
-$gStatsInterval = 7;
+$gStatsInterval = 1;
 
-/* When should we start counting statistics (Ymd) */
-$gStatsStart = '20110101';
+/* When should we start counting statistics       */
+/* Can be either a date on the format YYYYMMDD,   */
+/* or a negative dateoffset, like '-2 months'    */
+//$gStatsStart = '20150901';
+$gStatsStart = '-10 weeks';
 
 /* Cache type. Can be auto, memcache, files, etc. */
 /* see http://www.phpfastcache.com/ for full list */
