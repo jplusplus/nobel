@@ -247,7 +247,7 @@ class TListWidget extends Html {
                                                             "data-interval" => $gStatsInterval,
                                                             "data-values" => implode(",", $laureate['popularity'])
                                                         ));
-            $popularityTitle = $this->_createTag('span', 'Page views on Wikipedia, 2011-', array("class" => "title"));
+            $popularityTitle = $this->_createTag('span', '', array("class" => "title"));
 
             $popularityContainer -> appendChild($popularitySparkline);
             $popularityContainer -> appendChild($popularityTitle);

@@ -34,8 +34,21 @@ TopList = (function() {
         var dateString = dateString.split("-");
         return new Date(year, month, day);
     }
-    function addMonths(date, n) {
-        return date.setMonth(date.getMonth() + n);
+    function dateToString(date, interval) {
+        var dateString;
+        if (interval >= 365) {
+            // Date format if interval is year
+            dateString = date.getFullYear();
+        }
+        else if (interval >= 30) {
+            // Date format if interval is month or greater
+            dateString = date.getFullYear() + "-" + (date.getMonth() + 1 );
+        } 
+        else {
+            // Date format if interval is shorter than month
+            dateString = date.getFullYear() + "-" + (date.getMonth() + 1 ) + "-" + date.getDate();
+        }
+        return dateString;
     }
 
     /*  Takes data about a person and renders a list item based on the list item
@@ -67,13 +80,25 @@ TopList = (function() {
 
     TopList.prototype.initSparkLines = function() {
         var self = this;
-        self.$list.find(".sparkline").each(function() {
+        self.$list.find(".popularity").each(function() {
             var $el = $(this);
-            var startDate = parseDate($el.attr("data-start-date"));
+            var $sparkline = $el.find(".sparkline");
+            var $title = $el.find(".title");
 
             // Interval is the number of days in am x bin
-            var interval = +$el.attr("data-interval");
-            $(this).sparkline("html", {
+            var interval = +$sparkline.attr("data-interval");
+
+            var startDate = parseDate($sparkline.attr("data-start-date"));
+            
+            // Chart title
+            var popularitySource = self.filterset.currentFilters.popularity || "page-views";
+            var sources = {
+                "page-views": "Nobelprize.org",
+                "wikipedia": "Wikipedia"
+            }
+            $title.text("Page views on " + sources[popularitySource] + " since " + dateToString(startDate, interval));
+
+            $sparkline.sparkline("html", {
                 width: "100%",
                 height: "2em",
                 lineColor: "#666",
@@ -98,19 +123,7 @@ TopList = (function() {
                         the interval with the x-value (0,1,2,3...)
                     */
                     date.setDate(date.getDate() + xValue * interval);
-                    var dateString;
-                    if (interval >= 365) {
-                        // Date format if interval is year
-                        dateString = date.getFullYear();
-                    }
-                    else if (interval >= 30) {
-                        // Date format if interval is month or greater
-                        dateString = date.getFullYear() + "-" + (date.getMonth() + 1 );
-                    } 
-                    else {
-                        // Date format if interval is shorter than month
-                        dateString = date.getFullYear() + "-" + (date.getMonth() + 1 ) + "-" + date.getDate();
-                    }
+                    var dateString = dateToString(date, interval);
                     return "<div class='tooltip-content'>" + dateString +"</div>";
                 }
             });
@@ -132,7 +145,6 @@ TopList = (function() {
                 self.$list.append($li);
             })
             self.initSparkLines();
-            self.initFilterLinks();
         })
         .error(function(err) { console.log(err); })
     }
