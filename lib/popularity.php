@@ -77,15 +77,30 @@ Class ArticleStats {
     }
 
     function _pageviewsPerArticle( $from=null, $to=null ){
+
+        /* Default $to is yesterday */
+        if ($to === null){
+            $date = new \DateTime();
+            $date->add(\DateInterval::createFromDateString('yesterday'));
+            $to = $date->format('Ymd');
+        }
         $project = $this->project;
         $pageName = $this->pageName;
-        $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project/all-access/all-agents/$pageName/daily/20151101/20151115";
-        $json = file_get_contents($endpoint);
-        $items = json_decode($json, true)['items'];
+        $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project/all-access/all-agents/$pageName/daily/20151101/$to";
+        
+        $md5 = md5($endpoint);
+        $items = __c()->get($md5);
+        if ($items === null){
+            $json = file_get_contents($endpoint);
+            $items = json_decode($json, true)['items'];
+            __c()->set($md5, $items, 4*60*60); // cache for 4h
+        }
+
         return $items;
     }
 
     function getViews( $from=null ){
+
         $data = $this->_pageviewsPerArticle();
         $count = 0;
         foreach( $data as $item ){
@@ -96,15 +111,10 @@ Class ArticleStats {
 
     function getPoints( $granularity, $from ){
 
-        $md5 = md5(serialize(array($granularity, $from)));
-        $points = __c()->get($md5);
-        if ( $points === null ){
-            $points = array();
-            $data = $this->_pageviewsPerArticle();
-            foreach( $data as $item ){
-                $points[] = $item['views'];
-            }
-            __c()->set($md5, $points, 4*60*60); // cache for 4h
+        $points = array();
+        $data = $this->_pageviewsPerArticle();
+        foreach( $data as $item ){
+            $points[] = $item['views'];
         }
         return $points;
     }
