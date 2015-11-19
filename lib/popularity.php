@@ -136,7 +136,12 @@ Class ArticleStats {
         foreach( $data as $item ){
             $points[] = $item['views'];
         }
-        return $points;
+        $chunks = array_chunk ( $points , $granularity );
+        $outdata = array();
+        foreach( $chunks as $chunk){
+            $outdata[] = array_sum($chunk);
+        }
+        return $outdata;
     }
 
 }
