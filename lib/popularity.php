@@ -84,9 +84,15 @@ Class ArticleStats {
             $date->add(\DateInterval::createFromDateString('yesterday'));
             $to = $date->format('Ymd');
         }
+        /* Default $from is two weeks ago */
+        if ($from === null){
+            $date = new \DateTime('now', new \DateTimeZone('Europe/Stockholm'));
+            $date->add(\DateInterval::createFromDateString('-2 weeks'));
+            $from = $date->format('Ymd');
+        }
         $project = $this->project;
         $pageName = $this->pageName;
-        $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project/all-access/all-agents/$pageName/daily/20151101/$to";
+        $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project/all-access/all-agents/$pageName/daily/$from/$to";
         
         $md5 = md5($endpoint);
         $items = __c()->get($md5);
@@ -112,7 +118,7 @@ Class ArticleStats {
     function getPoints( $granularity, $from ){
 
         $points = array();
-        $data = $this->_pageviewsPerArticle();
+        $data = $this->_pageviewsPerArticle( $from );
         foreach( $data as $item ){
             $points[] = $item['views'];
         }
