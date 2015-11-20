@@ -176,9 +176,6 @@ class TList {
                     $sumArray[$k] = (int) ($sumArray[$k] / $totalWeight);
                 }
                 $laureate["popularity"] = $sumArray;
-
-//                $article = new ArticleStats( $enWpName );
-//                $laureate["popularity"] = $article->getPoints($gStatsInterval, $gStatsStart);
             }
             unset($laureate); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
 
