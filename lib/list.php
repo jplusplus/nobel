@@ -128,7 +128,7 @@ class TList {
             } else {
                 /* Assume an offset */
                 $date = new \DateTime();
-                $date->add(\DateInterval::createFromDateString($gStatsStart));
+                $date->add(\DateInterval::createFromDateString('-'.$gStatsStart));
                 $gStatsStart = $date->format('Ymd');
             }
             /* Get sparkline data */
