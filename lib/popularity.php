@@ -36,8 +36,8 @@ Class PopularityList {
 Class OnsitePopularityList extends PopularityList {
 
     function __construct(){
-        global $gPageStatsAPI;
-        $json = file_get_contents( $gPageStatsAPI );
+        global $gStatsToplistAPI;
+        $json = file_get_contents( $gStatsToplistAPI );
         /* The API actually doesn't return JSON, but a JS style object */
         /* Adding quotes arounc the keys will allow us to parse it. */
         $json = preg_replace('/([{\[,])\s*([a-zA-Z0-9_]+?):/', '$1"$2":', $json);

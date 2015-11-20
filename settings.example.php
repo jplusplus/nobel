@@ -31,9 +31,11 @@ $gProfilePageUrl = 'http://www.nobelprize.org/nobel_prizes/redirect_to_facts.php
 /* %d will be replaced by numeric id.             */
 $gImageAPI = 'http://www.nobelprize.org/nobel_prizes/get_image.php?id=%d&size=3';
 
-/* Url to page stats API for the local site.      */
-/* Should return stats by laureate.               */
-$gPageStatsAPI = 'http://www.nobelprize.org/nobel_prizes/popular_api.php';
+/* Url to page toplist API for the local site.    */
+$gStatsToplistAPI = 'http://www.nobelprize.org/nobel_prizes/popular_api.php';
+
+/* Url to laureate stats API for nobelprize.org   */
+$StatsLaureatePageAPI = 'http://www.nobelprize.org/nobel_prizes/popular_byid_api.php';
 
 /* How many days should should be aggregated in   */
 /* datapoint in the page view statistics          */
