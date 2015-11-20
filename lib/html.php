@@ -207,6 +207,7 @@ class TListWidget extends Html {
         global $gStatsStart;
         $this->jsSettings = array( 'endpoint' => "$baseUrl/list-api.php",
                                    'statsStart' => $gStatsStart,
+                                   'statsInterval' => $gStatsInterval,
                                   );
         $this->laureates = $list->getData();
         $this->id = $id;
