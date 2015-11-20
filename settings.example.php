@@ -23,17 +23,17 @@ $baseUrl = '/nobel';
 $maxListItems = 10;
 
 /* Profile page url. %d will be replaced by numeric id */
-$gProfilePageUrl = '//www.nobelprize.org/nobel_prizes/redirect_to_facts.php?id=%d';
+$gProfilePageUrl = 'http://www.nobelprize.org/nobel_prizes/redirect_to_facts.php?id=%d';
 
 /* Url to thumbnail service.                      */
 /* Should return an approximately 162 px wide     */
 /* image, the closer to a square the better.      */
 /* %d will be replaced by numeric id.             */
-$gImageAPI = '//www.nobelprize.org/nobel_prizes/get_image.php?id=%d&size=3';
+$gImageAPI = 'http://www.nobelprize.org/nobel_prizes/get_image.php?id=%d&size=3';
 
 /* Url to page stats API for the local site.      */
 /* Should return stats by laureate.               */
-$gPageStatsAPI = '//www.nobelprize.org/nobel_prizes/popular_api.php';
+$gPageStatsAPI = 'http://www.nobelprize.org/nobel_prizes/popular_api.php';
 
 /* How many days should should be aggregated in   */
 /* datapoint in the page view statistics          */
@@ -41,9 +41,9 @@ $gStatsInterval = 1;
 
 /* When should we start counting statistics       */
 /* Can be either a date on the format YYYYMMDD,   */
-/* or a negative dateoffset, like '-2 months'    */
+/* or a dateoffset, like '2 months'               */
 //$gStatsStart = '20150901';
-$gStatsStart = '-10 weeks';
+$gStatsStart = '10 weeks';
 
 /* Cache type. Can be auto, memcache, files, etc. */
 /* see http://www.phpfastcache.com/ for full list */
