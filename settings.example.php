@@ -50,11 +50,11 @@ $gStatsStart = '10 weeks';
 /* visit statistics on? Provide an weight for each*/
 /* edition, for createing a weighted average.     */
 $gStatsWPEditions = array(
-	'zh' => 935,
-	'en' => 387,
-	'es' => 365,
-	'hi' => 295,
-	'ar' => 295,
+	'zh' => 935,  // Chinese, including script varieties (zh-hans, zh-tw, etc), but excluding Minnan, Yue (Cantonese), Mindong, Wu, Hakka, and Gan WP.
+	'en' => 387,  // English, not including simplified English WP or Scots WP.
+	'es' => 365,  // Spanish
+	'hi' => 295,  // Hindi, not including Urdu WP
+	'ar' => 295,  // Arabic, excluding Egyptian Arabic WP
 );
 
 /* Cache type. Can be auto, memcache, files, etc. */
