@@ -106,7 +106,7 @@ Class ArticleStats {
         $project = $this->project;
         $pageName = $this->pageName;
         $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project/all-access/all-agents/$pageName/daily/$from/$to";
-        
+
         $md5 = md5($endpoint);
         $items = __c()->get($md5);
         if ($items === null){
@@ -137,10 +137,16 @@ Class ArticleStats {
             $points[] = $item['views'];
         }
         $chunks = array_chunk ( $points , $granularity );
+
+        /* Normalize last chunk */
+        $lastChunk = array_pop($chunks);
+        $lastCount = ( array_sum($lastChunk) / count($lastChunk) ) * $granularity;
+
         $outdata = array();
         foreach( $chunks as $chunk){
             $outdata[] = array_sum($chunk);
         }
+        $outdata[] = $lastCount;
         return $outdata;
     }
 
