@@ -248,7 +248,8 @@ class TListWidget extends Html {
                 $statsStart = $gStatsStart;
             } else {
                 /* Assume an offset */
-                $date = new \DateTime();
+                global $gTimezone;
+                $date = new \DateTime( 'now', new \DateTimeZone($gTimezone) );
                 $date->add(\DateInterval::createFromDateString('-'.$gStatsStart));
                 $statsStart = $date->format('Y-m-d');
             }
