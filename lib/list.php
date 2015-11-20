@@ -127,7 +127,8 @@ class TList {
                 /* A date */
             } else {
                 /* Assume an offset */
-                $date = new \DateTime();
+                global $gTimezone;
+                $date = new \DateTime( 'now', new \DateTimeZone($gTimezone) );
                 $date->add(\DateInterval::createFromDateString('-'.$gStatsStart));
                 $gStatsStart = $date->format('Ymd');
             }
