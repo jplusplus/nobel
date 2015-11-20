@@ -250,7 +250,7 @@ class TListWidget extends Html {
                 /* Assume an offset */
                 $date = new \DateTime();
                 $date->add(\DateInterval::createFromDateString('-'.$gStatsStart));
-                $statsStart = $date->format('Ymd');
+                $statsStart = $date->format('Y-m-d');
             }
 
             $popularitySparkline = $this->_createTag( 'span', '', array(
