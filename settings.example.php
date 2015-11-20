@@ -45,6 +45,18 @@ $gStatsInterval = 1;
 //$gStatsStart = '20150901';
 $gStatsStart = '10 weeks';
 
+
+/* What languages should we base the Wikipedia    */
+/* visit statistics on? Provide an weight for each*/
+/* edition, for createing a weighted average.     */
+$gStatsWPEditions = array(
+	'zh' => 935,
+	'en' => 387,
+	'es' => 365,
+	'hi' => 295,
+	'ar' => 295,
+);
+
 /* Cache type. Can be auto, memcache, files, etc. */
 /* see http://www.phpfastcache.com/ for full list */
 include("vendor/phpfastcache/phpfastcache/phpfastcache.php");
