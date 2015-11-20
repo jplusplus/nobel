@@ -28,27 +28,36 @@ TopList = (function() {
     }
     // Take a datestring (20110101) and return a Date
     function parseDate(dateString) {
-        var year = +dateString.substring(0,4);
-        var month = +dateString.substring(4,6) - 1;
-        var day = +dateString.substring(6,8);
-        var dateString = dateString.split("-");
+        var d = dateString.split("-");
+        var year = +d[0];
+        var month = +d[1] - 1;
+        var day = +d[2];
         return new Date(year, month, day);
     }
     function dateToString(date, interval) {
         var dateString;
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
         if (interval >= 365) {
             // Date format if interval is year
-            dateString = date.getFullYear();
+            dateString = year;
         }
         else if (interval >= 30) {
             // Date format if interval is month or greater
-            dateString = date.getFullYear() + "-" + (date.getMonth() + 1 );
+            dateString = [year, pad(month, 2)].join("-");
         } 
         else {
             // Date format if interval is shorter than month
-            dateString = date.getFullYear() + "-" + (date.getMonth() + 1 ) + "-" + date.getDate();
+            dateString = [year, pad(month, 2), pad(day, 2)].join("-");
         }
         return dateString;
+    }
+    // 1 => 01
+    function pad(n, width, z) {
+      z = z || '0';
+      n = n + '';
+      return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
 
     /*  Takes data about a person and renders a list item based on the list item

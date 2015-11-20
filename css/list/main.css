@@ -119,9 +119,14 @@ body {
     display: block;
     text-align: center;
 }
+
+.jqstooltip {
+    padding-left: 0; 
+}
 .tooltip-content {
   color: #fff;
   height: 25px;
   min-width: 70px;
   text-align: center;
 }
+
