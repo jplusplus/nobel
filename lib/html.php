@@ -243,9 +243,19 @@ class TListWidget extends Html {
 
             global $gStatsStart;
             global $gStatsInterval;
+            if (preg_match('/^\d{8}/', $gStatsStart)){
+                /* A date */
+                $statsStart = $gStatsStart;
+            } else {
+                /* Assume an offset */
+                $date = new \DateTime();
+                $date->add(\DateInterval::createFromDateString('-'.$gStatsStart));
+                $statsStart = $date->format('Ymd');
+            }
+
             $popularitySparkline = $this->_createTag( 'span', '', array(
                                                             "class" => "sparkline",
-                                                            "data-start-date" => $gStatsStart,
+                                                            "data-start-date" => $statsStart,
                                                             "data-interval" => $gStatsInterval,
                                                             "data-values" => implode(",", $laureate['popularity'])
                                                         ));
