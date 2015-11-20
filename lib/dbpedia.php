@@ -16,6 +16,13 @@ Class DbPediaQuery {
     var $endpoint;
     var $_uris;
 
+    function __construct( $laureates ){
+
+        $this->endpoint = new \Endpoint('http://dbpedia.org/sparql');
+        $uris = array_map(array($this, '_encodeUri'), $laureates);
+        $this->_uris = $this->_joinAndAffix( $uris, ', ', '<', '>');
+    }
+
     /* Joins an array and prefixes each element */
     function _joinAndAffix( $list, $glue, $prefix = "", $suffix = "" ){
         array_walk(
@@ -24,15 +31,6 @@ Class DbPediaQuery {
                 $value = $affix[0] . $value . $affix[1];
             }, array($prefix, $suffix));
         return implode($glue, $list);
-    }
-
-
-    function __construct( $laureates ){
-
-        $this->endpoint = new \Endpoint('http://dbpedia.org/sparql');
-        $uris = array_map(array($this, '_encodeUri'), $laureates);
-        $this->_uris = $this->_joinAndAffix( $uris, ', ', '<', '>');
-
     }
 
     /* URI encode only path of uri (i.e. keep slashes in hostname etc) */

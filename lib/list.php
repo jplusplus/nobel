@@ -133,8 +133,52 @@ class TList {
             }
             /* Get sparkline data */
             foreach ($finalList as &$laureate){
-                $article = new ArticleStats( $wpNames[$laureate["dbPedia"]] );
-                $laureate["popularity"] = $article->getPoints($gStatsInterval, $gStatsStart);
+                $enWpName = $wpNames[$laureate["dbPedia"]];
+
+                /* get iw links */
+                $endpoint = "https://www.wikidata.org/w/api.php?action=wbgetentities&sites=enwiki&props=sitelinks&titles=$enWpName&format=json";
+                $md5 = md5($endpoint);
+                $iwLinks = __c()->get($md5);
+                if ( $iwLinks === null ){
+                    $json = file_get_contents($endpoint);
+                    $iwLinks = reset(json_decode($json, true)['entities'])['sitelinks'];
+                    __c()->set($md5, $iwLinks, 60 * 86400); //cache for 60 days. This would very rarely change.
+                }
+                /* get Article stats for each WP */
+                global $gStatsWPEditions;
+                $totalWeight = 0; // Keep track of weights, in case not all languages have an article
+                $totalStats = array();
+                foreach ($gStatsWPEditions as $code => $weight ){
+                    if ( array_key_exists( $code . 'wiki', $iwLinks )){
+                        $wiki = $iwLinks[$code . 'wiki'];
+                        $article = new ArticleStats( $wiki['title'], "$code.wikipedia" );
+                        $stat = $article->getPoints($gStatsInterval, $gStatsStart);
+                        if ( $stat !== null ){
+                            foreach ($stat as $k=>$v) {
+                                $stat[$k] = $v * $weight;
+                            }
+                            $totalStats[] = $stat;
+                            $totalWeight += $weight;
+                        }
+                    }
+                }
+                /* summarize stats */
+                $sumArray = array();
+                foreach ($totalStats as $k=>$subArray) {
+                  foreach ($subArray as $id=>$value) {
+                    if (!isset($sumArray[$id])){
+                        $sumArray[$id] = 0;
+                    }
+                    $sumArray[$id] += $value;
+                  }
+                }
+                foreach ($sumArray as $k=>$v) {
+                    $sumArray[$k] = (int) ($sumArray[$k] / $totalWeight);
+                }
+                $laureate["popularity"] = $sumArray;
+
+//                $article = new ArticleStats( $enWpName );
+//                $laureate["popularity"] = $article->getPoints($gStatsInterval, $gStatsStart);
             }
             unset($laureate); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
 

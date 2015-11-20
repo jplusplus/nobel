@@ -103,15 +103,21 @@ Class ArticleStats {
             $date->add(\DateInterval::createFromDateString('-2 weeks'));
             $from = $date->format('Ymd');
         }
-        $project = $this->project;
-        $pageName = $this->pageName;
-        $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project/all-access/all-agents/$pageName/daily/$from/$to";
 
+        $project = $this->project;
+        $pageName = str_replace(' ', '_', $this->pageName);
+
+        $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project/all-access/all-agents/$pageName/daily/$from/$to";
         $md5 = md5($endpoint);
         $items = __c()->get($md5);
         if ($items === null){
             $json = file_get_contents($endpoint);
-            $items = json_decode($json, true)['items'];
+            $response = json_decode($json, true);
+            if (array_key_exists('items', $response)){
+                $items = $response['items'];
+            } else {
+                $items = null;
+            }
             global $gExternalLaureateDataCacheTime;
             __c()->set($md5, $items, $gExternalLaureateDataCacheTime*3600);
         }
@@ -122,6 +128,9 @@ Class ArticleStats {
     function getViews( $from=null ){
 
         $data = $this->_pageviewsPerArticle();
+        if ($data === null) {
+            return null;
+        }
         $count = 0;
         foreach( $data as $item ){
             $count += $item['views'];
@@ -131,8 +140,12 @@ Class ArticleStats {
 
     function getPoints( $granularity, $from ){
 
-        $points = array();
         $data = $this->_pageviewsPerArticle( $from );
+        if ($data === null) {
+            return null;
+        }
+
+        $points = array();
         foreach( $data as $item ){
             $points[] = $item['views'];
         }
