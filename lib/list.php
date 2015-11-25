@@ -73,15 +73,8 @@ class TList {
         // Laureate id's, for looking up Wikipedia links
         $lids = array_map(function ($l) {return $l['dbPedia'];}, $list);
 
-        // Add random sparkline data, link and image
+        // Add link and image
         foreach ($list as &$row) {
-            $min = rand(0, 80);
-            $max = rand(50, 500);
-            $sparkline = array();
-            for ($i = 0; $i < 120; $i++) {
-                $sparkline[] = rand($min, $max);
-            }
-            $row['popularity'] = $sparkline;
             global $gProfilePageUrl;
             $row['url'] = sprintf($gProfilePageUrl, $row['id']);
             global $gImageAPI;
