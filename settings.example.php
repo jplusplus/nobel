@@ -59,6 +59,13 @@ $gStatsWPEditions = array(
 	'ar' => 295,  // Arabic, excluding Egyptian Arabic WP
 );
 
+/* When retriving images from Wikipedia pages, we */
+/* want to exclude some pics that are often used  */
+/* to illustrate navigation boxes and similar.    */
+$gImageBlacklist = array(
+	'File:Tom Sawyer 1876 frontispiece.jpg'
+);
+
 /* Cache type. Can be auto, memcache, files, etc. */
 /* see http://www.phpfastcache.com/ for full list */
 include("vendor/phpfastcache/phpfastcache/phpfastcache.php");

@@ -32,7 +32,7 @@ $dbPediaQuery = new DbPediaQuery(array("$dbPediaLink"));
 $enWikipediaName = $dbPediaQuery->getWikipediaNames()[$dbPediaLink];
 
 /* Query enwp for images */
-$endpoint = "https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&iilimit=50&generator=images&titles=$enWikipediaName&format=json";
+$endpoint = "https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|mediatype|size&iilimit=30&generator=images&titles=$enWikipediaName&format=json";
 
 $md5 = md5($endpoint);
 $images = null;//__c()->get($md5);
@@ -42,9 +42,13 @@ if ($images === null){
     if (array_key_exists('query', $response)){
     	$pages = $response["query"]["pages"];
     	foreach ( $pages as $page ){
-    		$images[] = array (
-    			"title" => $page["title"]
-    		);
+    		$imgInfo = array_pop($page["imageinfo"]);
+    		if ( $imgInfo["mediatype"] === 'BITMAP' &&
+    			 $imgInfo["width"] > 250 ){
+	    		$images[] = array (
+	    			"title" => $page["title"]
+	    		);
+    		}
 
     	}
     } else {
