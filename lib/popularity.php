@@ -41,7 +41,27 @@ Class OnsitePopularityList extends PopularityList {
         /* The API actually doesn't return JSON, but a JS style object */
         /* Adding quotes arounc the keys will allow us to parse it. */
         $json = preg_replace('/([{\[,])\s*([a-zA-Z0-9_]+?):/', '$1"$2":', $json);
+        $json = str_replace(',"0": [, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , ]', '', $json);
         $this->list = json_decode($json, true)["pageviews"];
+    }
+
+    /* TODO code duplication with article stats */
+    function getIndividual( $id, $granularity ){
+        $list = $this->list[$id];
+
+        $chunks = array_chunk ( $list , $granularity );
+
+        /* Normalize last chunk */
+        $lastChunk = array_pop($chunks);
+        $lastCount = ( array_sum($lastChunk) / count($lastChunk) ) * $granularity;
+
+        $outdata = array();
+        foreach( $chunks as $chunk){
+            $outdata[] = array_sum($chunk);
+        }
+        $outdata[] = $lastCount;
+        return $outdata;
+
     }
 
 }

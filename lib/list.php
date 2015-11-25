@@ -193,6 +193,12 @@ class TList {
             /* Truncate list to max length */
             $finalList = array_values (array_slice($list, 0, $this->list_length));
 
+            /* Get sparkline data. TODO: Honour $gStatsInterval */
+            global $gStatsInterval;
+            foreach ($finalList as &$laureate){
+                $laureate["popularity"] = array_reverse( $popularityList->getIndividual( $laureate["id"], $gStatsInterval ) );
+            }
+
         }
 
         return $finalList;
