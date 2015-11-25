@@ -3,12 +3,21 @@ namespace Toplist;
 define('TopList', TRUE);
 
 require __DIR__ . '/settings.php';
-require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
+
+require $baseDir . 'vendor/autoload.php';
+//require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
 require $baseDir . 'lib/dbpedia.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
-$laureate = 579;
+/* Validate parameters. No not accept any invalid value */
+$gump = new \GUMP();
+$parameters = $gump->sanitize($_GET);
+$gump->validation_rules( array('id' => 'required|integer') );
+$gump->filter_rules( array('id' => 'trim|sanitize_numbers') );
+$parameters = $gump->run($parameters);
+
+$laureate = $parameters['id'];
 
 /* Get dbPedia url */
 $sparqlEndpoint = new \Endpoint('http://data.nobelprize.org/sparql');
@@ -29,7 +38,13 @@ $dbPediaLink = array_pop($dbPediaLinks)["sameAs"];
 
 /* Query DbPedia for enwp link */
 $dbPediaQuery = new DbPediaQuery(array("$dbPediaLink"));
-$enWikipediaName = $dbPediaQuery->getWikipediaNames()[$dbPediaLink];
+$response = $dbPediaQuery->getWikipediaNames();
+if ( !array_key_exists( $dbPediaLink, $response ) ){
+    echo json_encode( array( ) );
+    exit();
+}
+$enWikipediaName = $response[$dbPediaLink];
+
 
 /* Query enwp for images */
 $endpoint = "https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|mediatype|size&iilimit=30&generator=images&titles=$enWikipediaName&format=json";
@@ -44,9 +59,21 @@ if ($images === null){
     	foreach ( $pages as $page ){
     		$imgInfo = array_pop($page["imageinfo"]);
     		if ( $imgInfo["mediatype"] === 'BITMAP' &&
-    			 $imgInfo["width"] > 250 ){
+    			 $imgInfo["width"] > 250 &&
+                 $imgInfo["height"] > 250 ){
+
+                $metaData = $imgInfo["extmetadata"];
+
+                $attributionRequired = ('true' === @$metaData["AttributionRequired"]["value"]);
+                $cred = '';
+                if ($attributionRequired){
+                    $cred .= @$metaData["LicenseShortName"]["value"] ?: @$metaData["LicenseShortName"]["value"];
+                    $cred .= ', ';
+                    $cred .= strip_tags(@$metaData["Credit"]["value"]) . ' ' . strip_tags(@$metaData["Artist"]["value"]);
+                }
 	    		$images[] = array (
-	    			"title" => $page["title"]
+	    			"title" => $page["title"],
+                    "credit" => $cred
 	    		);
     		}
 
@@ -57,8 +84,5 @@ if ($images === null){
     global $gExternalLaureateDataCacheTime;
     //__c()->set($md5, $images, $gExternalLaureateDataCacheTime*3600);
 }
-
-
-
 
 echo json_encode( array( $laureate => $images ) );
