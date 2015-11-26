@@ -375,9 +375,7 @@ class TListUI extends Html {
                     );
         $statOptionsCode = implode("\n", $this->_createOptions($statOptions, isset($selectedParams['popularity']) ? $selectedParams['popularity'] : null ));
 
-        $formDom = new \DOMDocument();
-        $formDom->loadHTML(
-
+        $formCode = 
 <<<END
 <form action="" method="GET" data-filter-for="#toplist-2" class="toplist-filter-ui">
  <p>$intro</p>
@@ -414,11 +412,9 @@ class TListUI extends Html {
     
  <input type="submit" value="Submit" class="hideonjs button">
 </form>
-END
-        , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+END;
 
-        $tempImported = $this->dom->importNode($formDom->getElementsByTagName("form")->item(0), true);
-        $this->dom->appendChild($tempImported);
+        $this->_appendHtml($formCode, $this->dom);
 
         $js = $this->_getScripts('ui', 'js');
         $this->_appendScript( $js );
@@ -457,10 +453,6 @@ class TGalleryWidget extends Html {
             $divTag = $this->_createTag('div', '', array( 'class' => 'orbit-caption'));
             $caption = $list['caption'] . ' <i>' . $list['credit'] . '</i>' . ' <a href="' . $list['sourceurl'] . '">Image from Wikimedia Commons</a>';
             $this->_appendHtml($caption, $divTag);
-/*            $captionDom = new \DOMDocument();
-            $captionDom->loadHTML( '<div>' . $caption . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $tempImported = $this->dom->importNode($captionDom->getElementsByTagName('div')->item(0), true);
-            $divTag->appendChild($tempImported);*/
 
             $imgTag = $this->_createTag('img', null, array( 'src' => $list['url'],
                                                       'alt' => $list['caption'],
