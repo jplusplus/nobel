@@ -451,7 +451,11 @@ class TGalleryWidget extends Html {
             $liTag = $this->_createTag('li');
             
             $divTag = $this->_createTag('div', '', array( 'class' => 'orbit-caption'));
-            $caption = $list['caption'] . ' <i>' . $list['credit'] . '</i>' . ' <a href="' . $list['sourceurl'] . '">Image from Wikimedia Commons</a>';
+            $caption = $list['caption'];
+            if ($list['credit'] !== ''){
+                $caption .= ' <i>' . $list['credit'] . '</i>';
+            }
+            $caption .= ' <a href="' . $list['sourceurl'] . '">Image from Wikimedia Commons</a>';
             $this->_appendHtml($caption, $divTag);
 
             $imgTag = $this->_createTag('img', null, array( 'src' => $list['url'],
