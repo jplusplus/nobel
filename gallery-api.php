@@ -98,7 +98,7 @@ if ($images === null){
                     $cred .= implode(' ', array( strip_tags(@$metaData["Credit"]["value"]), strip_tags(@$metaData["Artist"]["value"]) ));
                 }
 	    		$images[] = array (
-	    			"caption"   => @$metaData['ImageDescription']['value'],
+	    			"caption"   => strip_tags(@$metaData['ImageDescription']['value'] ?: ''),
                     "credit"    => $cred,
                     "url"       => $imgInfo['thumburl'],
                     "sourceurl" => $imgInfo['descriptionurl'],
