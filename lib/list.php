@@ -141,7 +141,7 @@ class TList {
                 foreach ($gStatsWPEditions as $code => $weight ){
                     if ( array_key_exists( $code . 'wiki', $iwLinks )){
                         $wiki = $iwLinks[$code . 'wiki'];
-                        $article = new ArticleStats( $wiki['title'], "$code.wikipedia" );
+                        $article = new ArticleStats( $wiki, "$code.wikipedia" );
                         $stat = $article->getPoints($gStatsInterval, $gStatsStart);
                         if ( $stat !== null ){
                             foreach ($stat as $k=>$v) {

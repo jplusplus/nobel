@@ -24,6 +24,9 @@ Class WikiDataQuery {
             $iwLinks = reset(json_decode($json, true)['entities'])['sitelinks'];
             __c()->set($md5, $iwLinks, 60 * 86400); //cache for 60 days. This would very rarely change.
         }
+        array_walk($iwLinks, function( &$item, &$key ){
+            $item = $item['title'];
+        });
         return $iwLinks;
     }
 
