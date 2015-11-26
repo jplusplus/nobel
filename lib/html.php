@@ -434,6 +434,6 @@ class TGalleryWidget extends Html {
     }
 
     function getHTML(){
-
+        var_dump($this->imageList);
     }
 }
