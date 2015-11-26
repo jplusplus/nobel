@@ -84,13 +84,14 @@ if ($height) {
 
 $output = array();
 $allImageNames = array(); // to filter out duplicates
+global $gImageBlacklist;
 foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
     $params['titles'] = $pageName;
     $paramString = http_build_query( $params );
     $endpoint = "https://$wikipediaEdition.wikipedia.org/w/api.php?$paramString";
 
     $md5 = md5($endpoint);
-    $images = __c()->get($md5);
+    $images = null;//__c()->get($md5);
     if ($images === null){
         $images = array();
         $json = file_get_contents($endpoint);
@@ -99,7 +100,8 @@ foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
             $pages = $response["query"]["pages"];
             foreach ( $pages as $page ){
                 $title = explode(':', $page["title"])[1]; // Add only part after ':'
-                if ( !in_array( $title, $allImageNames ) ){
+                if ( !in_array( $title, $allImageNames ) &&
+                     !in_array( $title, $gImageBlacklist ) ){
                     $allImageNames[] = $title;
                     $imgInfo = array_pop($page["imageinfo"]);
                     if ( $imgInfo["mediatype"] === 'BITMAP' &&
