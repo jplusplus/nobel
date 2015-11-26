@@ -111,7 +111,6 @@ body {
 */
 .toplist .list-item .popularity {
     float: right;
-    max-width: 200px;
 }
 .toplist .list-item .popularity .title {
     font-size: 8px;

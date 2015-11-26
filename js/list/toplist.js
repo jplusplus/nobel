@@ -108,7 +108,7 @@ TopList = (function() {
             $title.text("Page views on " + sources[popularitySource] + " since " + dateToString(startDate, interval));
 
             $sparkline.sparkline("html", {
-                width: "100%",
+                width: "200px",
                 height: "2em",
                 lineColor: "#666",
                 fillColor: "#eee",
