@@ -1,0 +1,9 @@
+.gallery .image-wrapper {
+    height: 300px;
+    width: 100%;
+    background-position: center;
+
+}
+body {
+    color: red !important;
+}
