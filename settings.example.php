@@ -63,7 +63,8 @@ $gStatsWPEditions = array(
 /* want to exclude some pics that are often used  */
 /* to illustrate navigation boxes and similar.    */
 $gImageBlacklist = array(
-	'File:Tom Sawyer 1876 frontispiece.jpg'
+	'File:Tom Sawyer 1876 frontispiece.jpg',
+	'File:Nobel_Prize.png',
 );
 
 /* Cache type. Can be auto, memcache, files, etc. */
