@@ -15,6 +15,12 @@ include "gallery.php";
 
 <link rel="stylesheet" href="http://leowallentin.se/css/main.min.css" />
 <link rel="stylesheet" href="//highlightjs.org/static/styles/github.css" />
+
+<script src="js/jquery.min.js"></script>
+<script src="js/foundation.min.js"></script>
+<script src="js/foundation.orbit.js"></script>
+
+
 </head><body><article>
     <header>
         <h1>Gallery widget demo</h1>
@@ -64,6 +70,8 @@ include "gallery.php";
     echo( $html );
 
 ?></article>
+
+
 <script src="http://cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <?php
