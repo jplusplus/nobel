@@ -17,7 +17,7 @@ $baseDir = __DIR__ . '/';
 /* PHP app. This url is used by the frontend app,  */
 /* and $baseUrl/list-api.php, gallery-api.php etc  */
 /* must be publically accessible.                  */
-$baseUrl = '/nobel';
+$baseUrl = 'http://localhost/nobel';
 
 /* Default number of list items, if not specified */
 $maxListItems = 10;
