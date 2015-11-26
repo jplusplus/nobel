@@ -26,8 +26,8 @@ $parameters = $gump->run($parameters);
 $laureate = $parameters['id'];
 $width = @$parameters['width'] ?: null;
 $height = @$parameters['height'] ?: null;
-if (!($width || $height)){
-    $width = '200';
+if (!($height || $weight)){
+    $height = '300';
 }
 
 /* Get dbPedia url */
@@ -56,7 +56,10 @@ if ( !array_key_exists( $dbPediaLink, $response ) ){
 }
 $enWikipediaName = $response[$dbPediaLink];
 
-/* Query enwp for images */
+/* Get language links */
+https://www.wikidata.org/w/api.php?action=wbgetentities&sites=enwiki&titles=Ore%20Mountains&languages=cs|de|es|fr|it|pl|pt|ru&props=sitelinks%2Furls
+
+/* Query wp for images */
 $params = array(
     'action'    => 'query',
     'prop'      => 'imageinfo',
@@ -85,8 +88,8 @@ if ($images === null){
     	foreach ( $pages as $page ){
     		$imgInfo = array_pop($page["imageinfo"]);
     		if ( $imgInfo["mediatype"] === 'BITMAP' &&
-    			 $imgInfo["width"] > 250 &&
-                 $imgInfo["height"] > 250 ){
+    			 $imgInfo["width"] > 200 &&
+                 $imgInfo["height"] > 280 ){
 
                 $metaData = $imgInfo["extmetadata"];
 

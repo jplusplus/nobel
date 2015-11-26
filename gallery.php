@@ -27,7 +27,7 @@ class Gallery {
     private function _run(){
         $laureate = $this->laureate;
         global $baseUrl;
-        $json = file_get_contents( "$baseUrl/gallery-api.php?id=$laureate" );
+        $json = file_get_contents( "$baseUrl/gallery-api.php?id=$laureate&height=300" );
         $response = json_decode($json, true);
         $this->widget = new TGalleryWidget($response[$laureate]);
     }
