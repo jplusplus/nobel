@@ -422,3 +422,18 @@ END
     }
 
 }
+
+class TGalleryWidget extends Html {
+
+    var $imageList;
+
+    /* construct using an array from gallery-api.php */
+    function __construct( $imageList ) {
+        parent::__construct();
+        $this->imageList = $imageList;
+    }
+
+    function getHTML(){
+
+    }
+}
