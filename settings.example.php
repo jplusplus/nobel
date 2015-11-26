@@ -68,8 +68,9 @@ $gImageSourceWPEditions = array( 'en', 'es', 'de', 'ru' );
 /* want to exclude some pics that are often used  */
 /* to illustrate navigation boxes and similar.    */
 $gImageBlacklist = array(
-	'File:Tom Sawyer 1876 frontispiece.jpg',
+	'File:Tom Sawyer 1876 frontispiece.jpg', // used as portal icon on enwp
 	'File:Nobel_Prize.png',
+	'File:Дмитрий_Иванович_Менделеев_8.jpg', // used as portal icon on ruwp
 );
 
 /* Cache type. Can be auto, memcache, files, etc. */
