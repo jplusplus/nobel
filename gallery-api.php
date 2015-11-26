@@ -13,11 +13,22 @@ header('Content-Type: application/json; charset=utf-8');
 /* Validate parameters. No not accept any invalid value */
 $gump = new \GUMP();
 $parameters = $gump->sanitize($_GET);
-$gump->validation_rules( array('id' => 'required|integer') );
-$gump->filter_rules( array('id' => 'trim|sanitize_numbers') );
+$gump->validation_rules( array( 'id'     => 'required|integer',
+                                'width'  => 'integer',
+                                'height' => 'integer',
+                        ) );
+$gump->filter_rules( array( 'id'    => 'trim|sanitize_numbers',
+                            'width' => 'trim|sanitize_numbers',
+                            'height' => 'trim|sanitize_numbers',
+                        ) );
 $parameters = $gump->run($parameters);
 
 $laureate = $parameters['id'];
+$width = @$parameters['width'] ?: null;
+$height = @$parameters['height'] ?: null;
+if (!($width || $height)){
+    $width = '200';
+}
 
 /* Get dbPedia url */
 $sparqlEndpoint = new \Endpoint('http://data.nobelprize.org/sparql');
@@ -45,9 +56,24 @@ if ( !array_key_exists( $dbPediaLink, $response ) ){
 }
 $enWikipediaName = $response[$dbPediaLink];
 
-
 /* Query enwp for images */
-$endpoint = "https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|mediatype|size&iilimit=30&generator=images&titles=$enWikipediaName&format=json";
+$params = array(
+    'action'    => 'query',
+    'prop'      => 'imageinfo',
+    'generator' => 'images',
+    'titles'    => $enWikipediaName,
+    'iiprop'    => 'extmetadata|mediatype|size|url',
+    'iiextmetadatalanguage' => 'en',
+    'format'    => 'json'
+);
+if ($height) {
+    $params['iiurlheight'] = $height;
+} elseif ($width) {
+    $params['iiurlwidth'] = $width;
+}
+$paramString = http_build_query( $params );
+$wikipediaEdition = 'en';
+$endpoint = "https://$wikipediaEdition.wikipedia.org/w/api.php?$paramString";
 
 $md5 = md5($endpoint);
 $images = null;//__c()->get($md5);
@@ -69,11 +95,14 @@ if ($images === null){
                 if ($attributionRequired){
                     $cred .= @$metaData["LicenseShortName"]["value"] ?: @$metaData["LicenseShortName"]["value"];
                     $cred .= ', ';
-                    $cred .= strip_tags(@$metaData["Credit"]["value"]) . ' ' . strip_tags(@$metaData["Artist"]["value"]);
+                    $cred .= implode(' ', array( strip_tags(@$metaData["Credit"]["value"]), strip_tags(@$metaData["Artist"]["value"]) ));
                 }
 	    		$images[] = array (
-	    			"title" => $page["title"],
-                    "credit" => $cred
+	    			"caption"   => @$metaData['ImageDescription']['value'],
+                    "credit"    => $cred,
+                    "url"       => $imgInfo['thumburl'],
+                    "sourceurl" => $imgInfo['descriptionurl'],
+
 	    		);
     		}
 
