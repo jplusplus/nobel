@@ -15,8 +15,8 @@ $baseDir = __DIR__ . '/';
 
 /* The public url to the directory containing this */
 /* PHP app. This url is used by the frontend app,  */
-/* and $baseUrl/list-api.php must be publically    */
-/* accessible.                                     */
+/* and $baseUrl/list-api.php, gallery-api.php etc  */
+/* must be publically accessible.                  */
 $baseUrl = '/nobel';
 
 /* Default number of list items, if not specified */
