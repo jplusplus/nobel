@@ -2,8 +2,8 @@
     height: 300px;
     width: 100%;
     background-position: center;
-
+    background-repeat: no-repeat;
 }
-body {
-    color: red !important;
+.orbit-container .gallery li .orbit-caption {
+    font-size: 0.7rem;
 }

@@ -458,13 +458,10 @@ class TGalleryWidget extends Html {
             $caption .= ' <a href="' . $list['sourceurl'] . '">Image from Wikimedia Commons</a>';
             $this->_appendHtml($caption, $divTag);
 
-            $imgTag = $this-> _createTag('div', "test", array(
+            $imgTag = $this-> _createTag('div', '', array(
                 'class' => 'image-wrapper',
                 'style' => 'background-image: url(' . $list['url'] . ');' 
             ));
-            /*$imgTag = $this->_createTag('img', null, array( 'src' => $list['url'],
-                                                      'alt' => $list['caption'],
-                                        ) );*/
 
             $liTag->appendChild($imgTag);
             $liTag->appendChild($divTag);
