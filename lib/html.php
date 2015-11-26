@@ -440,7 +440,7 @@ class TGalleryWidget extends Html {
     function getHTML(){
         $js = $this->_getScripts('gallery', 'js');
         $this->_appendScript( $js );
-        $this->_addStyles('list');
+        $this->_addStyles('gallery');
 
         $ulTag = $this->_createTag( 'ul', '', array(
                                                     "class" => "gallery",
