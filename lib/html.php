@@ -176,7 +176,7 @@ END;
     }
 
     protected function _addStyles( $dir ){
-        $this->css .= $this->_getScripts('list', 'css');
+        $this->css .= $this->_getScripts($dir, 'css');
     }
 
     /* Return $length characters of lorem ipsum. */
