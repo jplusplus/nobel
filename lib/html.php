@@ -423,6 +423,7 @@ END
 
 }
 
+
 class TGalleryWidget extends Html {
 
     var $imageList;
@@ -434,6 +435,33 @@ class TGalleryWidget extends Html {
     }
 
     function getHTML(){
-        var_dump($this->imageList);
+        $ulTag = $this->_createTag( 'ul', '', array(
+                                                    "class" => "gallery",
+                                                    "data-orbit" => null,
+                                   ) );
+
+        foreach ($this->imageList as $list) {
+            $liTag = $this->_createTag('li');
+            
+            $divTag = $this->_createTag('div', '', array( 'class' => 'orbit-caption'));
+            $caption = $list['caption'] . ' <i>' . $list['credit'] . '</i>' . ' <a href="' . $list['sourceurl'] . '">Image from Wikimedia Commons</a>';
+            $captionDom = new \DOMDocument();
+            $captionDom->loadHTML( '<div>' . $caption . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $tempImported = $this->dom->importNode($captionDom->getElementsByTagName('div')->item(0), true);
+            $divTag->appendChild($tempImported);
+
+            $imgTag = $this->_createTag('img', null, array( 'src' => $list['url'],
+                                                      'alt' => $list['caption'],
+                                        ) );
+
+            $liTag->appendChild($imgTag);
+            $liTag->appendChild($divTag);
+
+            $ulTag->appendChild($liTag);
+        }
+
+        $this->dom->appendChild($ulTag);
+        return $this->_finalizeHtml();
+
     }
 }
