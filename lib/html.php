@@ -60,6 +60,13 @@ class Html {
         return $element;
     }
 
+    protected function _appendHtml( $html, &$tag ){
+            $captionDom = new \DOMDocument();
+            $captionDom->loadHTML( '<div>' . $html . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $tempImported = $this->dom->importNode($captionDom->getElementsByTagName('div')->item(0), true);
+            $tag->appendChild($tempImported);
+    }
+
     /* Child classes should always call this 
        function before returning their HTML
     */
@@ -435,6 +442,10 @@ class TGalleryWidget extends Html {
     }
 
     function getHTML(){
+        $js = $this->_getScripts('gallery', 'js');
+        $this->_appendScript( $js );
+        $this->_addStyles('list');
+
         $ulTag = $this->_createTag( 'ul', '', array(
                                                     "class" => "gallery",
                                                     "data-orbit" => null,
@@ -445,10 +456,11 @@ class TGalleryWidget extends Html {
             
             $divTag = $this->_createTag('div', '', array( 'class' => 'orbit-caption'));
             $caption = $list['caption'] . ' <i>' . $list['credit'] . '</i>' . ' <a href="' . $list['sourceurl'] . '">Image from Wikimedia Commons</a>';
-            $captionDom = new \DOMDocument();
+            $this->_appendHtml($caption, $divTag);
+/*            $captionDom = new \DOMDocument();
             $captionDom->loadHTML( '<div>' . $caption . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             $tempImported = $this->dom->importNode($captionDom->getElementsByTagName('div')->item(0), true);
-            $divTag->appendChild($tempImported);
+            $divTag->appendChild($tempImported);*/
 
             $imgTag = $this->_createTag('img', null, array( 'src' => $list['url'],
                                                       'alt' => $list['caption'],
