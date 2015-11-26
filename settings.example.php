@@ -59,6 +59,11 @@ $gStatsWPEditions = array(
 	'ar' => 295,  // Arabic, excluding Egyptian Arabic WP
 );
 
+/* Gallery images are picked from pictures        */
+/* in Wikipedia articles. What WP editions should */
+/* we scan for images?                            */
+$gImageSourceWPEditions = array( 'en', 'es', 'de', 'ru' );
+
 /* When retriving images from Wikipedia pages, we */
 /* want to exclude some pics that are often used  */
 /* to illustrate navigation boxes and similar.    */
