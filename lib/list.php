@@ -11,6 +11,7 @@ if(!defined('SETTINGS')) {
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/db.php';
 require $baseDir . 'lib/dbpedia.php';
+require $baseDir . 'lib/wikidata.php';
 require $baseDir . 'lib/popularity.php';
 
 /* This class represents a laureate top list. */
@@ -38,7 +39,7 @@ class TList {
         global $baseDir;
         $this->profileDataFile = $baseDir . 'data/profile-pages.csv';
 
-        /* Validate parameters. No not accept any invalid value */
+        /* Validate parameters. Do not accept any invalid value */
         $gump = new \GUMP();
         $parameters = $gump->sanitize($parameters);
         $gump->validation_rules( self::$validationRules );
@@ -130,14 +131,9 @@ class TList {
                 $enWpName = $wpNames[$laureate["dbPedia"]];
 
                 /* get iw links */
-                $endpoint = "https://www.wikidata.org/w/api.php?action=wbgetentities&sites=enwiki&props=sitelinks&titles=$enWpName&format=json";
-                $md5 = md5($endpoint);
-                $iwLinks = __c()->get($md5);
-                if ( $iwLinks === null ){
-                    $json = file_get_contents($endpoint);
-                    $iwLinks = reset(json_decode($json, true)['entities'])['sitelinks'];
-                    __c()->set($md5, $iwLinks, 60 * 86400); //cache for 60 days. This would very rarely change.
-                }
+                $wikiDataQuery = new WikiDataQuery();
+                $iwLinks = $wikiDataQuery->getSitelinks($enWpName);
+
                 /* get Article stats for each WP */
                 global $gStatsWPEditions;
                 $totalWeight = 0; // Keep track of weights, in case not all languages have an article
