@@ -21,7 +21,9 @@ Class WikiDataQuery {
         $iwLinks = __c()->get($md5);
         if ( $iwLinks === null ){
             $json = file_get_contents($endpoint);
-            $iwLinks = reset(json_decode($json, true)['entities'])['sitelinks'];
+            $response = json_decode($json, true);
+            $firstEntity = reset($response['entities']);
+            $iwLinks = $firstEntity['sitelinks'];
             __c()->set($md5, $iwLinks, 60 * 86400); //cache for 60 days. This would very rarely change.
         }
         array_walk($iwLinks, function( &$item, &$key ){
