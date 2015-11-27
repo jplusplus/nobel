@@ -1,16 +1,18 @@
 <?php
 /* Disable this script in development environments */
 define('TopList', TRUE);
-include "settings.php";
+include "../settings.php";
 if ($debugLevel === PRODUCTION){
     die('Not permitted');
 }
 /***************************************************/
 
-include "list.php";
+include "../list.php";
+
+global $baseUrl;
 
 ?><html><head><title>List widget demo</title>
-<link rel="stylesheet" href="css/foundation.min.css" />
+<link rel="stylesheet" href="<?php echo $baseUrl; ?>css/foundation.min.css" />
 <link rel="stylesheet" href="//www.nobelprize.org/css/nobel_custom.css?v=20141203" />
 
 <link rel="stylesheet" href="http://leowallentin.se/css/main.min.css" />

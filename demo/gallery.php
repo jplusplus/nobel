@@ -1,24 +1,25 @@
 <?php
 /* Disable this script in development environments */
 define('TopList', TRUE);
-include "settings.php";
+include "../settings.php";
 if ($debugLevel === PRODUCTION){
     die('Not permitted');
 }
 /***************************************************/
 
-include "gallery.php";
+include "../gallery.php";
+global $baseUrl;
 
 ?><html><head><title>Gallery widget demo</title>
-<link rel="stylesheet" href="css/foundation.min.css" />
+<link rel="stylesheet" href="<?php echo $baseUrl; ?>/css/foundation.min.css" />
 <link rel="stylesheet" href="//www.nobelprize.org/css/nobel_custom.css?v=20141203" />
 
 <link rel="stylesheet" href="http://leowallentin.se/css/main.min.css" />
 <link rel="stylesheet" href="//highlightjs.org/static/styles/github.css" />
 
-<script src="js/jquery.min.js"></script>
-<script src="js/foundation.min.js"></script>
-<script src="js/foundation.orbit.js"></script>
+<script src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
+<script src="<?php echo $baseUrl; ?>/js/foundation.min.js"></script>
+<script src="<?php echo $baseUrl; ?>/js/foundation.orbit.js"></script>
 
 
 </head><body><article>
