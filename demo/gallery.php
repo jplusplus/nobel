@@ -46,26 +46,26 @@ global $baseUrl;
     <h2>Object oriented style</h2>
 
     <pre><code class="php5">
-        $gallery = new TopList\Gallery( 282 );
+        $gallery = new TopList\Gallery( 4 );
         $gallery->printHTML();
     </code></pre>
 <?php
 
-    $gallery = new TopList\Gallery( 282 );
+    $gallery = new TopList\Gallery( 4 );
     $gallery->printHTML();
 
 ?>
     <hr>
     <h3>Custom parsing of output</h3>
     <pre><code class="php5">
-        $gallery = new TopList\Gallery( 282 );
+        $gallery = new TopList\Gallery( 530 );
         $html = $gallery->getHTML();
         // do something with html
         echo( $html );
     </code></pre>
 <?php
 
-    $gallery = new TopList\Gallery( 282 );
+    $gallery = new TopList\Gallery( 533 );
     $html = $gallery->getHTML();
     // do something with html
     echo( $html );
