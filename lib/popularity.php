@@ -42,7 +42,8 @@ Class OnsitePopularityList extends PopularityList {
         /* Adding quotes arounc the keys will allow us to parse it. */
         $json = preg_replace('/([{\[,])\s*([a-zA-Z0-9_]+?):/', '$1"$2":', $json);
         $json = str_replace(',"0": [, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , ]', '', $json);
-        $this->list = json_decode($json, true)["pageviews"];
+        $response = json_decode($json, true);
+        $this->list = $response["pageviews"];
     }
 
     /* TODO code duplication with article stats */
