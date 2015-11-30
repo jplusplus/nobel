@@ -62,7 +62,7 @@ class Html {
 
     protected function _appendHtml( $html, &$tag ){
             $captionDom = new \DOMDocument();
-            $captionDom->loadHTML( '<div>' . $html . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $captionDom->loadHTML( '<div>' . $html . '</div>');
             $tempImported = $this->dom->importNode($captionDom->getElementsByTagName('div')->item(0), true);
             $tag->appendChild($tempImported);
     }
