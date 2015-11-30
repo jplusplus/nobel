@@ -137,6 +137,9 @@ Class SPARQLQuery extends Query{
     function get(){
         $result = $this->_result;
         $output = array();
+        if (!$result){
+            return $output;
+        }
         foreach( $result as $k => $value ){
             $key = $value["label"];
             if (!isset($output[$key])){
