@@ -434,7 +434,12 @@ class TGalleryWidget extends Html {
     /* construct using an array from gallery-api.php */
     function __construct( $imageList ) {
         parent::__construct();
-        $this->imageList = $imageList;
+        if (is_array( $imageList )){
+            $this->imageList = $imageList;
+        } else {
+            $this->imageList = array();
+
+        }
     }
 
     function getHTML(){
