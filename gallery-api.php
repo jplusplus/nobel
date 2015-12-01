@@ -38,14 +38,15 @@ SELECT ?laur ?sameAs {
     ?laur owl:sameAs ?sameAs
     FILTER (?laur IN (<http://data.nobelprize.org/resource/laureate/$laureate>))
 }";
-$result = $sparqlEndpoint->query($query)["result"]["rows"];
+$result = $sparqlEndpoint->query($query);
 $dbPediaUri = null;
-$dbPediaLinks = array_filter( $result, function( $var ){
+$dbPediaLinks = array_filter( $result["result"]["rows"], function( $var ){
     $host = parse_url( $var["sameAs"], PHP_URL_HOST );
     return ('dbpedia.org' === $host);
 });
 //Use only the first link, if multiple
-$dbPediaLink = array_pop($dbPediaLinks)["sameAs"];
+$dbPediaLinkObj = array_pop($dbPediaLinks);
+$dbPediaLink = $dbPediaLinkObj["sameAs"];
 
 /* Query DbPedia for enwp link */
 $dbPediaQuery = new DbPediaQuery(array("$dbPediaLink"));
