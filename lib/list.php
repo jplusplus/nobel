@@ -74,16 +74,18 @@ class TList {
         // Laureate id's, for looking up Wikipedia links
         $lids = array_map(function ($l) {return $l['dbPedia'];}, $list);
 
-        // Add link and image
+        // Add link and image, replace underscore in award names
         foreach ($list as &$row) {
             global $gProfilePageUrl;
             $row['url'] = sprintf($gProfilePageUrl, $row['id']);
             global $gImageAPI;
             $row['image'] = sprintf($gImageAPI, $row['id']);
+            array_walk($row["awards"], function (&$v, $k){
+                $v['award'] = str_replace("_", " ", $v['award']);
+            });
 
         }
         unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
-
 
         if ( array_key_exists('popularity', $this->parameters) && $this->parameters['popularity'] === 'wikipedia'){
 
