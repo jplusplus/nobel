@@ -38,7 +38,7 @@ $gStatsToplistAPI = 'http://www.nobelprize.org/nobel_prizes/popular_api.php';
 $StatsLaureatePageAPI = 'http://www.nobelprize.org/nobel_prizes/popular_byid_api.php';
 
 /* How many days should should be aggregated in   */
-/* datapoint in the page view statistics          */
+/* one datapoint in the page view statistics      */
 $gStatsInterval = 1;
 
 /* When should we start counting statistics       */
@@ -77,6 +77,7 @@ $gImageBlacklist = array(
 /* see http://www.phpfastcache.com/ for full list */
 include("vendor/phpfastcache/phpfastcache/phpfastcache.php");
 \phpFastCache::$config['storage'] = 'files';
+\phpFastCache::$config['path'] = '';  // Leave empty to autodetect
 
 /* The number of hours to cache external data on  */
 /* individual laureates, e.g. Wikipedia page view */
@@ -89,6 +90,11 @@ $gExternalDataListsCacheTime = 4;
 
 /* Time zone to use when fetching statistics      */
 $gTimezone = 'Europe/Stockholm';
+
+/* Should we update the url to reflect current    */
+/* filtering of lists? This could potentially     */
+/* interfere with other javascript on the site.   */
+$gUpdateUrl = true;
 
 /* Debug modes */
 define('PRODUCTION', 0);
