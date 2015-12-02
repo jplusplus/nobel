@@ -66,7 +66,7 @@ TopList = (function() {
     TopList.prototype.renderListItem = function(row) {
         var self = this;
         var $listItem = self.$listElementTemplate.clone();
-        $listItem.find(".name").text(row.name);
+        $listItem.find(".name a").text(row.name).attr("href", row.url);
         $listItem.find(".image").attr("src", row.image);
         $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
         $listItem.find(".country").text(row.country);
