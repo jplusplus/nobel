@@ -15,19 +15,6 @@ function initUI() {
             $toplist.data("filterset").changeFilter(filter);
         })
     })  
-
-    // Init sparkline selector
-    function showSparkline(sparklineToShow) {
-        var sparklineToHide = sparklineToShow == "wikipedia" ? "page-views" : "wikipedia";
-        $(".popularity." + sparklineToShow).removeClass("hide");
-        $(".popularity." + sparklineToHide).addClass("hide");
-
-    }
-    $("#sparkline-select").on("change", function() {
-        var sparklineToShow = $(this).val();
-        showSparkline(sparklineToShow);
-    })
-    showSparkline($("#sparkline-select").val());
 }
 
 
