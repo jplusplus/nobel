@@ -14,7 +14,7 @@ TopList = (function() {
                 '</div>'
             )
         )
-
+        
         // Bind filterset to DOM element
         self.filterset = filterset;
         $container.data("filterset", filterset);
@@ -149,6 +149,14 @@ TopList = (function() {
         var url = self.filterset.asApiEndpoint();
         $.getJSON(url, function(data) {
             self.$container.removeClass("loading");
+
+            if (data.length == 0) {
+                self.$container.addClass("no-data");
+            }
+            else {
+                self.$container.removeClass("no-data");
+            }
+
             data.forEach(function(row) {
                 var $li = self.renderListItem(row);
                 self.$list.append($li);

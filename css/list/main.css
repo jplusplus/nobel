@@ -129,3 +129,12 @@ body {
   text-align: center;
 }
 
+/* --- NO DATA MESSAGE ---
+  (when no laurates match query)
+*/
+.toplist.no-data .no-data-message {
+  display: block;
+}
+.toplist .no-data-message {
+  display: none;
+}

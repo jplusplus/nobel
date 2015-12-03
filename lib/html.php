@@ -237,6 +237,9 @@ class TListWidget extends Html {
 
         $container = $this->_createTag( 'div', '', array('id' =>  'toplist-'.$id, 'class' => "toplist"));
 
+        $noDataMessage = $this->_createTag('div', 'Sorry, there are no laureates that match your query.', array("class" => "no-data-message"));
+        $container->appendChild($noDataMessage); 
+
         $list = $this->_createTag( 'ul', '', array( 'class' => 'list') );
         foreach ($this->laureates as $label => $laureate) {
             $li = $this->_createTag( 'li', '', array('class' => 'list-item',
