@@ -413,9 +413,9 @@ class TListUI extends Html {
         </select>
     </div>
 </div>
-
+<a href="javascript:clearFilters('toplist-2')">Clear filters</a>
     
- <input type="submit" value="Submit" class="hideonjs button">
+<input type="submit" value="Submit" class="hideonjs button">
 </form>
 END;
 
