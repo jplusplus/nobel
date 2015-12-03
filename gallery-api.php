@@ -47,6 +47,10 @@ $dbPediaLinks = array_filter( $result["result"]["rows"], function( $var ){
 //Use only the first link, if multiple
 $dbPediaLinkObj = array_pop($dbPediaLinks);
 $dbPediaLink = $dbPediaLinkObj["sameAs"];
+global $debugLevel;
+if ( $debugLevel === DEBUG ){
+    error_log( "Gallery: Using $dbPediaLink for dbPedia link." );
+}
 
 /* Query DbPedia for enwp link */
 $dbPediaQuery = new DbPediaQuery(array("$dbPediaLink"));
@@ -57,6 +61,10 @@ if ( !array_key_exists( $dbPediaLink, $response ) ){
 }
 $enWikipediaName = $response[$dbPediaLink];
 
+if ( $debugLevel === DEBUG ){
+    error_log( "Gallery: Using $enWikipediaName for enwp name." );
+}
+
 /* Get language links */
 $wikiDataQuery = new WikiDataQuery();
 $iwLinks = $wikiDataQuery->getSitelinks($enWikipediaName);
@@ -66,6 +74,11 @@ foreach ($gImageSourceWPEditions as $wpEdition) {
     if ( array_key_exists( $wpEdition . 'wiki', $iwLinks )){
         $allWikipediaNames[$wpEdition] = $iwLinks[$wpEdition . 'wiki'];
     }
+}
+
+if ( $debugLevel === DEBUG ){
+    $num = count($allWikipediaNames);
+    error_log( "Gallery: Using $num Wikipedia editions." );
 }
 
 /* Query Wikipedias for images */
@@ -92,15 +105,21 @@ foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
     $endpoint = "https://$wikipediaEdition.wikipedia.org/w/api.php?$paramString";
 
     $md5 = md5($endpoint);
-    $images = null;//__c()->get($md5);
+    $images = __c()->get($md5);
     if ($images === null){
         $images = array();
         $json = file_get_contents($endpoint);
         $response = json_decode($json, true);
         if (array_key_exists('query', $response)){
             $pages = $response["query"]["pages"];
+ if ( $debugLevel === DEBUG ){
+    $num = count($pages);
+    error_log( "Gallery: Found $num image pages." );
+}
             foreach ( $pages as $page ){
-                $title = explode(':', $page["title"])[1]; // Add only part after ':'
+                $titleParts = explode(':', $page["title"]); // Add only part after ':'
+                $title = $titleParts[1];
+
                 if ( !in_array( $title, $allImageNames ) &&
                      !in_array( $title, $gImageBlacklist ) ){
                     $allImageNames[] = $title;
