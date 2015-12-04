@@ -6,7 +6,7 @@ function clearFilters(topListID) {
     var clearedFilters = {};
 
     // Select first option in filter selects
-    $form.find(".filter:not([name='popularity']").each(function() {
+    $form.find(".filter:not([name='popularity'])").each(function() {
         var $select = $(this);
         var key = $select.attr("name");
         var value = $select.find("option:first").val();
