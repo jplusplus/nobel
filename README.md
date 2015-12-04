@@ -3,7 +3,7 @@ Installation
 
  * Install Composer: `curl -sS https://getcomposer.org/installer | php`
  * Run `php composer.phar install`
- * `copy settings.example.php settings.php` and then make any modifications needed to settings.php
+ * `copy settings.default.php settings.php` and then make any modifications needed to settings.php
 
 End points
 ==========
