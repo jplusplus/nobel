@@ -60,14 +60,16 @@ global $baseUrl;
     <pre><code class="php5">
         $gallery = new TopList\Gallery( 530 );
         $html = $gallery->getHTML();
-        // do something with html
+        //Modify HTML
+        $html .= "&lt;p>↑ This is a gallery&lt;/p>";
         echo( $html );
     </code></pre>
 <?php
 
     $gallery = new TopList\Gallery( 533 );
     $html = $gallery->getHTML();
-    // do something with html
+        //Modify HTML
+    $html .= "<p>↑ This is a gallery</p>";
     echo( $html );
 
 ?></article>
