@@ -19,9 +19,8 @@ $(document).ready(function() {
         var filterset = new FilterSet(["gender", "award", "region", "popularity"], $el, gToplistSettings.endpoint);
         filterset.urlSync();
         topLists[id] = new TopList($el, filterset).initSparkLines();
-    })
+    });
 
-    initUI();
 });
 
 
