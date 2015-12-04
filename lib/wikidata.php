@@ -16,7 +16,7 @@ Class WikiDataQuery {
     function getSitelinks( $title, $originLanguage='en') {
 
         $sitename = $originLanguage . 'wiki';  // enwiki
-        $endpoint = "https://www.wikidata.org/w/api.php?action=wbgetentities&sites=$sitename&props=sitelinks&titles=$title&format=json";
+        $endpoint = "https://www.wikidata.org/w/api.php?action=wbgetentities&sites=$sitename&props=sitelinks&normalize&titles=$title&format=json";
         $md5 = md5($endpoint);
         $iwLinks = __c()->get($md5);
         if ( $iwLinks === null ){
