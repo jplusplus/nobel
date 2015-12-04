@@ -3,6 +3,8 @@ namespace Toplist;
 define('TopList', TRUE);
 
 require __DIR__ . '/settings.php';
+//TODO remove
+defined('VERBOSE') or define('VERBOSE', 3);
 
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/dbpedia.php';
@@ -48,7 +50,7 @@ $dbPediaLinks = array_filter( $result["result"]["rows"], function( $var ){
 $dbPediaLinkObj = array_pop($dbPediaLinks);
 $dbPediaLink = $dbPediaLinkObj["sameAs"];
 global $debugLevel;
-if ( $debugLevel === DEBUG ){
+if ( $debugLevel >= VERBOSE ){
     error_log( "Gallery: Using $dbPediaLink for dbPedia link." );
 }
 
@@ -61,7 +63,7 @@ if ( !array_key_exists( $dbPediaLink, $response ) ){
 }
 $enWikipediaName = $response[$dbPediaLink];
 
-if ( $debugLevel === DEBUG ){
+if ( $debugLevel >= VERBOSE ){
     error_log( "Gallery: Using $enWikipediaName for enwp name." );
 }
 
@@ -76,7 +78,7 @@ foreach ($gImageSourceWPEditions as $wpEdition) {
     }
 }
 
-if ( $debugLevel === DEBUG ){
+if ( $debugLevel >= VERBOSE ){
     $num = count($allWikipediaNames);
     error_log( "Gallery: Using $num Wikipedia editions." );
 }
@@ -112,7 +114,7 @@ foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
         $response = json_decode($json, true);
         if (array_key_exists('query', $response)){
             $pages = $response["query"]["pages"];
- if ( $debugLevel === DEBUG ){
+ if ( $debugLevel >= DEBUG ){
     $num = count($pages);
     error_log( "Gallery: Found $num image pages." );
 }
