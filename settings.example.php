@@ -100,13 +100,14 @@ $gUpdateUrl = true;
 define('PRODUCTION', 0);
 define('DEVELOPMENT', 1);
 define('DEBUG', 2);
+define('VERBOSE', 3);
 /* Debug level. Use PRODUCTION for, well, production */
 $debugLevel = DEBUG;
 
 
 /* ----------------------------------------------- */
 
-if ($debugLevel == DEBUG){
+if ($debugLevel >= DEBUG){
     ini_set('display_errors', '1');
     error_reporting(E_ALL | E_STRICT);
 }

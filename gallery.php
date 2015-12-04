@@ -30,7 +30,7 @@ class Gallery {
         $json = file_get_contents( "$baseUrl/gallery-api.php?id=$laureate&height=300" );
         $response = json_decode($json, true);
         global $debugLevel;
-        if (!$response && ($debugLevel === DEBUG)) {
+        if (!$response && ($debugLevel >= DEBUG)) {
             echo "error: invalid response from $baseUrl/gallery-api.php, laureate id was $laureate";
         }
         $this->widget = new TGalleryWidget($response[$laureate]);
