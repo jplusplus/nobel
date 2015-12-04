@@ -36,11 +36,11 @@ global $baseUrl;
     <p>Try a different laureate by adding <code>?id=x</code> to the url.</p>
 
     <pre><code class="php5">
-        TopList\printGallery( @$_GET["id"] || 282 );
+        TopList\printGallery( @$_GET["id"] ?: 282 );
     </code></pre>
 <?php
 
-    TopList\printGallery( @$_GET["id"] || 282 );
+    TopList\printGallery( @$_GET["id"] ?: 282 );
 
 ?>
     <hr>
