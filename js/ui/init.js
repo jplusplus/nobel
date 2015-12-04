@@ -1,4 +1,3 @@
-// Move to ui folder
 function initUI() {
     
     // Init filters
@@ -14,8 +13,10 @@ function initUI() {
             filter[key] = value;
             $toplist.data("filterset").changeFilter(filter);
         })
-    })  
+    });
 }
-
+$(document).ready(function() {
+    initUI();
+});
 
 

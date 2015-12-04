@@ -225,7 +225,11 @@ class TListWidget extends Html {
 
     function getHTML(){
 
-        $id = $this->fragmentNumber;
+        if ($this->id){
+            $id = $this->id;    
+        } else {
+            $id = $this->fragmentNumber;
+        }
         if ($this->id){
             /* Add gToplistSettings */
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
@@ -382,7 +386,7 @@ class TListUI extends Html {
 
         $formCode = 
 <<<END
-<form action="" method="GET" data-filter-for="#toplist-2" class="toplist-filter-ui">
+<form action="" method="GET" data-filter-for="#toplist-ui" class="toplist-filter-ui">
  <p>$intro</p>
  <div class="row">
     <div class="small-6 columns">
@@ -413,7 +417,7 @@ class TListUI extends Html {
         </select>
     </div>
 </div>
-<a href="javascript:clearFilters('toplist-2')">Clear filters</a>
+<a href="javascript:clearFilters('toplist-ui')">Clear filters</a>
     
 <input type="submit" value="Submit" class="hideonjs button">
 </form>

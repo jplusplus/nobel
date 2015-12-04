@@ -44,10 +44,12 @@ class Widget {
     var $widget;
     var $parameters;
     var $validParameters;
+    var $predefinedId;
 
-    function __construct( $parameters = array() ){
+    function __construct( $parameters = array(), $id = null ){
 
         $this->parameters = $parameters;
+        $this->predefinedId = $id;
         $this->validParameters = TList::getParameters();
         /* copy parameters to class params */
         foreach ($this->validParameters as $parameter) {
@@ -61,7 +63,11 @@ class Widget {
 
     private function _run(){
 
-        $widgetCounter = Counter::getInstance()->getNext();
+        if ($this->predefinedId ){
+            $widgetCounter = $this->predefinedId;
+        } else {
+            $widgetCounter = Counter::getInstance()->getNext();
+        }
 
         /* update parameters in case of any changes */
         foreach ($this->validParameters as $parameter) {
@@ -91,9 +97,10 @@ function printWidget( $parameters = array() ){
 }
 
 function printUI(){
+
     $obj = new TListUI();
     $obj->printHTML( $_GET );
 
-    $listObj = new Widget( $_GET );
+    $listObj = new Widget( $_GET, "ui" );
     $listObj->printHTML();
 }
