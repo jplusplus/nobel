@@ -3,7 +3,9 @@ namespace Toplist;
 define('TopList', TRUE);
 
 require __DIR__ . '/settings.php';
-//TODO remove
+
+// TODO remove, left here 2015-12-04 for backward compability
+// after adding VERBOSE to settings.php
 defined('VERBOSE') or define('VERBOSE', 3);
 
 require $baseDir . 'vendor/autoload.php';
@@ -114,10 +116,10 @@ foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
         $response = json_decode($json, true);
         if (array_key_exists('query', $response)){
             $pages = $response["query"]["pages"];
- if ( $debugLevel >= DEBUG ){
-    $num = count($pages);
-    error_log( "Gallery: Found $num image pages." );
-}
+            if ( $debugLevel >= VERBOSE ){
+                $num = count($pages);
+                error_log( "Gallery: Found $num image pages." );
+            }
             foreach ( $pages as $page ){
                 $titleParts = explode(':', $page["title"]); // Add only part after ':'
                 $title = $titleParts[1];
