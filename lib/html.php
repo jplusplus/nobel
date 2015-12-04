@@ -62,7 +62,7 @@ class Html {
 
     protected function _appendHtml( $html, &$tag ){
             $captionDom = new \DOMDocument();
-            $captionDom->loadHTML( '<div>' . $html . '</div>');
+            $captionDom->loadHTML( '<?xml encoding="utf-8" ?><div>' . $html . '</div>');
             $tempImported = $this->dom->importNode($captionDom->getElementsByTagName('div')->item(0), true);
             $tag->appendChild($tempImported);
     }
@@ -457,8 +457,8 @@ class TGalleryWidget extends Html {
         $this->_addStyles('gallery');
 
         $ulTag = $this->_createTag( 'ul', '', array(
-                                                    "class" => "gallery",
-                                                    "data-orbit" => null,
+                                                "class" => "gallery",
+                                                "data-orbit" => null,
                                    ) );
 
         foreach ($this->imageList as $list) {
