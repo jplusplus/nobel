@@ -62,15 +62,18 @@ $gStatsWPEditions = array(
 /* Gallery images are picked from pictures        */
 /* in Wikipedia articles. What WP editions should */
 /* we scan for images?                            */
-$gImageSourceWPEditions = array( 'en', 'es', 'de', 'ru' );
+$gImageSourceWPEditions = array( 'en', 'es', 'de', 'nl' /*, 'ru'*/ );
+// ruwp contains a lot pf portraits as genre pictures,
+// hence commenting out
 
 /* When retriving images from Wikipedia pages, we */
 /* want to exclude some pics that are often used  */
 /* to illustrate navigation boxes and similar.    */
 $gImageBlacklist = array(
-	'Tom Sawyer 1876 frontispiece.jpg',
+	'Tom Sawyer 1876 frontispiece.jpg', //ruwp
 	'Nobel Prize.png',
-	'Дмитрий Иванович Менделеев 8.jpg',
+	'Дмитрий Иванович Менделеев 8.jpg', //ruwp
+	'Charles_Darwin_1880.jpg', //ruwp
 );
 
 /* Cache type. Can be auto, memcache, files, etc. */
