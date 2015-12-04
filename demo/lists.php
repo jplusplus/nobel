@@ -16,7 +16,7 @@ global $baseUrl;
 <link rel="stylesheet" href="//www.nobelprize.org/css/nobel_custom.css?v=20141203" />
 
 <link rel="stylesheet" href="http://leowallentin.se/css/main.min.css" />
-<link rel="stylesheet" href="//highlightjs.org/static/styles/github.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css" />
 </head><body><article>
     <header>
         <h1>List widget demo</h1>
@@ -109,6 +109,6 @@ global $baseUrl;
     echo( $html );
 
 ?></article>
-<script src="http://cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <?php

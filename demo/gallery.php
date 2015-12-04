@@ -15,7 +15,7 @@ global $baseUrl;
 <link rel="stylesheet" href="//www.nobelprize.org/css/nobel_custom.css?v=20141203" />
 
 <link rel="stylesheet" href="http://leowallentin.se/css/main.min.css" />
-<link rel="stylesheet" href="//highlightjs.org/static/styles/github.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css" />
 
 <script src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
 <script src="<?php echo $baseUrl; ?>/js/foundation.min.js"></script>
@@ -35,11 +35,11 @@ global $baseUrl;
     <h2>Procedural style</h2>
 
     <pre><code class="php5">
-        TopList\printGallery( 282 );
+        TopList\printGallery( $_GET["id"] || 282 );
     </code></pre>
 <?php
 
-    TopList\printGallery( 282 );
+    TopList\printGallery( @$_GET["id"] || 282 );
 
 ?>
     <hr>
@@ -75,6 +75,6 @@ global $baseUrl;
 ?></article>
 
 
-<script src="http://cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <?php
