@@ -1,5 +1,4 @@
 <?php
-namespace Toplist;
 define('TopList', TRUE);
 
 require __DIR__ . '/settings.php';
@@ -11,11 +10,10 @@ defined('VERBOSE') or define('VERBOSE', 3);
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/dbpedia.php';
 require $baseDir . 'lib/wikidata.php';
-
-header('Content-Type: application/json; charset=utf-8');
+require $baseDir . 'lib/api.php';
 
 /* Validate parameters. No not accept any invalid value */
-$gump = new \GUMP();
+$gump = new GUMP();
 $parameters = $gump->sanitize($_GET);
 $gump->validation_rules( array( 'id'     => 'required|integer',
                                 'width'  => 'integer',
@@ -35,7 +33,7 @@ if (!($height || $width)){
 }
 
 /* Get dbPedia url */
-$sparqlEndpoint = new \Endpoint('http://data.nobelprize.org/sparql');
+$sparqlEndpoint = new Endpoint('http://data.nobelprize.org/sparql');
 
 $query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>
 SELECT ?laur ?sameAs {
@@ -57,7 +55,7 @@ if ( $debugLevel >= VERBOSE ){
 }
 
 /* Query DbPedia for enwp link */
-$dbPediaQuery = new DbPediaQuery(array("$dbPediaLink"));
+$dbPediaQuery = new Toplist\DbPediaQuery(array("$dbPediaLink"));
 $response = $dbPediaQuery->getWikipediaNames();
 if ( !array_key_exists( $dbPediaLink, $response ) ){
     echo json_encode( array( ) );
@@ -70,7 +68,7 @@ if ( $debugLevel >= VERBOSE ){
 }
 
 /* Get language links */
-$wikiDataQuery = new WikiDataQuery();
+$wikiDataQuery = new Toplist\WikiDataQuery();
 $iwLinks = $wikiDataQuery->getSitelinks($enWikipediaName);
 $allWikipediaNames = array();
 global $gImageSourceWPEditions;
@@ -162,6 +160,8 @@ foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
 
 }
 
+$data = array( $laureate => $output );
 
-
-echo json_encode( array( $laureate => $output ) );
+$api = new Toplist\Api();
+$api->write_headers();
+$api->write_json($data);

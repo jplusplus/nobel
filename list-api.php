@@ -1,9 +1,12 @@
 <?php
 define('TopList', TRUE);
 require __DIR__ . '/settings.php';
+require $baseDir . 'lib/api.php';
 require $baseDir . 'lib/list.php';
 
-header('Content-Type: application/json; charset=utf-8');
-
 $list = new Toplist\TList($_GET);
-echo json_encode($list->getData());
+$data = $list->getData();
+
+$api = new Toplist\Api();
+$api->write_headers();
+$api->write_json($data);
