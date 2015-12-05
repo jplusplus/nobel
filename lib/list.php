@@ -18,52 +18,13 @@ require $baseDir . 'lib/popularity.php';
 class TList {
     var $list_length;
     var $parameters;
-    var $profileDataFile;
-    static $validationRules = array (
-            'length'    => 'integer|min_numeric,3|max_numeric,50',
-            'award'     => 'alpha_dash',
-            'gender'    => 'alpha',
-            'region'    => 'alpha_dash',
-            'popularity'=> 'alpha_dash',
-        );
-    static $filterRules = array(
-            'length'    => 'trim|sanitize_numbers',
-            'award'     => 'trim|sanitize_string',
-            'gender'    => 'trim|sanitize_string',
-            'region'    => 'trim',
-            'popularity'=> 'trim|sanitize_string'
-        );
 
     /* Constructor. Will parse the parameters. */
     function __construct( $parameters ) {
-        global $baseDir;
-        $this->profileDataFile = $baseDir . 'data/profile-pages.csv';
-
-        /* Validate parameters. Do not accept any invalid value */
-        $gump = new \GUMP();
-        $parameters = $gump->sanitize($parameters);
-        $gump->validation_rules( self::$validationRules );
-        $gump->filter_rules( self::$filterRules );
-
-        $parameters = $gump->run($parameters);
-
-        if($parameters === false) {
-            global $debugLevel;
-            if ( $debugLevel >= DEBUG ) {
-                echo $gump->get_readable_errors( true );
-            }
-            $parameters = array();
-        }
-
         global $maxListItems;
         $this->list_length = isset($parameters['length']) ? $parameters['length'] : $maxListItems;
         $this->parameters = $parameters;
 
-    }
-
-    /* Get all allowed parameters */
-    static function getParameters(){
-        return array_keys(self::$validationRules);
     }
 
     /* Get data for all laureates matching the filter */

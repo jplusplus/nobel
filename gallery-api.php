@@ -12,18 +12,16 @@ require $baseDir . 'lib/dbpedia.php';
 require $baseDir . 'lib/wikidata.php';
 require $baseDir . 'lib/api.php';
 
-/* Validate parameters. No not accept any invalid value */
-$gump = new GUMP();
-$parameters = $gump->sanitize($_GET);
-$gump->validation_rules( array( 'id'     => 'required|integer',
-                                'width'  => 'integer',
-                                'height' => 'integer',
-                        ) );
-$gump->filter_rules( array( 'id'    => 'trim|sanitize_numbers',
-                            'width' => 'trim|sanitize_numbers',
-                            'height' => 'trim|sanitize_numbers',
-                        ) );
-$parameters = $gump->run($parameters);
+$api = new Toplist\Api();
+$validationRules = array( 'id'     => 'required|integer',
+                          'width'  => 'integer',
+                          'height' => 'integer',
+                        );
+$filterRules = array( 'id'    => 'trim|sanitize_numbers',
+                      'width' => 'trim|sanitize_numbers',
+                      'height' => 'trim|sanitize_numbers',
+                    );
+$parameters = $api->getParameters( $validationRules, $filterRules );
 
 $laureate = $parameters['id'];
 $width = @$parameters['width'] ?: null;
@@ -162,6 +160,5 @@ foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
 
 $data = array( $laureate => $output );
 
-$api = new Toplist\Api();
 $api->write_headers();
 $api->write_json($data);

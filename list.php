@@ -50,7 +50,8 @@ class Widget {
 
         $this->parameters = $parameters;
         $this->predefinedId = $id;
-        $this->validParameters = TList::getParameters();
+        // FIXME
+        $this->validParameters = array('length', 'award', 'gender', 'region', 'popularity');
         /* copy parameters to class params */
         foreach ($this->validParameters as $parameter) {
             if ( array_key_exists( $parameter, $parameters ) ){
@@ -75,8 +76,10 @@ class Widget {
                 $this->parameters[$parameter] = $this->$parameter;
             }
         }
-        $this->list = new TList( $this->parameters );
-        $this->widget = new TListWidget($this->list, $widgetCounter);
+        global $baseUrl;
+        $json = file_get_contents( "$baseUrl/list-api.php?" . http_build_query($this->parameters) );
+        $response = json_decode($json, true);
+        $this->widget = new TListWidget($response, $widgetCounter);
     }
 
     function printHTML(){
