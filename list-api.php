@@ -143,7 +143,7 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
 	$maxListLength = @$parameters['length'] ?: $maxListItems;
 	$finalList = array_values (array_slice($list, 0, $maxListLength));
 
-    /* Get sparkline data. TODO: Honour $gStatsInterval */
+    /* Get sparkline data. */
     global $gStatsInterval;
     foreach ($finalList as &$laureate){
         $laureate["popularity"] = array_reverse( $popularityList->getIndividual( $laureate["id"], $gStatsInterval ) );
