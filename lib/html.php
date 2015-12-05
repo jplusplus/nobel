@@ -207,7 +207,7 @@ class TListWidget extends Html {
     var $id;
     var $jsSettings;
 
-    function __construct( TList $list, $id=0 ) {
+    function __construct( $list, $id=0 ) {
         parent::__construct();
 
         global $baseUrl;
@@ -219,7 +219,7 @@ class TListWidget extends Html {
                                    'statsInterval' => $gStatsInterval,
                                    'updateUrl' => $gUpdateUrl,
                                   );
-        $this->laureates = $list->getData();
+        $this->laureates = $list;
         $this->id = $id;
     }
 
