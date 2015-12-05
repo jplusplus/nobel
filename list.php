@@ -10,9 +10,7 @@ if(!defined('SETTINGS')) {
     require __DIR__ . '/settings.php';
 }
 
-require $baseDir . 'lib/list.php';
 require $baseDir . 'lib/html.php';
-
 
 /* Counter singleton for unique id's */
 class Counter {
