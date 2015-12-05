@@ -55,7 +55,7 @@ if ( $debugLevel >= VERBOSE ){
 }
 
 /* Query DbPedia for enwp link */
-$dbPediaQuery = new Toplist\DbPediaQuery(array("$dbPediaLink"));
+$dbPediaQuery = new Toplist\DbPediaQuery( $dbPediaLink );
 $response = $dbPediaQuery->getWikipediaNames();
 if ( !array_key_exists( $dbPediaLink, $response ) ){
     echo json_encode( array( ) );

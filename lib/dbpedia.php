@@ -18,6 +18,9 @@ Class DbPediaQuery {
 
     function __construct( $laureates ){
 
+        if ( !is_array( $laureates) ){
+            $laureates = array( $laureates );
+        }
         $this->endpoint = new \Endpoint('http://dbpedia.org/sparql');
         $uris = array_map(array($this, '_encodeUri'), $laureates);
         $this->_uris = $this->_joinAndAffix( $uris, ', ', '<', '>');
