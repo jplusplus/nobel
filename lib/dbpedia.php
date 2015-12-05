@@ -9,9 +9,9 @@ if(!defined('TopList')) {
 }
 
 //require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
+require $baseDir . 'lib/external-data.php';
 
-
-Class DbPediaQuery {
+Class DbPediaQuery extends ExternalData {
 
     var $endpoint;
     var $_uris;
