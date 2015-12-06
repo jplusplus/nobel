@@ -86,7 +86,7 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
         $gStatsStart = $date->format('Ymd');
     }
     /* Get sparkline data */
-    foreach ($finalList as &$laureate){
+    foreach ($list as &$laureate){
         $enWpName = $wpNames[$laureate["dbPedia"]];
 
         /* get iw links */
@@ -100,7 +100,7 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
         foreach ($gStatsWPEditions as $code => $weight ){
             if ( array_key_exists( $code . 'wiki', $iwLinks )){
                 $wiki = $iwLinks[$code . 'wiki'];
-                $article = new ArticleStats( $wiki, "$code.wikipedia" );
+                $article = new Toplist\ArticleStats( $wiki, "$code.wikipedia" );
                 $stat = $article->getPoints($gStatsInterval, $gStatsStart);
                 if ( $stat !== null ){
                     foreach ($stat as $k=>$v) {
@@ -141,15 +141,15 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
 	/* Truncate list to max length */
 	global $maxListItems;
 	$maxListLength = @$parameters['length'] ?: $maxListItems;
-	$finalList = array_values (array_slice($list, 0, $maxListLength));
+	$list = array_values (array_slice($list, 0, $maxListLength));
 
     /* Get sparkline data. */
     global $gStatsInterval;
-    foreach ($finalList as &$laureate){
+    foreach ($list as &$laureate){
         $laureate["popularity"] = array_reverse( $popularityList->getIndividual( $laureate["id"], $gStatsInterval ) );
     }
 
 }
 
 $api->write_headers();
-$api->write_json($finalList);
+$api->write_json($list);
