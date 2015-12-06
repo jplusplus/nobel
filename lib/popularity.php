@@ -125,11 +125,8 @@ Class ArticleStats {
             $from = $date->format('Ymd');
         }
 
-        $project = $this->project;
-        $pageName = str_replace(' ', '_', $this->pageName);
-
         $wikistats = new WikistatsQuery();
-        $items = $wikistats->getPageViews( $project, $pageName, $from, $to );
+        $items = $wikistats->getPageViews( $this->project, $this->pageName, $from, $to );
         return $items;
     }
 

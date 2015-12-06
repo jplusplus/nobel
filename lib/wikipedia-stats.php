@@ -23,7 +23,7 @@ Class WikistatsQuery extends ExternalData {
             $proj,
             'all-access',
             'all-agents',
-            $title,
+            str_replace(' ', '_', $title),
             'daily',
             $from,
             $to,
