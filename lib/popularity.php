@@ -111,18 +111,13 @@ Class ArticleStats {
 
     function _pageviewsPerArticle( $from=null, $to=null ){
 
-        global $gTimezone;
         /* Default $to is yesterday */
-        if ($to === null){
-            $date = new \DateTime('now', new \DateTimeZone($gTimezone));
-            $date->add(\DateInterval::createFromDateString('yesterday'));
-            $to = $date->format('Ymd');
+        if ($to === null) {
+            $to = WikistatsQuery::createDateString( 'yesterday' );
         }
         /* Default $from is two weeks ago */
-        if ($from === null){
-            $date = new \DateTime('now', new \DateTimeZone($gTimezone));
-            $date->add(\DateInterval::createFromDateString('-2 weeks'));
-            $from = $date->format('Ymd');
+        if ($from === null) {
+            $from = WikistatsQuery::createDateString( '-2 weeks' );
         }
 
         $wikistats = new WikistatsQuery();

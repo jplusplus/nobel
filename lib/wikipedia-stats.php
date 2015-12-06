@@ -16,6 +16,16 @@ Class WikistatsQuery extends ExternalData {
     function __construct( ){
     }
 
+    /* Create a datestring for the Wikimedia API,
+       based on an offset
+    */
+    static function createDateString( $dateString='yesterday' ){
+        global $gTimezone;
+        $date = new \DateTime( 'now', new \DateTimeZone( $gTimezone ) );
+        $date->add(\DateInterval::createFromDateString( $dateString ));
+        return $date->format('Ymd');
+    }
+
     /* Get the corresponding page names in other Wikipedia editions */
     function getPageViews( $proj, $title, $from, $to ) {
 
