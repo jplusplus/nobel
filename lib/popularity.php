@@ -5,7 +5,7 @@ namespace Toplist;
 if(!defined('TopList')) {
    die('Not permitted');
 }
-
+require_once $baseDir . 'lib/wikipedia-stats.php';
 
 /* Base class for popularity lists */
 Class PopularityList {
@@ -128,21 +128,8 @@ Class ArticleStats {
         $project = $this->project;
         $pageName = str_replace(' ', '_', $this->pageName);
 
-        $endpoint = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/$project/all-access/all-agents/$pageName/daily/$from/$to";
-        $md5 = md5($endpoint);
-        $items = __c()->get($md5);
-        if ($items === null){
-            $json = file_get_contents($endpoint);
-            $response = json_decode($json, true);
-            if (array_key_exists('items', $response)){
-                $items = $response['items'];
-            } else {
-                $items = null;
-            }
-            global $gExternalLaureateDataCacheTime;
-            __c()->set($md5, $items, $gExternalLaureateDataCacheTime*3600);
-        }
-
+        $wikistats = new WikistatsQuery();
+        $items = $wikistats->getPageViews( $project, $pageName, $from, $to );
         return $items;
     }
 
