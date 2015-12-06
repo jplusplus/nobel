@@ -6,6 +6,8 @@ if(!defined('TopList')) {
    die('Not permitted');
 }
 
+require_once $baseDir . 'lib/external-data.php';
+
 Class WikiDataQuery extends ExternalData {
 
     var $endPoint = "https://www.wikidata.org/w/api.php";
@@ -25,8 +27,9 @@ Class WikiDataQuery extends ExternalData {
             'titles' => $title,
             'format' => 'json'
             );
+        $url = $this->endPoint . '?' . http_build_query( $params );
         /* Cache for 60 days */
-        $response = $this->fetchAndCache( $params, 60 * 24, function( $res ){
+        $response = $this->fetchAndCache( $url, 60 * 24, function( $res ){
             $firstEntity = reset($res['entities']);
             $iwLinks = $firstEntity['sitelinks'];
             array_walk($iwLinks, function( &$item, &$key ){

@@ -8,8 +8,7 @@ if(!defined('TopList')) {
    die('Not permitted');
 }
 
-//require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
-require $baseDir . 'lib/external-data.php';
+require_once $baseDir . 'lib/external-data.php';
 
 Class DbPediaQuery extends ExternalData {
 

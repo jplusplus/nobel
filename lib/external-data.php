@@ -17,8 +17,7 @@ Class ExternalData {
        if not in cache already.
        $cacheTime in hours
     */
-    function fetchAndCache( $parameters, $cacheTime, $cb = null ){
-        $url = $this->endPoint . '?' . http_build_query( $parameters );
+    function fetchAndCache( $url, $cacheTime, $cb = null ){
         $cacheKey = 'ED-' . md5( $url );
         $result = __c()->get( $cacheKey );
         if ( $result === null ){
