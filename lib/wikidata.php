@@ -17,13 +17,15 @@ Class WikiDataQuery extends ExternalData {
         $sitename = $originLanguage . 'wiki';  // enwiki
         $endPoint = "https://www.wikidata.org/w/api.php?action=wbgetentities&sites=$sitename&props=sitelinks&normalize&titles=$title&format=json";
         /* Cache for 60 days */
-        $response = $this->fetchAndCache( $endPoint, 60 * 24);
-        $firstEntity = reset($response['entities']);
-        $iwLinks = $firstEntity['sitelinks'];
-        array_walk($iwLinks, function( &$item, &$key ){
-            $item = $item['title'];
+        $response = $this->fetchAndCache( $endPoint, 60 * 24, function( $res ){
+            $firstEntity = reset($res['entities']);
+            $iwLinks = $firstEntity['sitelinks'];
+            array_walk($iwLinks, function( &$item, &$key ){
+                $item = $item['title'];
+            });
+            return $iwLinks;
         });
-        return $iwLinks;
+        return $response;
     }
 
 }
