@@ -8,6 +8,8 @@ if(!defined('TopList')) {
 
 Class WikiDataQuery extends ExternalData {
 
+    var $endPoint = "https://www.wikidata.org/w/api.php";
+
     function __construct( ){
     }
 
@@ -15,9 +17,16 @@ Class WikiDataQuery extends ExternalData {
     function getSitelinks( $title, $originLanguage='en') {
 
         $sitename = $originLanguage . 'wiki';  // enwiki
-        $endPoint = "https://www.wikidata.org/w/api.php?action=wbgetentities&sites=$sitename&props=sitelinks&normalize&titles=$title&format=json";
+        $params = array(
+            'action' => 'wbgetentities',
+            'sites'  => $sitename,
+            'props'  => 'sitelinks',
+            'normalize' => null,
+            'titles' => $title,
+            'format' => 'json'
+            );
         /* Cache for 60 days */
-        $response = $this->fetchAndCache( $endPoint, 60 * 24, function( $res ){
+        $response = $this->fetchAndCache( $params, 60 * 24, function( $res ){
             $firstEntity = reset($res['entities']);
             $iwLinks = $firstEntity['sitelinks'];
             array_walk($iwLinks, function( &$item, &$key ){

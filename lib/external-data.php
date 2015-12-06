@@ -8,6 +8,8 @@ if(!defined('TopList')) {
 
 Class ExternalData {
 
+    var $endPoint;
+
     function __construct(){
     }
 
@@ -15,11 +17,12 @@ Class ExternalData {
        if not in cache already.
        $cacheTime in hours
     */
-    function fetchAndCache( $endPoint, $cacheTime, $cb = null ){
-        $cacheKey = 'ED-' . md5($endPoint);
+    function fetchAndCache( $parameters, $cacheTime, $cb = null ){
+        $url = $this->endPoint . '?' . http_build_query( $parameters );
+        $cacheKey = 'ED-' . md5( $url );
         $result = __c()->get( $cacheKey );
         if ( $result === null ){
-            $json = file_get_contents( $endPoint );
+            $json = file_get_contents( $url );
             $result = json_decode( $json, true );
             if ( is_callable( $cb ) ){
                 $result = $cb( $result );
