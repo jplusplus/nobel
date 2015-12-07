@@ -31,6 +31,9 @@ Class WikiDataQuery extends ExternalData {
         /* Cache for 60 days */
         $response = $this->fetchAndCache( $url, 60 * 24, function( $res ){
             $firstEntity = reset($res['entities']);
+            if ( !array_key_exists('sitelinks', $firstEntity)){
+                return array();
+            }
             $iwLinks = $firstEntity['sitelinks'];
             array_walk($iwLinks, function( &$item, &$key ){
                 $item = $item['title'];
