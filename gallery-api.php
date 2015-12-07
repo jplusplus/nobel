@@ -3,10 +3,6 @@ define('TopList', TRUE);
 
 require __DIR__ . '/settings.php';
 
-// TODO remove, left here 2015-12-04 for backward compability
-// after adding VERBOSE to settings.php
-defined('VERBOSE') or define('VERBOSE', 3);
-
 require_once $baseDir . 'vendor/autoload.php';
 require_once $baseDir . 'lib/api.php';
 require_once $baseDir . 'lib/dbpedia.php';
@@ -48,10 +44,6 @@ $dbPediaLinks = array_filter( $result["result"]["rows"], function( $var ){
 //Use only the first link, if multiple
 $dbPediaLinkObj = array_pop($dbPediaLinks);
 $dbPediaLink = $dbPediaLinkObj["sameAs"];
-global $debugLevel;
-if ( $debugLevel >= VERBOSE ){
-    error_log( "Gallery: Using $dbPediaLink for dbPedia link." );
-}
 
 /* Query DbPedia for enwp link */
 $dbPediaQuery = new Toplist\DbPediaQuery( $dbPediaLink );
@@ -62,10 +54,6 @@ if ( !array_key_exists( $dbPediaLink, $response ) ){
 }
 $enWikipediaName = $response[$dbPediaLink];
 
-if ( $debugLevel >= VERBOSE ){
-    error_log( "Gallery: Using $enWikipediaName for enwp name." );
-}
-
 /* Get language links */
 $wikiDataQuery = new Toplist\WikiDataQuery();
 $iwLinks = $wikiDataQuery->getSitelinks($enWikipediaName);
@@ -75,11 +63,6 @@ foreach ($gImageSourceWPEditions as $wpEdition) {
     if ( array_key_exists( $wpEdition . 'wiki', $iwLinks )){
         $allWikipediaNames[$wpEdition] = $iwLinks[$wpEdition . 'wiki'];
     }
-}
-
-if ( $debugLevel >= VERBOSE ){
-    $num = count($allWikipediaNames);
-    error_log( "Gallery: Using $num Wikipedia editions." );
 }
 
 /* Query Wikipedias for images */
