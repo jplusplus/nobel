@@ -81,8 +81,8 @@ Class SPARQLQuery extends Query{
             '?laur rdf:type nobel:Laureate',
             /* Properties to retrive*/
             '?laur rdfs:label ?label',
-            '?laur dbpedia-owl:birthPlace ?birthPlace',
-            '?laur owl:sameAs ?sameAs',
+            'optional { ?laur dbpedia-owl:birthPlace ?birthPlace }',
+            'optional { ?laur owl:sameAs ?sameAs }',
             '?laur nobel:laureateAward ?award',
             '?laur nobel:nobelPrize ?prize',
             '?laur foaf:gender ?gender'

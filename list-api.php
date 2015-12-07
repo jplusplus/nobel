@@ -25,8 +25,6 @@ $filterRules = array(
         'popularity'=> 'trim|sanitize_string'
     );
 $parameters = $api->getParameters( $validationRules, $filterRules );
-//$list = new Toplist\TList($_GET);
-//$data = $list->getData();
 
 $query = new Toplist\SPARQLQuery($parameters);
 $list = $query->get();
