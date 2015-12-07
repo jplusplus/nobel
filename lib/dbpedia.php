@@ -1,6 +1,6 @@
 <?php
 /* Contains a class for querying the dbPedia endpoint.
-   Todo: Merge with db.php!
+   Todo: Merge with ED!
 
 */ 
 namespace Toplist;
@@ -10,7 +10,7 @@ if(!defined('TopList')) {
 
 require_once $baseDir . 'lib/external-data.php';
 
-Class DbPediaQuery extends ExternalData {
+Class DbPediaQuery extends ExternalDataSparql {
 
     var $endpoint;
     var $_uris;
@@ -23,29 +23,6 @@ Class DbPediaQuery extends ExternalData {
         $this->endpoint = new \Endpoint('http://dbpedia.org/sparql');
         $uris = array_map(array($this, '_encodeUri'), $laureates);
         $this->_uris = $this->_joinAndAffix( $uris, ', ', '<', '>');
-    }
-
-    /* Joins an array and prefixes each element */
-    function _joinAndAffix( $list, $glue, $prefix = "", $suffix = "" ){
-        array_walk(
-            $list,
-            function(&$value, $key, $affix) { 
-                $value = $affix[0] . $value . $affix[1];
-            }, array($prefix, $suffix));
-        return implode($glue, $list);
-    }
-
-    /* URI encode only path of uri (i.e. keep slashes in hostname etc) */
-    protected function _encodeUri( $uri ){
-        $encodedUri = rawurlencode($uri);
-        $encodedUri = str_replace('%2F', '/', $encodedUri);
-        $encodedUri = str_replace('%3A', ':', $encodedUri);
-        $encodedUri = str_replace('%2C', ',', $encodedUri);
-        $encodedUri = str_replace('%27', "'", $encodedUri);
-        $encodedUri = str_replace('%28', "(", $encodedUri);
-        $encodedUri = str_replace('%29', ")", $encodedUri);
-        
-        return $encodedUri;
     }
 
     /* Return an indexed array of laureates data */
