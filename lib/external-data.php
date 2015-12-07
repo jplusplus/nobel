@@ -32,3 +32,34 @@ Class ExternalData {
     }
 
 }
+
+
+/* For querying SPAQRL API's */
+Class ExternalDataSparql extends ExternalData {
+
+    function __construct(){
+    }
+
+    /* Joins an array and prefixes each element */
+    function _joinAndAffix( $list, $glue, $prefix = "", $suffix = "" ){
+        array_walk(
+            $list,
+            function(&$value, $key, $affix) { 
+                $value = $affix[0] . $value . $affix[1];
+            }, array($prefix, $suffix));
+        return implode($glue, $list);
+    }
+
+    /* URI encode only path of uri (i.e. keep slashes in hostname etc) */
+    function _encodeUri( $uri ){
+        $encodedUri = rawurlencode($uri);
+        $encodedUri = str_replace('%2F', '/', $encodedUri);
+        $encodedUri = str_replace('%3A', ':', $encodedUri);
+        $encodedUri = str_replace('%2C', ',', $encodedUri);
+        $encodedUri = str_replace('%27', "'", $encodedUri);
+        $encodedUri = str_replace('%28', "(", $encodedUri);
+        $encodedUri = str_replace('%29', ")", $encodedUri);
+        
+        return $encodedUri;
+    }
+}
