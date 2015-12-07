@@ -85,6 +85,12 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
     }
     /* Get sparkline data */
     foreach ($list as &$laureate){
+        if ( !in_array( 'dbPedia', $laureate ) ){
+            // FIXME normalize
+            $laureate["popularity"] = null;
+            continue;
+        }
+
         $enWpName = $wpNames[$laureate["dbPedia"]];
 
         /* get iw links */

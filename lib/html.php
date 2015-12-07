@@ -274,7 +274,7 @@ class TListWidget extends Html {
                                                             "class" => "sparkline",
                                                             "data-start-date" => $statsStart,
                                                             "data-interval" => $gStatsInterval,
-                                                            "data-values" => implode(",", $laureate['popularity'])
+                                                            "data-values" => @implode(",", $laureate['popularity']) ?: '',
                                                         ));
             $popularityTitle = $this->_createTag('span', '', array("class" => "title"));
 
