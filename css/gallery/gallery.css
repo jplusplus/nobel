@@ -7,3 +7,10 @@
 .orbit-container .gallery li .orbit-caption {
     font-size: 0.7rem;
 }
+
+
+@media only screen and (max-width: 40em) {
+    .orbit-next, .orbit-prev {
+        display: block;
+    }
+}
