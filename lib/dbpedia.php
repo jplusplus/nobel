@@ -37,11 +37,13 @@ Class DbPediaQuery extends ExternalDataSparql {
         global $gExternalLaureateDataCacheTime;
         $result = $this->fetchAndCache($query, $gExternalLaureateDataCacheTime );
         foreach( $result as $row){
-            $host = parse_url( $row['label'], PHP_URL_HOST );
-            $pathParts = explode('/', parse_url( $row['label'], PHP_URL_PATH ));
-            if ('en.wikipedia.org' === $host){
-                //use the part after the last / as article name. Would break in case of / in name, e.g. in some khoisan languages.
-                $laureateDictionary[rawurldecode($row['uri'])] = array_pop($pathParts);
+            if (isset($row['label'])){
+                $host = parse_url( $row['label'], PHP_URL_HOST );
+                $pathParts = explode('/', parse_url( $row['label'], PHP_URL_PATH ));
+                if ('en.wikipedia.org' === $host){
+                    //use the part after the last / as article name. Would break in case of / in name, e.g. in some khoisan languages.
+                    $laureateDictionary[rawurldecode($row['uri'])] = array_pop($pathParts);
+                }
             }
         }
         return $laureateDictionary;

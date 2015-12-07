@@ -46,9 +46,10 @@ $dbPediaLinkObj = array_pop($dbPediaLinks);
 $dbPediaLink = $dbPediaLinkObj["sameAs"];
 
 /* Query DbPedia for enwp link */
-$dbPediaQuery = new Toplist\DbPediaQuery( $dbPediaLink );
-$response = $dbPediaQuery->getWikipediaNames();
+$dbPediaQuery = new Toplist\DbPediaQuery();
+$response = $dbPediaQuery->getWikipediaNames( $dbPediaLink );
 if ( !array_key_exists( $dbPediaLink, $response ) ){
+    /* No such dbPedia article, or invalid laureate id */
     $api->write_headers();
     $api->write_json( array( $laureate => array() ) );
     exit();
