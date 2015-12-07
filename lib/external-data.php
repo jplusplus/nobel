@@ -26,7 +26,7 @@ Class ExternalData {
             if ( is_callable( $cb ) ){
                 $result = $cb( $result );
             }
-            __c()->set( $cacheKey, $result, $cacheTime * 3600 ); //cache for 60 days. This would very rarely change.
+            __c()->set( $cacheKey, $result, $cacheTime * 3600 ); //cache for cacheTime hours
         }
         return $result;
     }

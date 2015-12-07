@@ -39,8 +39,7 @@ Class WikistatsQuery extends ExternalData {
             $to,
             );
         $url = $this->endPoint . implode( '/', $params );
-        global $gExternalLaureateDataCacheTime;
-        $response = $this->fetchAndCache( $url, 60 * $gExternalLaureateDataCacheTime, function( $res ){
+        $response = $this->fetchAndCache( $url, 60 * 24, function( $res ){
             if (array_key_exists('items', $res)){
                 $items = $res['items'];
             } else {
