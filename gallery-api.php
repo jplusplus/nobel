@@ -67,7 +67,6 @@ foreach ($gImageSourceWPEditions as $wpEdition) {
 
 /* Query Wikipedias for images */
 $output = array();
-global $gImageBlacklist;
 foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
     $wikipediaApi = new TopList\WikipediaQuery( $wikipediaEdition );
     $images = $wikipediaApi->getImages( $pageName, $width, $height );
