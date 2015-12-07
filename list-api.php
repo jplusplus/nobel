@@ -57,13 +57,9 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
     }
 
     /* Get and cache most viewed list for this subset of laureates */
-    $md5 = md5(serialize($lids));
-    $orderedList = null;//__c()->get($md5);
-    if ( $orderedList === null ){
-        $popularityList = new Toplist\WikipediaPopularityList($wpNames);
-        $orderedList = $popularityList->getOrdered();
-        __c()->set($md5, $orderedList, $gExternalDataListsCacheTime*3600);
-    }
+    $popularityList = new Toplist\WikipediaPopularityList($wpNames);
+    $orderedList = $popularityList->getOrdered();
+
     usort($list, function($a, $b) use ($orderedList){
         $ida = $a['dbPedia'];
         $idb = $b['dbPedia'];
@@ -85,13 +81,21 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
     }
     /* Get sparkline data */
     foreach ($list as &$laureate){
-        if ( !in_array( 'dbPedia', $laureate ) ){
+        if ( !array_key_exists( 'dbPedia', $laureate ) ){
+            /* No dbPedia link */
             // FIXME normalize
             $laureate["popularity"] = null;
             continue;
         }
 
-        $enWpName = $wpNames[$laureate["dbPedia"]];
+        if ( !array_key_exists( $laureate["dbPedia"], $wpNames ) ){
+            /* No such WP article.
+               Most likely a dead link from nobelprize.org to dbPedia */
+            $laureate["popularity"] = null;
+            continue;
+        }
+
+        $enWpName = $wpNames[$laureate['dbPedia']];
 
         /* get iw links */
         $wikiDataQuery = new Toplist\WikiDataQuery();
