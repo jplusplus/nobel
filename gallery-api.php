@@ -7,10 +7,11 @@ require __DIR__ . '/settings.php';
 // after adding VERBOSE to settings.php
 defined('VERBOSE') or define('VERBOSE', 3);
 
-require $baseDir . 'vendor/autoload.php';
-require $baseDir . 'lib/dbpedia.php';
-require $baseDir . 'lib/wikidata.php';
-require $baseDir . 'lib/api.php';
+require_once $baseDir . 'vendor/autoload.php';
+require_once $baseDir . 'lib/api.php';
+require_once $baseDir . 'lib/dbpedia.php';
+require_once $baseDir . 'lib/wikidata.php';
+require_once $baseDir . 'lib/wikipedia.php';
 
 $api = new Toplist\Api();
 $validationRules = array( 'id'     => 'required|integer',
@@ -82,83 +83,26 @@ if ( $debugLevel >= VERBOSE ){
 }
 
 /* Query Wikipedias for images */
-$params = array(
-    'action'    => 'query',
-    'prop'      => 'imageinfo',
-    'generator' => 'images',
-    'iiprop'    => 'extmetadata|mediatype|size|url',
-    'iiextmetadatalanguage' => 'en',
-    'format'    => 'json'
-);
-if ($height) {
-    $params['iiurlheight'] = $height;
-} elseif ($width) {
-    $params['iiurlwidth'] = $width;
-}
-
 $output = array();
-$allImageNames = array(); // to filter out duplicates
 global $gImageBlacklist;
 foreach ($allWikipediaNames as $wikipediaEdition => $pageName){
-    $params['titles'] = $pageName;
-    $paramString = http_build_query( $params );
-    $endpoint = "https://$wikipediaEdition.wikipedia.org/w/api.php?$paramString";
-
-    $md5 = md5($endpoint);
-    $images = __c()->get($md5);
-    if ($images === null){
-        $images = array();
-        $json = file_get_contents($endpoint);
-        $response = json_decode($json, true);
-        if (array_key_exists('query', $response)){
-            $pages = $response["query"]["pages"];
-            if ( $debugLevel >= VERBOSE ){
-                $num = count($pages);
-                error_log( "Gallery: Found $num image pages." );
-            }
-            foreach ( $pages as $page ){
-                $titleParts = explode(':', $page["title"]); // Add only part after ':'
-                $title = $titleParts[1];
-
-                if ( !in_array( $title, $allImageNames ) &&
-                     !in_array( $title, $gImageBlacklist ) ){
-                    $allImageNames[] = $title;
-                    $imgInfo = array_pop($page["imageinfo"]);
-                    if ( $imgInfo["mediatype"] === 'BITMAP' &&
-                         $imgInfo["width"] > 200 &&
-                         $imgInfo["height"] > 280 ){
-
-                        $metaData = $imgInfo["extmetadata"];
-
-                        $attributionRequired = ('true' === @$metaData["AttributionRequired"]["value"]);
-                        $cred = '';
-                        if ($attributionRequired){
-                            $cred .= @$metaData["LicenseShortName"]["value"] ?: @$metaData["LicenseShortName"]["value"];
-                            $cred .= ', ';
-                            $cred .= implode(' ', array( strip_tags(@$metaData["Credit"]["value"]), strip_tags(@$metaData["Artist"]["value"]) ));
-                        }
-                        $images[] = array (
-                            "caption"   => strip_tags(@$metaData['ImageDescription']['value'] ?: ''),
-                            "credit"    => $cred,
-                            "url"       => $imgInfo['thumburl'],
-                            "sourceurl" => $imgInfo['descriptionurl'],
-
-                        );
-                    }
-                }
-
-            }
-        } else {
-            /* invalid page or no images */
-        }
-        global $gExternalLaureateDataCacheTime;
-        __c()->set($md5, $images, $gExternalLaureateDataCacheTime*3600);
-    }
+    $wikipediaApi = new TopList\WikipediaQuery( $wikipediaEdition );
+    $images = $wikipediaApi->getImages( $pageName, $width, $height );
     $output = array_merge( $images, $output );
-
 }
 
-$data = array( $laureate => $output );
+/* Filter out duplicates */
+$allImageUrls = array();
+$filteredOutput = array_filter($output, function( $image ) use (&$allImageUrls) {
+    if ( in_array( $image['url'], $allImageUrls ) ){
+        return false;
+    } else {
+        $allImageUrls[] = $image['url'];
+        return true;
+    }
+});
+
+$data = array( $laureate => $filteredOutput );
 
 $api->write_headers();
 $api->write_json($data);
