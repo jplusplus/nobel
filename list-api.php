@@ -46,7 +46,6 @@ foreach ($list as &$row) {
 unset($row); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
 
 if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] === 'wikipedia'){
-
     /* Get all WP ids from dbPedia */
     $dbPediaQuery = new Toplist\DbPediaQuery();
     $wpNames = $dbPediaQuery->getWikipediaNames( $lids );
@@ -62,6 +61,12 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
         $posb = array_search($idb, $orderedList);
         return $posa > $posb ? 1 : -1;
     });
+
+    /* Truncate list to max length */
+    global $maxListItems;
+    $maxListLength = @$parameters['length'] ?: $maxListItems;
+    $list = array_values (array_slice($list, 0, $maxListLength));
+
 
     global $gStatsInterval;
     global $gStatsStart;
