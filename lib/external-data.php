@@ -71,7 +71,7 @@ Class ExternalDataSparql extends ExternalData {
         $result = __c()->get( $cacheKey );
         if ( $result === null ){
             $result = $this->endPoint->query($query);
-            $result = ["result"]["rows"];
+            $result = $result["result"]["rows"];
             if ( is_callable( $cb ) ){
                 $result = $cb( $result );
             }
