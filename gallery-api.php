@@ -49,7 +49,8 @@ $dbPediaLink = $dbPediaLinkObj["sameAs"];
 $dbPediaQuery = new Toplist\DbPediaQuery( $dbPediaLink );
 $response = $dbPediaQuery->getWikipediaNames();
 if ( !array_key_exists( $dbPediaLink, $response ) ){
-    echo json_encode( array( ) );
+    $api->write_headers();
+    $api->write_json( array( $laureate => array() ) );
     exit();
 }
 $enWikipediaName = $response[$dbPediaLink];
