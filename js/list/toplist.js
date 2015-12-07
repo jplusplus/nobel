@@ -150,18 +150,22 @@ TopList = (function() {
         $.getJSON(url, function(data) {
             self.$container.removeClass("loading");
 
+            // Check if any laurates were returned
+            // data.length will be 0 if no laurated match query 
             if (data.length == 0) {
+                // No match
                 self.$container.addClass("no-data");
             }
             else {
+                // Match! => Render list
                 self.$container.removeClass("no-data");
-            }
 
-            data.forEach(function(row) {
-                var $li = self.renderListItem(row);
-                self.$list.append($li);
-            })
-            self.initSparkLines();
+                data.forEach(function(row) {
+                    var $li = self.renderListItem(row);
+                    self.$list.append($li);
+                })
+                self.initSparkLines();
+            }
         })
         .error(function(err) { console.log(err); })
     }
