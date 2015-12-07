@@ -12,31 +12,31 @@ require_once $baseDir . 'lib/external-data.php';
 
 Class DbPediaQuery extends ExternalDataSparql {
 
-    var $endpoint;
-    var $_uris;
+    function __construct( ){
+        $this->endPoint = new \Endpoint('http://dbpedia.org/sparql');
+    }
 
-    function __construct( $laureates ){
+    /* Return an indexed array of laureates data */
+    /* Accept an array of laureate uris, or a single uri */
+    function getWikipediaNames( $laureates ){
 
         if ( !is_array( $laureates) ){
             $laureates = array( $laureates );
         }
-        $this->endpoint = new \Endpoint('http://dbpedia.org/sparql');
-        $uris = array_map(array($this, '_encodeUri'), $laureates);
-        $this->_uris = $this->_joinAndAffix( $uris, ', ', '<', '>');
-    }
 
-    /* Return an indexed array of laureates data */
-    function getWikipediaNames(){
+        $uris = array_map(array($this, '_encodeUri'), $laureates);
+        $uris = $this->_joinAndAffix( $uris, ', ', '<', '>');
+
         $laureateDictionary = array();
-        $uris = $this->_uris;
 
         $query = "SELECT ?uri ?label {
             ?uri foaf:isPrimaryTopicOf ?label
             FILTER (?uri IN ($uris))
           }";
 
-        $result = $this->endpoint->query($query);
-        foreach( $result["result"]["rows"] as $row){
+        global $gExternalLaureateDataCacheTime;
+        $result = $this->fetchAndCache($query, $gExternalLaureateDataCacheTime );
+        foreach( $result as $row){
             $host = parse_url( $row['label'], PHP_URL_HOST );
             $pathParts = explode('/', parse_url( $row['label'], PHP_URL_PATH ));
             if ('en.wikipedia.org' === $host){

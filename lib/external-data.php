@@ -62,4 +62,22 @@ Class ExternalDataSparql extends ExternalData {
         
         return $encodedUri;
     }
+
+    /* Call an external SPARQL API, if not in cache already.
+       $cacheTime in hours
+    */
+    function fetchAndCache( $query, $cacheTime, $cb = null ){
+        $cacheKey = 'ED-' . md5( $query );
+        $result = __c()->get( $cacheKey );
+        if ( $result === null ){
+            $result = $this->endPoint->query($query);
+            $result = ["result"]["rows"];
+            if ( is_callable( $cb ) ){
+                $result = $cb( $result );
+            }
+            __c()->set( $cacheKey, $result, $cacheTime * 3600 ); //cache for cacheTime hours
+        }
+        return $result;
+    }
+
 }

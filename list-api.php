@@ -26,6 +26,7 @@ $filterRules = array(
     );
 $parameters = $api->getParameters( $validationRules, $filterRules );
 
+/* Get laureate list from nobelprize.org */
 $query = new Toplist\SPARQLQuery($parameters);
 $list = $query->get();
 // Laureate id's, for looking up Wikipedia links
@@ -46,17 +47,11 @@ unset($row); // PHP is weird, but see http://php.net/manual/en/control-structure
 
 if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] === 'wikipedia'){
 
-    global $gExternalDataListsCacheTime;
-    /* Get and cache all WP ids from dbPedia */
-    $md5 = md5(serialize($list));
-    $wpNames = null;//__c()->get($md5);
-    if ( $wpNames === null ){
-        $dbPediaQuery = new Toplist\DbPediaQuery($lids);
-        $wpNames = $dbPediaQuery->getWikipediaNames();
-        __c()->set($md5, $wpNames, $gExternalDataListsCacheTime*3600);
-    }
+    /* Get all WP ids from dbPedia */
+    $dbPediaQuery = new Toplist\DbPediaQuery();
+    $wpNames = $dbPediaQuery->getWikipediaNames( $lids );
 
-    /* Get and cache most viewed list for this subset of laureates */
+    /* Get most viewed list for this subset of laureates */
     $popularityList = new Toplist\WikipediaPopularityList($wpNames);
     $orderedList = $popularityList->getOrdered();
 
