@@ -59,7 +59,7 @@ global $baseUrl;
     <hr>
     <h3>Custom parsing of output</h3>
     <pre><code class="php5">
-        $gallery = new TopList\Gallery( 530 );
+        $gallery = new TopList\Gallery( 533 );
         $html = $gallery->getHTML();
         //Modify HTML
         $html .= "&lt;p>↑ This is a gallery&lt;/p>";
