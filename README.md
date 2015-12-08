@@ -36,10 +36,16 @@ The list widget shows a top list of the most popular laureates, optionally filte
 
 By default, the Wikipedia popularity is based on the editions of the world's largest languages. You can add or remove editions, or change their weights, in the `$gStatsWPEditions` array in [settings.php](settings.default.php).
 
-Estimating the size of a language is notoriously difficult, and the situation is made even more complex when we start mapping languages to Wikipedia editions. Javanese, for instance, is generally regarded as one of the worlds 10 largest languages, but the Javanese Wikipedia is very, very small, with most Javanese speakers using the Indonesian Wikipedia. Some languages are divided among multiple Wikipedias (such as Arabic, with a separate Wikipedia in Egyptian Arabic). Some Wikipedias are more accessible than others to their main target audience, like the Chinese Wikipedia (occasionally blocked in mainland China). By default, we use the following editions for page view statistics: Chinese (`zh`), including script varieties (zh-hans, zh-tw, etc), but excluding Minnan, Yue (Cantonese), Mindong, Wu, Hakka, and Gan; English, not including simplified English or Scots; Spanish; Hindi, not including Urdu; and Arabic, excluding Egyptian Arabic. Portugese would probably be the next language to add, if the list were ti be expanded.
+Estimating the size of a language is notoriously difficult, and the situation is made even more complex when we start mapping languages to Wikipedia editions. Javanese, for instance, is generally regarded as one of the worlds 10 largest languages, but the Javanese Wikipedia is very, very small, with most Javanese speakers probably using the Indonesian Wikipedia. Some languages are divided among multiple Wikipedias (such as Arabic, with a separate Wikipedia in Egyptian Arabic). Some Wikipedias are more accessible than others to their main target audience, like the Chinese Wikipedia (occasionally blocked in mainland China) or Bengali Wikipedia (with Bangladesh having an extremely low Internet penetration).
+By default, we use the following editions for page view statistics: Chinese (`zh`), including script varieties, but excluding Minnan, Yue (Cantonese), Mindong, Wu, Hakka, and Gan; English (`en`), not including simplified English or Scots; Spanish (`es`); Hindi (`hi`), not including Urdu; and Arabic (`ar`), excluding Egyptian Arabic. Portugese (`pt`) would probably be the next language to add, if the list were to be expanded, and perhaps Russian. (Bengali Wikipedia (`bn`) is too small to give any valuable contribution.)
 
 Wikipedia statistics are fetched one editions at a time, making the first rendering of an uncached list _very_ slow. Caching is crucial, as these requests will block page rendering. Fetching statistics involves a number of steps: Finding the corresponding DbPedia uri from the nobelprize.org linked data API, Finding the corresponding English Wikipedia article from DbPedia, finding the corresponding articles on different Wikipedia edititions from the Wikidata API, and fetching their page views statistics from Wikimedia statistics API.
 
 
 List ui
 =======
+_See [demo/ui.php](demo/ui.php) for how to include a list with a user interface._
+
+The list UI widget allows the user to filter the list on gender, award, statistics type, and a subset of available regions.
+
+*Only one ui widget can be used on the same page.*
