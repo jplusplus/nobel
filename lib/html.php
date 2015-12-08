@@ -328,13 +328,10 @@ class TListUI extends Html {
 
     function __construct() {
         parent::__construct();
-
-
     }
 
     function getHTML( $selectedParams = array()){
 
-        $intro = $this->loremIpsum(250);
         $awardOptions = array('null' => 'Filter by award');
         $awardOptions += array(
                         'Physics' => 'Physics',
@@ -384,10 +381,11 @@ class TListUI extends Html {
                     );
         $statOptionsCode = implode("\n", $this->_createOptions($statOptions, isset($selectedParams['popularity']) ? $selectedParams['popularity'] : null ));
 
+        global $gUIIntro;
         $formCode = 
 <<<END
 <form action="" method="GET" data-filter-for="#toplist-ui" class="toplist-filter-ui">
- <p>$intro</p>
+ <p>$gUIIntro</p>
  <div class="row">
     <div class="small-6 columns">
         <label for="award-filter">Award</label>

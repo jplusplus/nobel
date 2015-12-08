@@ -47,6 +47,11 @@ $gStatsInterval = 1;
 //$gStatsStart = '20150901';
 $gStatsStart = '10 weeks';
 
+/* Description text to th UI controls. Can be left blank.*/
+$gUIIntro = <<<EOT
+Use the controls to filter the top list.
+The list is sorted by popularity at either nobelprize.org, or at Wikipedia (using statistics from the Chinese, English, Spanish, Hindi and Arabic Wikipedias).
+EOT;
 
 /* What languages should we base the Wikipedia    */
 /* visit statistics on? Provide an weight for each*/
