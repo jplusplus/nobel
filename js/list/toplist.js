@@ -70,8 +70,10 @@ TopList = (function() {
         $listItem.find(".image").attr("src", row.image);
         $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
         $listItem.find(".country").text(row.country);
-        $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + " ("+ d.year +")" }));        
-        $listItem.find(".popularity .sparkline").attr("data-values", row.popularity.join(","));
+        $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + " ("+ d.year +")" }));
+        if ( row.popularity ){
+            $listItem.find(".popularity .sparkline").attr("data-values", row.popularity.join(","));
+        }
         return $listItem;
     }
 
@@ -105,8 +107,11 @@ TopList = (function() {
                 "page-views": "Nobelprize.org",
                 "wikipedia": "Wikipedia"
             }
+            if (!$sparkline.attr("data-values")){
+                $title.text("No data available");
+                return;
+            }
             $title.text("Page views on " + sources[popularitySource] + " since " + dateToString(startDate, interval));
-
             $sparkline.sparkline("html", {
                 width: "200px",
                 height: "2em",
