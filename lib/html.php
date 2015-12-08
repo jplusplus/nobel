@@ -50,6 +50,16 @@ class Html {
         }
     }
 
+    protected function _truncate( $text, $chars ) {
+        if ( strlen($text) > $chars ){
+            $text = $text . " ";
+            $text = substr( $text, 0, $chars );
+            $text = substr( $text, 0, strrpos( $text, ' ' ) );
+            $text = $text . "…";
+        }
+        return $text;
+    }
+
     protected function _createTag( $tag, $content = '', $attributes = array() ){
         $element = $this->dom->createElement($tag, $content);
         foreach ($attributes as $key => $val){
@@ -464,6 +474,8 @@ class TGalleryWidget extends Html {
             
             $divTag = $this->_createTag('div', '', array( 'class' => 'orbit-caption'));
             $caption = $list['caption'];
+            $caption = $this->_truncate( $caption, 200 );
+
             if ($list['credit'] !== ''){
                 $caption .= ' <i>' . $list['credit'] . '</i>';
             }
