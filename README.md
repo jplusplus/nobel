@@ -24,4 +24,12 @@ Not included by default, but worth contemplating, are French (`fr`), Swedish (`s
 
 Looking up images involves a number of steps: Finding the corresponding DbPedia uri from the nobelprize.org linked data API, Finding the corresponding English Wikipedia article from DbPedia, finding the corresponding articles on differens Wikipedia edititions from the Wikidata API, and finally fetching all images from all articles, finding their Wikimedia Commons thumbnails, and filtering out obviously irrelevant, blacklisted and duplicated content. Caching is crucial, as these requests will block page rendering.
 
-A quick note on the image selection criteria: Using Wikipedia article illustrations generally gave a better result for most laureates, compared to other methods we tried (using fautured images from a Wikimedia Commons category, and using images from Wikimedia Commons pages), but it will give some irrelevant images for some laureates, escpecially those who are more well known in another capacity than that as a Nobel prize laureate (e.g. Henry Kissinger). In such case, simply keep adding images that feel out of place to `$gImageBlacklist` in [settings.php](settings.default.php).
+Image captions consist of an English image description, and an image credit/license text if (and only if) required. Very long descriptions are truncated. If descriptions look weird, or contain text in other languages, it is most likely because the images does not use the right templates at [Wikimedia Commons](https://commons.wikimedia.org). Such problems should be fixed there. The Wikimedia Commons community currently use the [`{{Information}}`](https://commons.wikimedia.org/wiki/Template:Information) template to make sure images have machine readable descriptions. While not strictly nescessary, using the Information template (or [some other template with similar functionality](https://commons.wikimedia.org/wiki/Commons:Machine-readable_data)) is the simplest way to ensure that image data is parsed correctly by our image galleries.
+
+A quick note on the image selection criteria: Using Wikipedia article illustrations generally gave a better result for most laureates, compared to other methods we tried (using fautured images from a Wikimedia Commons category, and using images from Wikimedia Commons pages), but it does return some irrelevant images for quite a few laureates, escpecially those who are more well known in another capacity than that as a Nobel prize laureate (e.g. Henry Kissinger). In such cases, simply keep adding images that feel out of place to `$gImageBlacklist` in [settings.php](settings.default.php).
+
+List widget
+===========
+
+List ui
+=======
