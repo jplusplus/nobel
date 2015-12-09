@@ -4,6 +4,18 @@ Installation
  * Install Composer: `curl -sS https://getcomposer.org/installer | php`
  * Run `php composer.phar install`
  * `copy settings.default.php settings.php` and make any modifications needed to settings.php
+ * Open [demo/lists.php](demo/lists.php), [demo/ui.php](demo/ui.php), and [demo/gallery.php](demo/gallery.php), to confirm that everything works, and see how to include the provided widgets.
+
+The scripts in the `$baseDir` directory must be accessible from the Internet, as they are called from the frontend scripts.
+
+The PHP scripts have been tested on PHP 5.3 and 5.6. They use no deprecated functions as of December 2015, and should keep working for the foreseeable future. For PHP versions < 5.3.7, SSL support must be added by installing the php_openssl module (chances are you already have it installed).
+
+All PHP code is contained in a namespace called `Toplist`.
+
+The gallery widget depends on [Foundation.js](http://foundation.zurb.com/). It has been tested with Foundation 5 (the version used at nobelprize.org as of December 2015).
+
+All list widget Javascript code is wrapped in an object called `TopList`. There is also one variable in the global scope, called `gToplistSettings`. Except for these objects, the code should be self contained, and not interfering with anything else.
+
 
 End points
 ==========
