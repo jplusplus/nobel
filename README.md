@@ -4,7 +4,7 @@ Installation
  * Install Composer: `curl -sS https://getcomposer.org/installer | php`
  * Run `php composer.phar install`
  * `copy settings.default.php settings.php` and make any modifications needed to settings.php
- * Open [demo/lists.php](demo/lists.php), [demo/ui.php](demo/ui.php), and [demo/gallery.php](demo/gallery.php), to confirm that everything works, and see how to include the provided widgets.
+ * Open /demo/lists.php, /demo/ui.php, and demo/gallery.php, to confirm that everything works, and see how to include the provided widgets.
 
 The scripts in the `$baseDir` directory must be accessible from the Internet, as they are called from the frontend scripts.
 
@@ -38,7 +38,7 @@ Looking up images involves a number of steps: Finding the corresponding DbPedia 
 
 Image captions consist of an English image description, and an image credit/license text if (and only if) required. Very long descriptions are truncated. If descriptions look weird, or contain text in other languages, it is most likely because the images does not use the right templates at [Wikimedia Commons](https://commons.wikimedia.org). Such problems should be fixed there. The Wikimedia Commons community currently use the [`{{Information}}`](https://commons.wikimedia.org/wiki/Template:Information) template to make sure images have machine readable descriptions. While not strictly nescessary, using the Information template (or [some other template with similar functionality](https://commons.wikimedia.org/wiki/Commons:Machine-readable_data)) is the simplest way to ensure that image data is parsed correctly by our image galleries.
 
-A quick note on the image selection criteria: Using Wikipedia article illustrations generally gave a better result for most laureates, compared to other methods we tried (using fautured images from a Wikimedia Commons category, and using images from Wikimedia Commons pages), but it does return some irrelevant images for quite a few laureates, escpecially those who are more well known in another capacity than that as a Nobel prize laureate (e.g. Henry Kissinger). In such cases, simply keep adding images that feel out of place to `$gImageBlacklist` in [settings.php](settings.default.php).
+A quick note on the image selection criteria: Using Wikipedia article illustrations generally gave a better result for most laureates, compared to other methods we tried (using featured images from a Wikimedia Commons category, and using images from Wikimedia Commons pages), but it does return some irrelevant images for quite a few laureates, escpecially those who are more well known in another capacity than that as a Nobel prize laureate (e.g. Henry Kissinger). In such cases, simply keep adding images that feel out of place to `$gImageBlacklist` in [settings.php](settings.default.php).
 
 List widget
 ===========
