@@ -61,3 +61,10 @@ _See [demo/ui.php](demo/ui.php) for how to include a list with a user interface.
 The list UI widget allows the user to filter the list on gender, award, statistics type, and a subset of available regions.
 
 *Only one ui widget can be used on the same page.*
+
+
+Maintenance scripts
+===================
+The [maintenance](maintenance/) folder contains scripts to be run from the command line:
+
+* `purgeCache.php` will purge _all_ caches. Depending on your cache settings and server setup, you might need to run this script as root: `sudo php purgeCache.php` (if you are using the default file cache you are very likely to need this).
