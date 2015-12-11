@@ -2,7 +2,6 @@
 define('TopList', TRUE);
 require __DIR__ . '/settings.php';
 require $baseDir . 'lib/api.php';
-//require $baseDir . 'lib/list.php';
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/db.php';
 require $baseDir . 'lib/dbpedia.php';
@@ -81,6 +80,7 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
     }
     /* Get sparkline data */
     foreach ($list as &$laureate){
+
         if ( !array_key_exists( 'dbPedia', $laureate ) ){
             /* No dbPedia link */
             // FIXME normalize
