@@ -181,7 +181,8 @@ END;
         if ( $debugLevel > PRODUCTION ){
             $script = $this->dom->createElement('script', $js);
         } else {
-            $script = $this->dom->createElement('script', \JShrink\Minifier::minify($js));
+            $script = $this->dom->createElement('script', $js);
+//            $script = $this->dom->createElemet('script', \JShrink\Minifier::minify($js));
         }
         $this->dom->appendChild($script);
     }
