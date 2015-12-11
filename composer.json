@@ -1,7 +1,7 @@
 {
     "require": {
         "wixel/gump": "dev-master",
-        "tedivm/jshrink": "~1.0",
+        "tedivm/jshrink": "1.1.0",
         "BorderCloud/SPARQL" : "*",
         "phpfastcache/phpfastcache": "^3.0"
     },
