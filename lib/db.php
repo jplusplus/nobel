@@ -6,9 +6,6 @@ if(!defined('TopList')) {
    die('Not permitted');
 }
 
-//require $baseDir . 'vendor/bordercloud/sparql/Endpoint.php'; //This lib is not autoloaded
-require $baseDir . 'lib/regions.php'; //class RegionFinder
-
 Class Query {
 
     var $awards = array('Physics',
@@ -108,15 +105,14 @@ Class SPARQLQuery extends Query{
         /* Select by region */
         if ( isset($parameters['region']) ){
 
-            $regionFinder = new RegionFinder();
-
+            global $baseUrl;
+            $url = "$baseUrl/regions-api.php";
+            $regions_json = file_get_contents( $url );
+            $regionMapping = json_decode( $regions_json, true );
             // assure that region is in list
-            $availableRegions = $regionFinder->getRegionList();
-            if (in_array( $parameters['region'], $availableRegions)){
-
-                $data = $regionFinder->getRegions($parameters['region']);
-
+            if (in_array( $parameters['region'], array_keys( $regionMapping ) ) ){
                 $filters = array();
+                $data = $regionMapping[$parameters['region']];
                 foreach ($data as $str){
                     $str = urlencode(str_replace(" ", "_", $str));
                     $filters[] = "?birthPlace = <http://data.nobelprize.org/resource/country/$str>";

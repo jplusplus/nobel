@@ -57,6 +57,11 @@ Class RegionFinder {
         return $this->allRegions;
     }
 
+    /* Return all available regions */
+    function getRegionMapping(){
+        return $this->data;
+    }
+
     /* Return a list of regions this nation belongs to.
      */
     function getRegions( $nation ){
