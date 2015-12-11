@@ -33,10 +33,10 @@ Class DbPediaQuery extends ExternalDataSparql {
             ?uri foaf:isPrimaryTopicOf ?label
             FILTER (?uri IN ($uris))
           }";
-
         global $gExternalLaureateDataCacheTime;
         $result = $this->fetchAndCache($query, $gExternalLaureateDataCacheTime );
         foreach( $result as $row){
+
             if (isset($row['label'])){
                 $host = parse_url( $row['label'], PHP_URL_HOST );
                 $pathParts = explode('/', parse_url( $row['label'], PHP_URL_PATH ));
