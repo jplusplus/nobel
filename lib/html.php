@@ -86,7 +86,9 @@ class Html {
         $css = htmlentities($this->css);
         global $debugLevel;
         if ( $debugLevel > PRODUCTION ){
-            $css = str_replace("\n", "", $css);
+            $css = str_replace("\n", "\\\n", $css);
+        } else {
+            $css = preg_replace('/[\n\r](\s+)?/', '', $css);
         }
         $js .= <<<END
 $(document).ready(function() {
@@ -182,8 +184,9 @@ END;
             $script = $this->dom->createElement('script', $js);
         } else {
             $script = $this->dom->createElement('script', $js);
-//            $script = $this->dom->createElemet('script', \JShrink\Minifier::minify($js));
-        }
+            // bug in the lib: https://github.com/tedious/JShrink/issues/13
+            // $script = $this->dom->createElemet('script', \JShrink\Minifier::minify($js));
+        } 
         $this->dom->appendChild($script);
     }
 
