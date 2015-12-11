@@ -4,6 +4,7 @@ namespace Toplist;
 if(!defined('TopList')) {
    die('Not permitted');
 }
+require $baseDir . 'vendor/autoload.php';
 
 /* Counter singleton for html snippets */
 class SnippetCounter {
