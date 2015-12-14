@@ -57,11 +57,11 @@ EOT;
 /* visit statistics on? Provide an weight for each*/
 /* edition, for createing a weighted average.     */
 $gStatsWPEditions = array(
-	'zh' => 935,  // Chinese, including script varieties (zh-hans, zh-tw, etc), but excluding Minnan, Yue (Cantonese), Mindong, Wu, Hakka, and Gan WP.
-	'en' => 387,  // English, not including simplified English WP or Scots WP.
-	'es' => 365,  // Spanish
-	'hi' => 295,  // Hindi, not including Urdu WP
-	'ar' => 295,  // Arabic, excluding Egyptian Arabic WP
+    'zh' => 935,  // Chinese, including script varieties (zh-hans, zh-tw, etc), but excluding Minnan, Yue (Cantonese), Mindong, Wu, Hakka, and Gan WP.
+    'en' => 387,  // English, not including simplified English WP or Scots WP.
+    'es' => 365,  // Spanish
+    'hi' => 295,  // Hindi, not including Urdu WP
+    'ar' => 295,  // Arabic, excluding Egyptian Arabic WP
 );
 
 /* Gallery images are picked from pictures        */
@@ -75,10 +75,21 @@ $gImageSourceWPEditions = array( 'en', 'es', 'de', 'nl' /*, 'ru'*/ );
 /* want to exclude some pics that are often used  */
 /* to illustrate navigation boxes and similar.    */
 $gImageBlacklist = array(
-	'Tom Sawyer 1876 frontispiece.jpg', //ruwp
-	'Nobel Prize.png',
-	'Дмитрий Иванович Менделеев 8.jpg', //ruwp
-	'Charles_Darwin_1880.jpg', //ruwp
+    /* Navbox images */
+    'Tom Sawyer 1876 frontispiece.jpg', //ruwp
+    'Nobel Prize.png',
+    'Дмитрий Иванович Менделеев 8.jpg', //ruwp
+    'Charles_Darwin_1880.jpg', //ruwp
+    /* Specific laureates */
+    'Agnes_von_Kurowsky_in_Milan.jpg', //Hemmingway, nlwp
+    /* US military decorations sometimes shown in enwp*/
+    'Bronze_Star_medal.jpg',
+    'Air_Medal_front.jpg',
+    'Meritorious_Service_Medal_(United_States).png',
+    'Purpleheart.jpg',
+    'Dfc-usa.jpg',
+    'Us_legion_of_merit_legionnaire.png',
+    'Silver_Star_medal.png',
 );
 
 /* Cache type. Can be auto, memcache, files, etc. */
