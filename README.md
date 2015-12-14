@@ -68,3 +68,5 @@ Maintenance scripts
 The [maintenance](maintenance/) folder contains scripts to be run from the command line:
 
 * `purgeCache.php` will purge _all_ caches. Depending on your cache settings and server setup, you might need to run this script as root: `sudo php purgeCache.php` (if you are using the default file cache you are very likely to need this).
+
+* `populateCache.php` tries to populate the cache for lists and galleries. Running this script will take quite some time. You might want to put in in a cron job, to run during low trafic hours. Usage: `php populateCache.php`, `php populateCache.php --limit="10"` or `php populateCache.php -l10`
