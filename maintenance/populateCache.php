@@ -46,8 +46,17 @@ foreach ( $laureates as $laureate ) {
 }
 
 //Fetch unfiltered list
-echo "Fetching unfiltered list data...\n";
-$response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia" );
+echo "Fetching unfiltered list data 1/2...\n";
+$response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia&gender=female" );
+if ($response){
+    echo "Fetched unfiltered list data\n";
+} else {
+    echo "Warning: Failed to fetch unfiltered list data\n";
+}
+
+//Fetch unfiltered list
+echo "Fetching unfiltered list data 2/2...\n";
+$response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia&gender=male" );
 if ($response){
     echo "Fetched unfiltered list data\n";
 } else {
