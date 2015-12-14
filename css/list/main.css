@@ -138,3 +138,7 @@ body {
 .toplist .no-data-message {
   display: none;
 }
+
+.toplist ul.list {
+  list-style-type: none;
+}
