@@ -74,6 +74,7 @@ $gImageSourceWPEditions = array( 'en', 'es', 'de', 'nl' /*, 'ru'*/ );
 /* When retriving images from Wikipedia pages, we */
 /* want to exclude some pics that are often used  */
 /* to illustrate navigation boxes and similar.    */
+/* NB: Space, not underscore in filenames!        */
 $gImageBlacklist = array(
     /* Navbox images */
     'Tom Sawyer 1876 frontispiece.jpg', //ruwp
@@ -81,15 +82,15 @@ $gImageBlacklist = array(
     'Дмитрий Иванович Менделеев 8.jpg', //ruwp
     'Charles_Darwin_1880.jpg', //ruwp
     /* Specific laureates */
-    'Agnes_von_Kurowsky_in_Milan.jpg', //Hemmingway, nlwp
+    'Agnes von Kurowsky in Milan.jpg', //Hemmingway, nlwp
     /* US military decorations sometimes shown in enwp*/
-    'Bronze_Star_medal.jpg',
-    'Air_Medal_front.jpg',
-    'Meritorious_Service_Medal_(United_States).png',
+    'Bronze Star medal.jpg',
+    'Air Medal front.jpg',
+    'Meritorious Service Medal (United_States).png',
     'Purpleheart.jpg',
     'Dfc-usa.jpg',
-    'Us_legion_of_merit_legionnaire.png',
-    'Silver_Star_medal.png',
+    'Us legion of merit legionnaire.png',
+    'Silver Star medal.png',
 );
 
 /* Cache type. Can be auto, memcache, files, etc. */
