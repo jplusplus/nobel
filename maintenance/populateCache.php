@@ -44,3 +44,12 @@ foreach ( $laureates as $laureate ) {
         break;
     }
 }
+
+//Fetch unfiltered list
+echo "Fetching unfiltered list data.\n";
+$response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia" );
+if ($response){
+    echo "Fetched unfiltered list data.\n";
+} else {
+    echo "Warning: Failed to fetch unfiltered list data.\n";
+}
