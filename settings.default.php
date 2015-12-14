@@ -83,6 +83,12 @@ $gImageBlacklist = array(
     'Charles_Darwin_1880.jpg', //ruwp
     /* Specific laureates */
     'Agnes von Kurowsky in Milan.jpg', //Hemmingway, nlwp
+    /* School buildings */
+    'Merton College front quad.jpg', //TS Eliot, nlwp
+    'St John\'s Church, Little Gidding.jpg', //TS Eliot, nlwp
+    'Vivienne Haigh-Wood Eliot 1920.jpg',
+    'Harper Midway Chicago.jpg',
+    'University of Minnesota-20031209.jpg',
     /* US military decorations sometimes shown in enwp*/
     'Bronze Star medal.jpg',
     'Air Medal front.jpg',
@@ -91,6 +97,10 @@ $gImageBlacklist = array(
     'Dfc-usa.jpg',
     'Us legion of merit legionnaire.png',
     'Silver Star medal.png',
+    /* More american logotypes */
+    'Conservative Elephant.png',
+    '2006 AEGold Proof Obv.png',
+
 );
 
 /* Cache type. Can be auto, memcache, files, etc. */
