@@ -28,28 +28,28 @@ $laureates = array_keys( $onsitePopularityList->list );
 $i = 0;
 foreach ( $laureates as $laureate ) {
     $i++;
-    echo "Fetching data for laureate $laureate.\n";
+    echo "Fetching data for laureate $laureate...\n";
 
     /* Fetch gallery data. Using the API endpoint */
     /* to future proof the script. */
     $response = file_get_contents( "$baseUrl/gallery-api.php?id=$laureate&height=300" );
     if ($response){
-        echo "Fetched gallery data.\n";
+        echo "Fetched gallery data\n";
     } else {
-        echo "Warning: Failed to fetch gallery data.\n";
+        echo "Warning: Failed to fetch gallery data\n";
     }
 
     if ( $limit && ( $i >= $limit ) ){
-        echo "Aborting after $i laureates.\n";
+        echo "Aborting after $i laureates\n";
         break;
     }
 }
 
 //Fetch unfiltered list
-echo "Fetching unfiltered list data.\n";
+echo "Fetching unfiltered list data...\n";
 $response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia" );
 if ($response){
-    echo "Fetched unfiltered list data.\n";
+    echo "Fetched unfiltered list data\n";
 } else {
-    echo "Warning: Failed to fetch unfiltered list data.\n";
+    echo "Warning: Failed to fetch unfiltered list data\n";
 }
