@@ -110,13 +110,12 @@ include("vendor/phpfastcache/phpfastcache/phpfastcache.php");
 \phpFastCache::$config['path'] = '';  // Leave empty to autodetect
 
 /* The number of hours to cache external data on  */
-/* individual laureates, e.g. Wikipedia page view */
-/* stats.                                         */
-$gExternalLaureateDataCacheTime = 12;
+/* individual laureates, e.g. Wikipedia images    */
+$gExternalLaureateDataCacheTime = 720;
 
-/* The number of hours to cache lists based on    */
-/* external data, e.g Wikipedia popularity toplist*/
-$gExternalDataListsCacheTime = 4;
+/* The number of hours to store external stats,   */
+/* e.g. Wikipedia pageviews                       */
+$gExternalStatsCacheTime = 36;
 
 /* Time zone to use when fetching statistics      */
 $gTimezone = 'Europe/Stockholm';
