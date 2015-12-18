@@ -27,12 +27,16 @@ Class Api {
         return $parameters;
     }
 
-    function write_headers(){
-        header('Content-Type: application/json; charset=utf-8');
+    function write_headers( $contentType = 'application/json' ){
+        header("Content-Type: $contentType; charset=utf-8");
     }
 
     function write_json( $data ){
         echo json_encode( $data );
+    }
+
+    function write_html( $data ){
+        echo ( $data );
     }
 
 }

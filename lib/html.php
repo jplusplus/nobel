@@ -34,12 +34,14 @@ class Html {
     var $dom;
     var $fragmentNumber;
     var $css;
+    var $printScripts;
 
-    function __construct() {
+    function __construct( $printScripts=true ) {
+        $this->printScripts = $printScripts;
         $this->dom = new \DOMDocument('1.0', 'utf-8');
         /* keep track of the html fragments */
         $this->fragmentNumber = SnippetCounter::getInstance()->getNext();
-        if ( $this->fragmentNumber === 1 ){
+        if ( ($this->fragmentNumber === 1) && $this->printScripts ){
             /* Make sure jQuery loads */
             $jquery_js = 'window.jQuery || document.write("<script src=\'https://code.jquery.com/jquery-2.1.4.min.js\'>\x3C/script>");';
             $script = $this->dom->createElement('script', $jquery_js);
@@ -82,15 +84,17 @@ class Html {
        function before returning their HTML
     */
     protected function _finalizeHtml() {
-        $js = $this->_getScripts('common', 'js');
-        $css = htmlentities($this->css);
-        global $debugLevel;
-        if ( $debugLevel > PRODUCTION ){
-            $css = str_replace("\n", "\\\n", $css);
-        } else {
-            $css = preg_replace('/[\n\r](\s+)?/', '', $css);
-        }
-        $js .= <<<END
+
+        if ( $this->printScripts ){
+            $js = $this->_getScripts('common', 'js');
+            $css = htmlentities($this->css);
+            global $debugLevel;
+            if ( $debugLevel > PRODUCTION ){
+                $css = str_replace("\n", "\\\n", $css);
+            } else {
+                $css = preg_replace('/[\n\r](\s+)?/', '', $css);
+            }
+            $js .= <<<END
 $(document).ready(function() {
 /* inject CSS */
 var css = document.createElement("style");
@@ -105,8 +109,8 @@ if (css.styleSheet) {
 }
 });
 END;
-        $this->_appendScript( $js );
-
+            $this->_appendScript( $js );
+        }
         return $this->dom->saveHTML();
     } 
 
@@ -221,9 +225,10 @@ class TListWidget extends Html {
     var $laureates;
     var $id;
     var $jsSettings;
+    var $printScripts;
 
-    function __construct( $list, $id=0 ) {
-        parent::__construct();
+    function __construct( $list, $id=0, $printScripts = true ) {
+        parent::__construct( $printScripts );
 
         global $baseUrl;
         global $gStatsStart;
@@ -245,7 +250,7 @@ class TListWidget extends Html {
         } else {
             $id = $this->fragmentNumber;
         }
-        if ($this->id){
+        if ( $this->id && $this->printScripts ){
             /* Add gToplistSettings */
             $js = 'var gToplistSettings = ' . json_encode($this->jsSettings) . ';';
             $js .= $this->_getScripts('list', 'js');
@@ -331,7 +336,7 @@ class TListWidget extends Html {
         $container->appendChild($list);
         $this->dom->appendChild($container);
 
-        return $this->_finalizeHtml();
+        return $this->_finalizeHtml( $this->printScripts );
 
     }
 
