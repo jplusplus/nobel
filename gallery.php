@@ -10,7 +10,7 @@ if(!defined('SETTINGS')) {
     require __DIR__ . '/settings.php';
 }
 
-require __DIR__ . '/lib/html.php';
+require $baseDir . '/lib/html.php';
 
 
 /* List widget*/
