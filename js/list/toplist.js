@@ -149,30 +149,35 @@ TopList = (function() {
     */
     TopList.prototype.update = function() {
         var self = this;
-        self.clear();
         self.$container.addClass("loading");
         var url = self.filterset.asApiEndpoint();
-        $.getJSON(url, function(data) {
-            self.$container.removeClass("loading");
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "html",
+            success: function(htmlBlob) {
+                self.$container.removeClass("loading");
+                /* The API returns a html blob with the updated list
+                */
+                var $htmlBlob = $(htmlBlob);
+                var $updatedList = $htmlBlob.find(".list");
+                self.$list.html( $updatedList.html() );
 
-            // Check if any laurates were returned
-            // data.length will be 0 if no laurated match query 
-            if (data.length == 0) {
-                // No match
-                self.$container.addClass("no-data");
-            }
-            else {
-                // Match! => Render list
-                self.$container.removeClass("no-data");
+                // Check if the list contains any laurates
+                if ( $updatedList.find(".list-item").length == 0 ) {
+                    self.$container.addClass("no-data");
+                }
+                else {
+                    self.$container.removeClass("no-data");
 
-                data.forEach(function(row) {
-                    var $li = self.renderListItem(row);
-                    self.$list.append($li);
-                })
-                self.initSparkLines();
+                    // Init sparklines
+                    self.initSparkLines();
+                }
+            },
+            error: function(err) {
+                console.log(err);
             }
         })
-        .error(function(err) { console.log(err); })
     }
     TopList.prototype.clear = function() {
         var self = this;

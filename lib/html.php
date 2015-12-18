@@ -234,7 +234,7 @@ class TListWidget extends Html {
         global $gStatsStart;
         global $gStatsInterval;
         global $gUpdateUrl;
-        $this->jsSettings = array( 'endpoint' => "$baseUrl/list-api.php",
+        $this->jsSettings = array( 'endpoint' => "$baseUrl/listhtml-api.php",
                                    'statsStart' => $gStatsStart,
                                    'statsInterval' => $gStatsInterval,
                                    'updateUrl' => $gUpdateUrl,
