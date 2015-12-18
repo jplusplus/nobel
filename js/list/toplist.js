@@ -2,7 +2,6 @@ TopList = (function() {
     function TopList($container, filterset) {
         var self = this;
         self.$container = $container;
-        self.$list = $container.find(".list");
 
         self.addLoader();
         
@@ -64,7 +63,7 @@ TopList = (function() {
 
     TopList.prototype.initSparkLines = function() {
         var self = this;
-        self.$list.find(".popularity").each(function() {
+        self.$container.find(".popularity").each(function() {
             var $el = $(this);
             var $sparkline = $el.find(".sparkline");
             var $title = $el.find(".title");
@@ -139,10 +138,6 @@ TopList = (function() {
                 console.log(err);
             }
         })
-    }
-    TopList.prototype.clear = function() {
-        var self = this;
-        self.$list.empty();
     }
     return TopList;
 })();
