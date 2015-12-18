@@ -4,16 +4,7 @@ TopList = (function() {
         self.$container = $container;
         self.$list = $container.find(".list");
 
-        // Loading spinner
-        // Source: http://tobiasahlin.com/spinkit/
-        $container.append(
-            $("<div>").attr("class", "loading-container").html(
-                '<div class="spinner">' +
-                    '<div class="dot1"></div>' +
-                    '<div class="dot2"></div>' +
-                '</div>'
-            )
-        )
+        self.addLoader();
         
         // Bind filterset to DOM element
         self.filterset = filterset;
@@ -58,6 +49,20 @@ TopList = (function() {
       z = z || '0';
       n = n + '';
       return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
+
+    TopList.prototype.addLoader = function(){
+
+        // Loading spinner
+        // Source: http://tobiasahlin.com/spinkit/
+        this.$container.append(
+            $("<div>").attr("class", "loading-container").html(
+                '<div class="spinner">' +
+                    '<div class="dot1"></div>' +
+                    '<div class="dot2"></div>' +
+                '</div>'
+            )
+        )
     }
 
     /*  Takes data about a person and renders a list item based on the list item
@@ -149,6 +154,9 @@ TopList = (function() {
     */
     TopList.prototype.update = function() {
         var self = this;
+        /* Replace content with loader */
+        self.$container.html( "" );
+        self.addLoader();
         self.$container.addClass("loading");
         var url = self.filterset.asApiEndpoint();
         $.ajax({
@@ -157,22 +165,8 @@ TopList = (function() {
             dataType: "html",
             success: function(htmlBlob) {
                 self.$container.removeClass("loading");
-                /* The API returns a html blob with the updated list
-                */
-                var $htmlBlob = $(htmlBlob);
-                var $updatedList = $htmlBlob.find(".list");
-                self.$list.html( $updatedList.html() );
-
-                // Check if the list contains any laurates
-                if ( $updatedList.find(".list-item").length == 0 ) {
-                    self.$container.addClass("no-data");
-                }
-                else {
-                    self.$container.removeClass("no-data");
-
-                    // Init sparklines
-                    self.initSparkLines();
-                }
+                self.$container.html( $(htmlBlob).html() );
+                self.initSparkLines();
             },
             error: function(err) {
                 console.log(err);
