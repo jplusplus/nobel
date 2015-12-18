@@ -32,9 +32,22 @@ $list = $query->get();
 $lids = array_map(function ($l) {return $l['dbPedia'];}, $list);
 
 // Add link and image, replace underscore in award names
+// Award codes for gProfilePageUrl, as hardcoded by Hans
+$awardAbbrs = array(
+    'Physics' => 'phy',
+    'Chemistry' => 'che',
+    'Literature' => 'lit',
+    'Peace' => 'pea',
+    'Physiology_or_Medicine' => 'med',
+    'Economic_Sciences' => 'eco',
+);
 foreach ($list as &$row) {
+    $cat = '';
+    if ( array_key_exists('award', $parameters) ){
+        $cat = $awardAbbrs[$parameters['award']];
+    }
     global $gProfilePageUrl;
-    $row['url'] = sprintf($gProfilePageUrl, $row['id']);
+    $row['url'] = sprintf($gProfilePageUrl, $row['id'], $cat);
     global $gImageAPI;
     $row['image'] = sprintf($gImageAPI, $row['id']);
     array_walk($row["awards"], function (&$v, $k){

@@ -23,7 +23,7 @@ $baseUrl = 'http://localhost/nobel';
 $maxListItems = 10;
 
 /* Profile page url. %d will be replaced by numeric id */
-$gProfilePageUrl = 'http://www.nobelprize.org/nobel_prizes/redirect_to_facts.php?id=%d';
+$gProfilePageUrl = 'http://www.nobelprize.org/nobel_prizes/redirect_to_facts.php?id=%d&cat=%s';
 
 /* Url to thumbnail service.                      */
 /* Should return an approximately 162 px wide     */
