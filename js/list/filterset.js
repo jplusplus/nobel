@@ -33,14 +33,14 @@ FilterSet = (function() {
         self.availableFilters.forEach(function(key) {
             self.currentFilters[key] = null;
         });
-        self.triggerUpdate();
+//        self.triggerUpdate();
     }
 
     // Get the params from current url and apply them as filters
     FilterSet.prototype.urlSync = function() {
         var self = this;
         var params = getQueryParams(document.location.search);
-        self.changeFilter(params);
+        //self.changeFilter(params);
     }
 
     // Pass an object with filters to update the current 
