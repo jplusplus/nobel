@@ -16,4 +16,7 @@ function clearFilters(topListID) {
 
     // Update list
     $toplist.data("filterset").changeFilter(clearedFilters);
+
+    // Reset url
+    window.history.pushState("toplist-ui", "", window.location.pathname);
 }
