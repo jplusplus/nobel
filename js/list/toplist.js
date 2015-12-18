@@ -62,18 +62,6 @@ TopList = (function() {
         )
     }
 
-    TopList.prototype.initFilterLinks = function() {
-        var self = this;
-        self.$container.find(".filterable").click(function(){
-            var $el = $(this);
-            var filter = {};
-            var key = $el.attr("data-filter-key");
-            var value = $el.attr("data-filter-value");
-            filter[key] = value;
-            gToplistSettings.state.changeFilter(filter);
-        });
-    }
-
     TopList.prototype.initSparkLines = function() {
         var self = this;
         self.$list.find(".popularity").each(function() {
@@ -144,7 +132,6 @@ TopList = (function() {
             type: "GET",
             dataType: "html",
             success: function(htmlBlob) {
-                self.$container.removeClass("loading");
                 self.$container.html( $(htmlBlob).html() );
                 self.initSparkLines();
             },
