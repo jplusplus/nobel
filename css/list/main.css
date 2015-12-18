@@ -123,19 +123,15 @@
   text-align: center;
 }
 
-/* --- NO DATA MESSAGE ---
-  (when no laurates match query)
-*/
-.toplist.no-data .no-data-message {
-  display: block;
-}
-.toplist .no-data-message {
-  display: none;
-}
-
 .toplist ul.list {
   list-style-type: none;
 }
 .js .hideonjs {
   display: none;
+}
+/* --- NO DATA MESSAGE ---
+  (when no laurates match query)
+*/
+.toplist.no-data .no-data-message {
+  display: block;
 }
