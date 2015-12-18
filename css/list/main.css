@@ -136,3 +136,6 @@
 .toplist ul.list {
   list-style-type: none;
 }
+.js .hideonjs {
+  display: none;
+}

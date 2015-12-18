@@ -47,4 +47,9 @@ global $baseUrl;
 
 ?></article>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+<script>
+hljs.initHighlightingOnLoad();
+/* No-js / jso-nly CSS support */
+var htmlClassList = document.documentElement.classList;
+htmlClassList.add("js");
+</script>
