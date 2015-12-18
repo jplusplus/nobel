@@ -43,7 +43,7 @@ $awardAbbrs = array(
 );
 foreach ($list as &$row) {
     $cat = '';
-    if ( array_key_exists('award', $parameters) ){
+    if ( array_key_exists('award', $parameters) && array_key_exists( $parameters['award'], $awardAbbrs ) ){
         $cat = $awardAbbrs[$parameters['award']];
     }
     global $gProfilePageUrl;
