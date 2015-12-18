@@ -10,9 +10,6 @@ TopList = (function() {
         self.filterset = filterset;
         $container.data("filterset", filterset);
         
-        //  Make a template out of the first element in the list
-        self.$listElementTemplate = self.$list.find(".list-item").first().clone();
-
         $container.on("update", function() {
             self.update();
         });
@@ -63,23 +60,6 @@ TopList = (function() {
                 '</div>'
             )
         )
-    }
-
-    /*  Takes data about a person and renders a list item based on the list item
-        template.
-    */
-    TopList.prototype.renderListItem = function(row) {
-        var self = this;
-        var $listItem = self.$listElementTemplate.clone();
-        $listItem.find(".name a").text(row.name).attr("href", row.url);
-        $listItem.find(".image").attr("src", row.image);
-        $listItem.find(".gender").text(row.gender).attr("data-filter-value", row.gender);
-        $listItem.find(".country").text(row.country);
-        $listItem.find(".awards").text(row.awards.map(function(d) { return d.award + " ("+ d.year +")" }));
-        if ( row.popularity ){
-            $listItem.find(".popularity .sparkline").attr("data-values", row.popularity.join(","));
-        }
-        return $listItem;
     }
 
     TopList.prototype.initFilterLinks = function() {
