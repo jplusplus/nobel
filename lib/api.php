@@ -12,10 +12,10 @@ Class Api {
     function __construct(){
     }
 
-    /* Run GUMP on _GET parameters */
-    function getParameters( $validationRules, $filterRules ){
+    /* Run GUMP on parameters */
+    function _parseParameters( $parameters, $validationRules, $filterRules ){
         $gump = new \GUMP();
-        $parameters = $gump->sanitize($_GET);
+        $parameters = $gump->sanitize( $parameters );
         $parameters = $gump->run( $parameters );
         if( $parameters === false ) {
             global $debugLevel;
@@ -25,6 +25,13 @@ Class Api {
             $parameters = array();
         }
         return $parameters;
+    }
+
+    /* Run GUMP on _GET parameters */
+    function getParameters( $validationRules, $filterRules ){
+        $gump = new \GUMP();
+        $parameters = $gump->sanitize($_GET);
+        return $this->_parseParameters( $parameters, $validationRules, $filterRules );
     }
 
     function write_headers( $contentType = 'application/json' ){
