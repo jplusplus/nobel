@@ -79,40 +79,49 @@ TopList = (function() {
                 "page-views": "Nobelprize.org",
                 "wikipedia": "Wikipedia"
             }
-            if (!$sparkline.attr("data-values")){
-                $title.text("No data available");
-                return;
-            }
             $title.text("Page views on " + sources[popularitySource] + " since " + dateToString(startDate, interval));
-            $sparkline.sparkline("html", {
-                width: "200px",
-                height: "2em",
-                lineColor: "#666",
-                fillColor: "#eee",
-                minSpotColor: false,
-                maxSpotColor: "#EEA200",
-                highlightSpotColor: "#EEA200",
-                highlightLineColor: "#EEA200",
-                spotRadius: 2,
-                chartRangeMin: 0,
-                chartRangeMax: 200,
-                tagValuesAttribute: "data-values",
-                startDate: startDate,
-                tooltipOffsetY: -10,
-                //tooltipClassname: 'sparkline-tooltip',
-                tooltipFormatter: function(sparkline, options, fields) {
-                    var startDate = options.userOptions.startDate;
-                    var date = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
-                    var xValue = fields.x;
-
-                    /*  Get the date of the hovered position by multiplying
-                        the interval with the x-value (0,1,2,3...)
-                    */
-                    date.setDate(date.getDate() + xValue * interval);
-                    var dateString = dateToString(date, interval);
-                    return "<div class='tooltip-content'>" + dateString +"</div>";
+            var laureate_id = $sparkline.data("id");
+            $.get( gToplistSettings["sparkline-endpoint"],
+                   { id: laureate_id, popularity: popularitySource },
+              function( data ) {
+                if (!data){
+                    $title.text("No data available");
+                    return;
                 }
-            });
+                $sparkline.sparkline(data, {
+                    width: "200px",
+                    height: "2em",
+                    lineColor: "#666",
+                    fillColor: "#eee",
+                    minSpotColor: false,
+                    maxSpotColor: "#EEA200",
+                    highlightSpotColor: "#EEA200",
+                    highlightLineColor: "#EEA200",
+                    spotRadius: 2,
+                    chartRangeMin: 0,
+                    chartRangeMax: 200,
+//                    tagValuesAttribute: "data-values",
+                    startDate: startDate,
+                    tooltipOffsetY: -10,
+                    //tooltipClassname: 'sparkline-tooltip',
+                    tooltipFormatter: function(sparkline, options, fields) {
+                        var startDate = options.userOptions.startDate;
+                        var date = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+                        var xValue = fields.x;
+
+                        /*  Get the date of the hovered position by multiplying
+                            the interval with the x-value (0,1,2,3...)
+                        */
+                        date.setDate(date.getDate() + xValue * interval);
+                        var dateString = dateToString(date, interval);
+                        return "<div class='tooltip-content'>" + dateString +"</div>";
+                    }
+                });
+
+
+              }
+            );
+
         });
         return self;
     }

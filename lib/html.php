@@ -235,6 +235,7 @@ class TListWidget extends Html {
         global $gStatsInterval;
         global $gUpdateUrl;
         $this->jsSettings = array( 'endpoint' => "$baseUrl/listhtml-api.php",
+                                   'sparkline-endpoint' => "$baseUrl/sparklines-api.php",
                                    'statsStart' => $gStatsStart,
                                    'statsInterval' => $gStatsInterval,
                                    'updateUrl' => $gUpdateUrl,
@@ -292,6 +293,7 @@ class TListWidget extends Html {
             }
 
             $popularitySparkline = $this->_createTag( 'span', '', array(
+                                                            "data-id" => @$laureate['id'] ?: '',
                                                             "class" => "sparkline",
                                                             "data-start-date" => $statsStart,
                                                             "data-interval" => $gStatsInterval,
