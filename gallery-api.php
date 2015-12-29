@@ -5,6 +5,7 @@ require __DIR__ . '/settings.php';
 
 require_once $baseDir . 'vendor/autoload.php';
 require_once $baseDir . 'lib/api.php';
+require_once $baseDir . 'lib/db.php';
 require_once $baseDir . 'lib/dbpedia.php';
 require_once $baseDir . 'lib/wikidata.php';
 require_once $baseDir . 'lib/wikipedia.php';
@@ -28,22 +29,8 @@ if (!($height || $width)){
 }
 
 /* Get dbPedia url */
-$sparqlEndpoint = new Endpoint('http://data.nobelprize.org/sparql');
-
-$query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>
-SELECT ?laur ?sameAs {
-    ?laur owl:sameAs ?sameAs
-    FILTER (?laur IN (<http://data.nobelprize.org/resource/laureate/$laureate>))
-}";
-$result = $sparqlEndpoint->query($query);
-$dbPediaUri = null;
-$dbPediaLinks = array_filter( $result["result"]["rows"], function( $var ){
-    $host = parse_url( $var["sameAs"], PHP_URL_HOST );
-    return ('dbpedia.org' === $host);
-});
-//Use only the first link, if multiple
-$dbPediaLinkObj = array_pop($dbPediaLinks);
-$dbPediaLink = $dbPediaLinkObj["sameAs"];
+$simpleSPARQLQuery = new Toplist\SimpleSPARQLQuery( $laureate );
+$dbPediaLink = $simpleSPARQLQuery->getDbpedia();
 
 /* Query DbPedia for enwp link */
 $dbPediaQuery = new Toplist\DbPediaQuery();

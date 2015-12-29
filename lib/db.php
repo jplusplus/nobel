@@ -29,6 +29,41 @@ Class Query {
     }
 }
 
+
+/* Class for querying a single laureate for a single property */
+Class SimpleSPARQLQuery extends Query{
+
+    var $id;
+    var $endpoint;
+    var $query;
+
+    function __construct( $id ){
+        $this->id = $id;
+        $this->endpoint = new \Endpoint('http://data.nobelprize.org/sparql');
+        $this->query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>
+        SELECT ?laur ?sameAs {
+            ?laur owl:sameAs ?sameAs
+            FILTER (?laur IN (<http://data.nobelprize.org/resource/laureate/$id>))
+        }";
+    }
+
+    function getDbpedia(){
+        /* Get dbPedia url */
+        $result = $this->endpoint->query($this->query);
+        $dbPediaUri = null;
+        $dbPediaLinks = array_filter( $result["result"]["rows"], function( $var ){
+            $host = parse_url( $var["sameAs"], PHP_URL_HOST );
+            return ('dbpedia.org' === $host);
+        });
+        //Use only the first link, if multiple
+        $dbPediaLinkObj = array_pop($dbPediaLinks);
+        $dbPediaLink = $dbPediaLinkObj["sameAs"];
+        return $dbPediaLink;
+    }
+
+}
+
+
 Class SPARQLQuery extends Query{
     var $endpoint = "http://data.nobelprize.org/sparql";
     var $prefixes = array (
