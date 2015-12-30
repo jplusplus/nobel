@@ -25,7 +25,7 @@ $filterRules = array(
         'region'    => 'trim',
         'popularity'=> 'trim|sanitize_string'
     );
-$parameters = array('gender' => 'female', 'region' => 'africa');
+$parameters = array('gender' => 'female', 'region' => 'africa', 'popularity' => 'wikipedia');
 $parameters = $api->_parseParameters( $parameters, $validationRules, $filterRules );
 
 /* Get laureate list from nobelprize.org */
