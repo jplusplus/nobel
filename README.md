@@ -4,7 +4,7 @@ Installation
  * Install Composer: `curl -sS https://getcomposer.org/installer | php`
  * Run `php composer.phar install`
  * `cp settings.default.php settings.php` and make any modifications needed to settings.php
- * Make sure you have php_curl enabled. For recent Ubuntu version run `sudo apt-get install php5-curl`, or uncomment `extension=php_curl.dll` in your `php.ini` file.
+ * Make sure you have php_curl enabled. For recent Ubuntu version run `sudo apt-get install php5-curl`, or uncomment `extension=php_curl.dll` in your `php.ini` file. Then restart Apache.
  * Open /demo/lists.php, /demo/ui.php, and demo/gallery.php, to confirm that everything works, and see how to include the provided widgets.
 
 The scripts in the `$baseDir` directory must be accessible from the Internet, as they are called from the frontend scripts.
