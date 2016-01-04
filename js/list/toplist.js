@@ -7,7 +7,6 @@ TopList = (function() {
         
         // Bind filterset to DOM element
         self.filterset = filterset;
-        $container.data("filterset", filterset);
         
         $container.on("update", function() {
             self.update();
