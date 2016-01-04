@@ -436,7 +436,7 @@ class TListUI extends Html {
         </select>
     </div>
 </div>
-<a href="javascript:document.getElementById('toplist-ui-form').reset();" class="form-reset">Clear filters</a>
+<a href="#" class="form-reset jsonly">Clear filters</a>
     
 <input type="submit" value="Submit" class="hideonjs button">
 </form>
