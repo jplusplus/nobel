@@ -35,15 +35,33 @@ Class PopularityList {
 /* Popularity list based on nobelprize.org pageviews */
 Class OnsitePopularityList extends PopularityList {
 
-    function __construct(){
-        global $gStatsToplistAPI;
-        $json = file_get_contents( $gStatsToplistAPI );
+    function _fetch( $url ){
+        $json = file_get_contents( $url );
         /* The API actually doesn't return JSON, but a JS style object */
         /* Adding quotes arounc the keys will allow us to parse it. */
         $json = preg_replace('/([{\[,])\s*([a-zA-Z0-9_]+?):/', '$1"$2":', $json);
         $json = str_replace(',"0": [, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , ]', '', $json);
         $response = json_decode($json, true);
-        $this->list = $response["pageviews"];
+        return $response["pageviews"];
+
+    }
+
+    function __construct(){
+        global $gStatsToplistAPI;
+        global $gCacheLocal;
+        if ($gCacheLocal){
+            $cacheKey = 'LD-' . md5( $gStatsToplistAPI );
+            $result = __c()->get( $cacheKey );
+            if ( $result === null ){
+                $result = $this->_fetch($gStatsToplistAPI);
+                global $gExternalStatsCacheTime;
+                __c()->set( $cacheKey, $result, $gExternalStatsCacheTime * 3600 );
+            }
+        } else {
+            $result = $this->_fetch($gStatsToplistAPI);
+        }
+
+        $this->list = $result;
     }
 
     /* TODO code duplication with article stats */
