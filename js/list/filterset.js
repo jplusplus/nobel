@@ -6,15 +6,10 @@ Handles the current filter state
 */ 
 
 FilterSet = (function() {
+
     function FilterSet(availableFilters, $elem, endpoint) {
         var self = this;
         self.availableFilters = availableFilters;
-        self.reset();
-    }
-
-    // Clear filters
-    FilterSet.prototype.reset = function() {
-        var self = this;
         self.currentFilters = {};
         self.availableFilters.forEach(function(key) {
             self.currentFilters[key] = null;
