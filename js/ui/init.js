@@ -3,7 +3,7 @@ function initUI() {
     // Init filters
     $(".toplist-filter-ui").each(function() {
         var $form = $(this);
-        $(this).on("change", function() {
+        $form.on("change", function() {
             if (gToplistSettings.updateUrl && (typeof (history.pushState) != "undefined") ) {
                 var urlPath = window.location.pathname + "?" + $form.serialize();
                 window.history.pushState("toplist-ui", "", urlPath);
@@ -23,8 +23,19 @@ function initUI() {
                 error: function(err) {
                     console.log(err);
                 }
+            });
+        });
+        var $reset = $form.find(".form-reset");
+        $reset.on("click", function(){
+            console.log("HEJ");
+            $form.find(".filter").each(function() {
+                var $select = $(this);
+                var key = $select.attr("name");
+                var value = $select.find("option:first").val();
+                $select.val(value);
             })
-        })
+            $form.trigger("change");
+        });
     });
 }
 $(document).ready(function() {
