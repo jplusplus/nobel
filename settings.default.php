@@ -117,6 +117,11 @@ $gExternalLaureateDataCacheTime = 720;
 /* e.g. Wikipedia pageviews                       */
 $gExternalStatsCacheTime = 36;
 
+/* Should we cache responses from local API's? If */
+/* our caching is not superfast, and API's are on */
+/* on the same server, it might be faster not to. */
+$gCacheLocal = true;
+
 /* Time zone to use when fetching statistics      */
 $gTimezone = 'Europe/Stockholm';
 
