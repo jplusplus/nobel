@@ -79,76 +79,6 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
     $maxListLength = @$parameters['length'] ?: $maxListItems;
     $list = array_values (array_slice($list, 0, $maxListLength));
 
-/*
-    global $gStatsInterval;
-    global $gStatsStart;
-    if (preg_match('/^\d{8}/', $gStatsStart)){
-        // A date
-    } else {
-        // Assume an offset
-        global $gTimezone;
-        $date = new \DateTime( 'now', new DateTimeZone($gTimezone) );
-        $date->add(\DateInterval::createFromDateString('-'.$gStatsStart));
-        $gStatsStart = $date->format('Ymd');
-    }
-    // Get sparkline data
-    foreach ($list as &$laureate){
-
-        if ( !array_key_exists( 'dbPedia', $laureate ) ){
-            // No dbPedia link
-            // FIXME normalize
-            $laureate["popularity"] = null;
-            continue;
-        }
-
-        if ( !array_key_exists( $laureate["dbPedia"], $wpNames ) ){
-            // No such WP article.
-            // Most likely a dead link from nobelprize.org to dbPedia
-            $laureate["popularity"] = null;
-            continue;
-        }
-
-        $enWpName = $wpNames[$laureate['dbPedia']];
-
-        // get iw links
-        $wikiDataQuery = new Toplist\WikiDataQuery();
-        $iwLinks = $wikiDataQuery->getSitelinks($enWpName);
-
-        // get Article stats for each WP
-        global $gStatsWPEditions;
-        $totalWeight = 0; // Keep track of weights, in case not all languages have an article
-        $totalStats = array();
-        foreach ($gStatsWPEditions as $code => $weight ){
-            if ( array_key_exists( $code . 'wiki', $iwLinks )){
-                $wiki = $iwLinks[$code . 'wiki'];
-                $article = new Toplist\ArticleStats( $wiki, "$code.wikipedia" );
-                $stat = $article->getPoints($gStatsInterval, $gStatsStart);
-                if ( $stat !== null ){
-                    foreach ($stat as $k=>$v) {
-                        $stat[$k] = $v * $weight;
-                    }
-                    $totalStats[] = $stat;
-                    $totalWeight += $weight;
-                }
-            }
-        }
-        // summarize stats
-        $sumArray = array();
-        foreach ($totalStats as $k=>$subArray) {
-          foreach ($subArray as $id=>$value) {
-            if (!isset($sumArray[$id])){
-                $sumArray[$id] = 0;
-            }
-            $sumArray[$id] += $value;
-          }
-        }
-        foreach ($sumArray as $k=>$v) {
-            $sumArray[$k] = (int) ($sumArray[$k] / $totalWeight);
-        }
-        $laureate["popularity"] = $sumArray;
-    }
-    unset($laureate); // PHP is weird, but see http://php.net/manual/en/control-structures.foreach.php
-*/
 } else {
     $popularityList = new Toplist\OnsitePopularityList();
     $orderedList = $popularityList->getOrdered();
@@ -164,12 +94,6 @@ if ( array_key_exists('popularity', $parameters) && $parameters['popularity'] ==
 	$maxListLength = @$parameters['length'] ?: $maxListItems;
 	$list = array_values (array_slice($list, 0, $maxListLength));
 
-    /* Get sparkline data. */
-/*    global $gStatsInterval;
-    foreach ($list as &$laureate){
-        $laureate["popularity"] = array_reverse( $popularityList->getIndividual( $laureate["id"], $gStatsInterval ) );
-    }
-*/
 }
 
 $api->write_headers();
