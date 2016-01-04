@@ -3,7 +3,11 @@ function initUI() {
     // Init filters
     $(".toplist-filter-ui").each(function() {
         var $form = $(this);
+        var $toplist = $("#toplist-ui");
         $form.on("change", function() {
+
+            $toplist.trigger("update");
+
             if (gToplistSettings.updateUrl && (typeof (history.pushState) != "undefined") ) {
                 var urlPath = window.location.pathname + "?" + $form.serialize();
                 window.history.pushState("toplist-ui", "", urlPath);
@@ -16,7 +20,6 @@ function initUI() {
                 type: "GET",
                 dataType: "html",
                 success: function(htmlBlob) {
-                    $toplist = $("#toplist-ui");
                     $toplist.html( htmlBlob );
                     $toplist.trigger("init");
                 },
