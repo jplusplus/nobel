@@ -5,8 +5,6 @@
 ==============
 */ 
 
-
-var topLists = {};
 $(document).ready(function() {
 
     $(".toplist").each(function() {
@@ -14,9 +12,6 @@ $(document).ready(function() {
         var id = $el.attr("id");
 
         var filterset = new FilterSet(["gender", "award", "region", "popularity"], $el, gToplistSettings.endpoint);
-        topLists[id] = new TopList($el, filterset).initSparkLines();
     });
 
 });
-
-
