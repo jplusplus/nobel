@@ -160,7 +160,18 @@ Class SPARQLQuery extends Query{
         $query .= "WHERE {\n$whereString\n}\n";
 
         $this->_query = $query;
-        $result = $endpoint->query($query);
+        global $gCacheLocal;
+        if ($gCacheLocal){
+            $cacheKey = 'LD-' . md5( $query );
+            $result = __c()->get( $cacheKey );
+            if ( $result === null ){
+                $result = $endpoint->query($query);
+                global $gExternalLaureateDataCacheTime;
+                __c()->set( $cacheKey, $result, $gExternalLaureateDataCacheTime * 3600 );
+            }
+        } else {
+            $result = $endpoint->query($query);
+        }
         $this->_result = $result["result"]["rows"];
 
     }
