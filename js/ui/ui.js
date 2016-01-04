@@ -1,6 +1,6 @@
 
 // Clear filters for an ui connected to a specific toplist
-function clearFilters(topListID) {
+/*function clearFilters(topListID) {
     var $form = $('form[data-filter-for="#' + topListID + '"]');
     var $toplist = $('#' + topListID);
     var clearedFilters = {};
@@ -19,4 +19,4 @@ function clearFilters(topListID) {
 
     // Reset url
     window.history.pushState("toplist-ui", "", window.location.pathname);
-}
+}*/

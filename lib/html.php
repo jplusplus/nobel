@@ -405,7 +405,7 @@ class TListUI extends Html {
         global $gUIIntro;
         $formCode = 
 <<<END
-<form action="" method="GET" data-filter-for="#toplist-ui" class="toplist-filter-ui">
+<form action="" method="GET" data-filter-for="#toplist-ui" class="toplist-filter-ui" id="toplist-ui-form">
  <p>$gUIIntro</p>
  <div class="row">
     <div class="small-6 columns">
@@ -436,7 +436,7 @@ class TListUI extends Html {
         </select>
     </div>
 </div>
-<a href="javascript:clearFilters('toplist-ui')">Clear filters</a>
+<a href="javascript:document.getElementById('toplist-ui-form').reset();" class="form-reset">Clear filters</a>
     
 <input type="submit" value="Submit" class="hideonjs button">
 </form>
