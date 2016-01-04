@@ -3,7 +3,7 @@ function initUI() {
     // Init filters
     $(".toplist-filter-ui").each(function() {
         var $form = $(this);
-        $form.find(".filter").on("change", function() {
+        $(this).on("change", function() {
             if (gToplistSettings.updateUrl && (typeof (history.pushState) != "undefined") ) {
                 var urlPath = window.location.pathname + "?" + $form.serialize();
                 window.history.pushState("toplist-ui", "", urlPath);
