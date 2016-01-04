@@ -11,4 +11,4 @@ define('DL_DEBUG', 2);
 define('DL_VERBOSE', 3);
 
 /* Settings are set */
-define('SETTINGS', true);
+//define('SETTINGS', true);
