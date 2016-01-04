@@ -3,7 +3,6 @@ namespace Toplist;
 if(!defined('TopList')) {
    die('Not permitted');
 }
-define('SETTINGS', true);
 require_once 'constants.php';
 
 /* -------------- GLOBAL SETTINGS --------------- */
