@@ -24,8 +24,9 @@ function initUI() {
                 type: "GET",
                 dataType: "html",
                 success: function(htmlBlob) {
-                    $("#toplist-ui").html( htmlBlob );
-                    $("#toplist-ui").trigger("init");
+                    $toplist = $("#toplist-ui");
+                    $toplist.html( htmlBlob );
+                    $toplist.trigger("init");
                 },
                 error: function(err) {
                     console.log(err);
