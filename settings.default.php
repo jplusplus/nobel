@@ -4,6 +4,7 @@ if(!defined('TopList')) {
    die('Not permitted');
 }
 define('SETTINGS', true);
+require_once 'constants.php';
 
 /* -------------- GLOBAL SETTINGS --------------- */
 
@@ -130,11 +131,6 @@ $gTimezone = 'Europe/Stockholm';
 /* interfere with other javascript on the site.   */
 $gUpdateUrl = true;
 
-/* Debug modes */
-define('PRODUCTION', 0);
-define('DEVELOPMENT', 1);
-define('DEBUG', 2);
-define('VERBOSE', 3);
 /* Debug level. Use PRODUCTION for, well, production */
 $debugLevel = DEBUG;
 
