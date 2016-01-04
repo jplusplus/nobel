@@ -12,6 +12,9 @@ TopList = (function() {
         $container.on("update", function() {
             self.update();
         });
+        $container.on("init", function(){
+            self.initSparkLines();
+        });
     }
     // Take a datestring (20110101) and return a Date
     function parseDate(dateString) {
@@ -134,19 +137,6 @@ TopList = (function() {
         self.$container.html( "" );
         self.addLoader();
         self.$container.addClass("loading");
-        var url = self.filterset.asApiEndpoint();
-        $.ajax({
-            url: url,
-            type: "GET",
-            dataType: "html",
-            success: function(htmlBlob) {
-                self.$container.html( $(htmlBlob).html() );
-                self.initSparkLines();
-            },
-            error: function(err) {
-                console.log(err);
-            }
-        })
     }
     return TopList;
 })();

@@ -16,6 +16,21 @@ function initUI() {
                 var urlPath = window.location.pathname + "?" + $form.serialize();
                 window.history.pushState("toplist-ui", "", urlPath);
             }
+
+            // Load new list
+            var url = gToplistSettings.endpoint + "?" + $form.serialize(); 
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "html",
+                success: function(htmlBlob) {
+                    $("#toplist-ui").html( htmlBlob );
+                    $("#toplist-ui").trigger("init");
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
         })
     });
 }
