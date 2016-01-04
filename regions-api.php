@@ -1,6 +1,7 @@
 <?php   
 define('TopList', TRUE);
-include __DIR__ . "/settings.php";
+require_once __DIR__ . "/settings.default.php";
+require_once __DIR__ . "/settings.php";
 require $baseDir . 'vendor/autoload.php';
 require $baseDir . 'lib/api.php';
 require $baseDir . 'lib/regions.php';
