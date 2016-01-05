@@ -17,6 +17,9 @@
 require 'maintenance.php';
 require $baseDir . 'lib/popularity.php';
 
+echo "Cache settings:";
+print_r( \phpFastCache::$config);
+
 /* Parse command line args */
 $options = getopt( 'l::', array('limit::') );
 $limit = (int) @$options['l'] ?: (int) @$options['limit'] ?: 0;
@@ -34,9 +37,9 @@ foreach ( $laureates as $laureate ) {
     /* to future proof the script. */
     $response = file_get_contents( "$baseUrl/gallery-api.php?id=$laureate&height=300" );
     if ($response){
-        echo "Fetched gallery data\n";
+        echo "Fetched laureate data\n";
     } else {
-        echo "Warning: Failed to fetch gallery data\n";
+        echo "Warning: Failed to fetch laureate data\n";
     }
 
     if ( $limit && ( $i >= $limit ) ){
@@ -46,7 +49,7 @@ foreach ( $laureates as $laureate ) {
 }
 
 //Fetch unfiltered list
-echo "Fetching unfiltered list data 1/2...\n";
+echo "Fetching unfiltered list data 1/3...\n";
 $response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia&gender=female" );
 if ($response){
     echo "Fetched unfiltered list data\n";
@@ -55,7 +58,16 @@ if ($response){
 }
 
 //Fetch unfiltered list
-echo "Fetching unfiltered list data 2/2...\n";
+echo "Fetching unfiltered list data 2/3...\n";
+$response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia&gender=male&region=europe" );
+if ($response){
+    echo "Fetched unfiltered list data\n";
+} else {
+    echo "Warning: Failed to fetch unfiltered list data\n";
+}
+
+//Fetch unfiltered list
+echo "Fetching unfiltered list data 3/3...\n";
 $response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia&gender=male" );
 if ($response){
     echo "Fetched unfiltered list data\n";
