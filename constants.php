@@ -12,3 +12,6 @@ define('VERBOSE', 3);
 
 /* Settings are set */
 //define('SETTINGS', true);
+
+/* Add a global cache object */
+require("vendor/phpfastcache/phpfastcache/phpfastcache.php");
