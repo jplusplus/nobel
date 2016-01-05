@@ -2,6 +2,7 @@
 /* Disable this script in development environments */
 define('TopList', TRUE);
 include "../settings.default.php";
+include "../settings.php";
 if ($debugLevel === PRODUCTION){
     die('Not permitted');
 }
