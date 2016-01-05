@@ -407,7 +407,7 @@ class TListUI extends Html {
         global $gUIIntro;
         $formCode = 
 <<<END
-<form action="" method="GET" data-filter-for="#toplist-ui" class="toplist-filter-ui" id="toplist-ui-form">
+<form method="GET" data-filter-for="#toplist-ui" class="toplist-filter-ui" id="toplist-ui-form">
  <p>$gUIIntro</p>
  <div class="row">
     <div class="small-6 columns">
