@@ -10,7 +10,7 @@ include "../list.php";
 
 global $baseUrl;
 
-?><html><head><title>List UI demo</title>
+?><!DOCTYPE html><html><head><title>List UI demo</title>
 <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.css" />-->
 
 <link rel="stylesheet" href="<?php echo $baseUrl; ?>/css/foundation.min.css" />

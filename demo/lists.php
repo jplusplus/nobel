@@ -12,7 +12,7 @@ include "../list.php";
 
 global $baseUrl;
 
-?><html><head><title>List widget demo</title>
+?><!DOCTYPE html><html><head><title>List widget demo</title>
 <link rel="stylesheet" href="<?php echo $baseUrl; ?>/css/foundation.min.css" />
 <link rel="stylesheet" href="//www.nobelprize.org/css/nobel_custom.css?v=20141203" />
 
