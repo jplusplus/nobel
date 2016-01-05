@@ -1,7 +1,7 @@
 <?php
 /* Disable this script in development environments */
 define('TopList', TRUE);
-include "../settings.php";
+include "../settings.default.php";
 if ($debugLevel === PRODUCTION){
     die('Not permitted');
 }
