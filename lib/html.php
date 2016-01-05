@@ -308,7 +308,9 @@ class TListWidget extends Html {
 
 
             // Image 
-            $img = $this->_createTag( 'img', '', array("class" => "image", "src" => $laureate['image'] ));
+            $img = $this->_createTag( 'img', '', array( 'alt' => $laureate['name'],
+                                                        'class' => "image",
+                                                        "src" => $laureate['image'] ));
             $li->appendChild($img);
 
             // Name and link to laureate
