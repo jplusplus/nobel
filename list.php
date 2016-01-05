@@ -7,6 +7,7 @@ if(!defined('TopList')) {
     define('TopList', TRUE);
 }
 if(!defined('SETTINGS')) {
+    require __DIR__ . '/settings.default.php';
     require __DIR__ . '/settings.php';
 }
 
