@@ -18,7 +18,9 @@ require 'maintenance.php';
 require $baseDir . 'lib/popularity.php';
 
 fwrite(STDOUT, 'Cache settings:');
+ob_start();
 $config_str = print_r( \phpFastCache::$config);
+ob_end_clean();
 fwrite(STDOUT, $config_str);
 
 /* Parse command line args */
