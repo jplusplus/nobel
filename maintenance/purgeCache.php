@@ -13,4 +13,10 @@
 
 require 'maintenance.php';
 
+fwrite(STDOUT, "Cache settings:\n");
+$config_str = print_r( \phpFastCache::$config, true);
+fwrite(STDOUT, $config_str);
+
+fwrite(STDOUT, "\n\nClearing cache\n");
 __c()->clean();
+fwrite(STDOUT, "Done!");
