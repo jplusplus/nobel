@@ -105,7 +105,8 @@ $gImageBlacklist = array(
 
 /* Cache type. Can be auto, memcache, files, etc. */
 /* see http://www.phpfastcache.com/ for full list */
-\phpFastCache::$config['storage'] = 'auto';
+\phpFastCache::setup("storage","auto");
+
 
 /* The number of hours to cache external data on  */
 /* individual laureates, e.g. Wikipedia images    */
