@@ -17,8 +17,9 @@
 require 'maintenance.php';
 require $baseDir . 'lib/popularity.php';
 
-echo "Cache settings:";
-print_r( \phpFastCache::$config);
+fwrite(STDOUT, 'Cache settings:');
+$config_str = print_r( \phpFastCache::$config);
+fwrite(STDOUT, $config_str);
 
 /* Parse command line args */
 $options = getopt( 'l::', array('limit::') );
@@ -37,40 +38,40 @@ foreach ( $laureates as $laureate ) {
     /* to future proof the script. */
     $response = file_get_contents( "$baseUrl/gallery-api.php?id=$laureate&height=300" );
     if ($response){
-        echo "Fetched laureate data\n";
+        fwrite(STDOUT, "Fetched laureate data\n");
     } else {
-        echo "Warning: Failed to fetch laureate data\n";
+        fwrite(STDOUT, "Warning: Failed to fetch laureate data\n");
     }
 
     if ( $limit && ( $i >= $limit ) ){
-        echo "Aborting after $i laureates\n";
+        fwrite(STDOUT, "Aborting after $i laureates\n");
         break;
     }
 }
 
 //Fetch unfiltered list
-echo "Fetching unfiltered list data 1/3...\n";
+fwrite(STDOUT, "Fetching unfiltered list data 1/3...\n");
 $response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia&gender=female" );
 if ($response){
-    echo "Fetched unfiltered list data\n";
+    fwrite(STDOUT, "Fetched unfiltered list data\n");
 } else {
-    echo "Warning: Failed to fetch unfiltered list data\n";
+    fwrite(STDOUT, "Warning: Failed to fetch unfiltered list data\n");
 }
 
 //Fetch unfiltered list
-echo "Fetching unfiltered list data 2/3...\n";
+fwrite(STDOUT, "Fetching unfiltered list data 2/3...\n");
 $response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia&gender=male&region=europe" );
 if ($response){
-    echo "Fetched unfiltered list data\n";
+    fwrite(STDOUT, "Fetched unfiltered list data\n");
 } else {
-    echo "Warning: Failed to fetch unfiltered list data\n";
+    fwrite(STDOUT, "Warning: Failed to fetch unfiltered list data\n");
 }
 
 //Fetch unfiltered list
-echo "Fetching unfiltered list data 3/3...\n";
+fwrite(STDOUT, "Fetching unfiltered list data 3/3...\n");
 $response = file_get_contents( "$baseUrl/list-api.php?popularity=wikipedia&gender=male" );
 if ($response){
-    echo "Fetched unfiltered list data\n";
+    fwrite(STDOUT, "Fetched unfiltered list data\n");
 } else {
-    echo "Warning: Failed to fetch unfiltered list data\n";
+    fwrite(STDOUT, "Warning: Failed to fetch unfiltered list data\n");
 }
