@@ -18,15 +18,16 @@ Class ExternalData {
        $cacheTime in hours
     */
     function fetchAndCache( $url, $cacheTime, $cb = null ){
+        global $gCache;
         $cacheKey = 'ED-' . md5( $url );
-        $result = __c()->get( $cacheKey );
+        $result = $gCache->get( $cacheKey );
         if ( $result === null ){
             $json = file_get_contents( $url );
             $result = json_decode( $json, true );
             if ( is_callable( $cb ) ){
                 $result = $cb( $result );
             }
-            __c()->set( $cacheKey, $result, $cacheTime * 3600 ); //cache for cacheTime hours
+            $gCache->set( $cacheKey, $result, $cacheTime * 3600 ); //cache for cacheTime hours
         }
         return $result;
     }
@@ -67,15 +68,16 @@ Class ExternalDataSparql extends ExternalData {
        $cacheTime in hours
     */
     function fetchAndCache( $query, $cacheTime, $cb = null ){
+        global $gCache;
         $cacheKey = 'ED-' . md5( $query );
-        $result = __c()->get( $cacheKey );
+        $result = $gCache->get( $cacheKey );
         if ( $result === null ){
             $result = $this->endPoint->query($query);
             $result = $result["result"]["rows"];
             if ( is_callable( $cb ) ){
                 $result = $cb( $result );
             }
-            __c()->set( $cacheKey, $result, $cacheTime * 3600 ); //cache for cacheTime hours
+            $gCache->set( $cacheKey, $result, $cacheTime * 3600 ); //cache for cacheTime hours
         }
         return $result;
     }

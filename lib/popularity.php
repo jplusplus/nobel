@@ -50,12 +50,13 @@ Class OnsitePopularityList extends PopularityList {
         global $gStatsToplistAPI;
         global $gCacheLocal;
         if ($gCacheLocal){
+            global $gCache;
             $cacheKey = 'LD-' . md5( $gStatsToplistAPI );
-            $result = __c()->get( $cacheKey );
+            $result = $gCache->get( $cacheKey );
             if ( $result === null ){
                 $result = $this->_fetch($gStatsToplistAPI);
                 global $gExternalStatsCacheTime;
-                __c()->set( $cacheKey, $result, $gExternalStatsCacheTime * 3600 );
+                $gCache->set( $cacheKey, $result, $gExternalStatsCacheTime * 3600 );
             }
         } else {
             $result = $this->_fetch($gStatsToplistAPI);

@@ -162,12 +162,13 @@ Class SPARQLQuery extends Query{
         $this->_query = $query;
         global $gCacheLocal;
         if ($gCacheLocal){
+            global $gCache;
             $cacheKey = 'LD-' . md5( $query );
-            $result = __c()->get( $cacheKey );
+            $result = $gCache->get( $cacheKey );
             if ( $result === null ){
                 $result = $endpoint->query($query);
                 global $gExternalLaureateDataCacheTime;
-                __c()->set( $cacheKey, $result, $gExternalLaureateDataCacheTime * 3600 );
+                $gCache->set( $cacheKey, $result, $gExternalLaureateDataCacheTime * 3600 );
             }
         } else {
             $result = $endpoint->query($query);

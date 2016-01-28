@@ -105,8 +105,11 @@ $gImageBlacklist = array(
 
 /* Cache type. Can be auto, memcache, files, etc. */
 /* see http://www.phpfastcache.com/ for full list */
-\phpFastCache::setup("storage","auto");
-
+$gCache = phpFastCache("auto");
+# Example, using a local Redis server:
+#$gCache = phpFastCache("redis");
+#$gCache->config['redis']['server'] = '127.0.0.1';
+#$gCache->config['redis']['port'] = '6379';
 
 /* The number of hours to cache external data on  */
 /* individual laureates, e.g. Wikipedia images    */

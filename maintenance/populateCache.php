@@ -17,8 +17,14 @@
 require 'maintenance.php';
 require $baseDir . 'lib/popularity.php';
 
+global $gCache;
+
 fwrite(STDOUT, 'Cache settings:');
-$config_str = print_r( \phpFastCache::$config, true);
+$config_str = print_r( $gCache->config, true);
+fwrite(STDOUT, $config_str);
+
+fwrite(STDOUT, 'Cache stats:');
+$config_str = print_r( $gCache->stats(), true);
 fwrite(STDOUT, $config_str);
 
 /* Parse command line args */

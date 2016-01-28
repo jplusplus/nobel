@@ -13,8 +13,10 @@
 
 require 'maintenance.php';
 
+global $gCache;
+
 fwrite(STDOUT, "Cache settings:\n");
-$config_str = print_r( \phpFastCache::$config, true);
+$config_str = print_r( $gCache->config, true);
 fwrite(STDOUT, $config_str);
 
 fwrite(STDOUT, "\n\nClearing cache\n");
