@@ -14,4 +14,4 @@ define('VERBOSE', 3);
 define('SETTINGS', true);
 
 /* Add a global cache object */
-require("vendor/phpfastcache/phpfastcache/phpfastcache.php");
+require_once("vendor/phpfastcache/phpfastcache/phpfastcache.php");
