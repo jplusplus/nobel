@@ -240,7 +240,11 @@ class TListWidget extends Html {
                                    'statsInterval' => $gStatsInterval,
                                    'updateUrl' => $gUpdateUrl,
                                   );
-        $this->laureates = $list;
+        if (is_array($list)){
+            $this->laureates = $list;
+        } else {
+            $this->laureates = array();
+        }
         $this->id = $id;
     }
 
